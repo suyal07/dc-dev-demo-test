@@ -1,114 +1,92 @@
 {
-  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "$schema": "https://schema.management.azure.com/schemas/2019-08-01/subscriptionDeploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
     "resourceGroups": {
       "type": "array",
       "metadata": {
-        "description": "List of resource groups to create"
+        "description": "Array of resource groups to create, each with name and location"
       }
     },
     "storageAccounts": {
       "type": "array",
       "metadata": {
-        "description": "List of storage accounts to create"
+        "description": "Array of storage accounts to create, each with name, resourceGroup, blobSoftDeleteRetentionDays, and containerSoftDeleteRetentionDays"
       }
     },
     "logAnalyticsWorkspaces": {
       "type": "array",
       "metadata": {
-        "description": "List of Log Analytics workspaces to create, with only workspaceName parameterized"
+        "description": "Array of Log Analytics workspaces to create, each with workspaceName and resourceGroup"
       }
     }
   },
   "variables": {
-    "logAnalyticsTemplateUri": "[uri(deployment().properties.templateLink.uri, 'loganalytics.json')]"
+    "storageAccountTemplateUri": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/storageAccount.json",
+    "logAnalyticsTemplateUri": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/loganalytics.json"
   },
   "resources": [
-    // Deploy Resource Groups
     {
       "type": "Microsoft.Resources/resourceGroups",
-      "apiVersion": "2022-09-01",
-      "name": "[parameters('resourceGroups')[0].name]",
-      "location": "[parameters('resourceGroups')[0].location]",
+      "apiVersion": "2021-04-01",
+      "name": "[parameters('resourceGroups')[copyIndex()].name]",
+      "location": "[parameters('resourceGroups')[copyIndex()].location]",
+      "copy": {
+        "name": "resourceGroupCopy",
+        "count": "[length(parameters('resourceGroups'))]"
+      },
       "properties": {}
     },
-    {
-      "type": "Microsoft.Resources/resourceGroups",
-      "apiVersion": "2022-09-01",
-      "name": "[parameters('resourceGroups')[1].name]",
-      "location": "[parameters('resourceGroups')[1].location]",
-      "properties": {}
-    },
-    // Deploy Storage Accounts
-    {
-      "type": "Microsoft.Storage/storageAccounts",
-      "apiVersion": "2022-09-01",
-      "name": "[parameters('storageAccounts')[0].name]",
-      "location": "[parameters('resourceGroups')[1].location]",
-      "sku": {
-        "name": "Standard_LRS"
-      },
-      "kind": "StorageV2",
-      "dependsOn": [
-        "[resourceId('Microsoft.Resources/resourceGroups', parameters('resourceGroups')[1].name)]"
-      ],
-      "properties": {
-        "allowBlobPublicAccess": false,
-        "minimumTlsVersion": "TLS1_2",
-        "deleteRetentionPolicy": {
-          "enabled": true,
-          "days": "[parameters('storageAccounts')[0].blobSoftDeleteRetentionDays]"
-        },
-        "containerDeleteRetentionPolicy": {
-          "enabled": true,
-          "days": "[parameters('storageAccounts')[0].containerSoftDeleteRetentionDays]"
-        }
-      }
-    },
-    {
-      "type": "Microsoft.Storage/storageAccounts",
-      "apiVersion": "2022-09-01",
-      "name": "[parameters('storageAccounts')[1].name]",
-      "location": "[parameters('resourceGroups')[1].location]",
-      "sku": {
-        "name": "Standard_LRS"
-      },
-      "kind": "StorageV2",
-      "dependsOn": [
-        "[resourceId('Microsoft.Resources/resourceGroups', parameters('resourceGroups')[1].name)]"
-      ],
-      "properties": {
-        "allowBlobPublicAccess": false,
-        "minimumTlsVersion": "TLS1_2",
-        "deleteRetentionPolicy": {
-          "enabled": true,
-          "days": "[parameters('storageAccounts')[1].blobSoftDeleteRetentionDays]"
-        },
-        "containerDeleteRetentionPolicy": {
-          "enabled": true,
-          "days": "[parameters('storageAccounts')[1].containerSoftDeleteRetentionDays]"
-        }
-      }
-    },
-    // Deploy Log Analytics Workspace via Nested Deployment
     {
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2022-09-01",
-      "name": "logAnalyticsDeployment",
-      "resourceGroup": "[parameters('logAnalyticsWorkspaces')[0].resourceGroup]",
+      "apiVersion": "2021-04-01",
+      "name": "[concat('storageAccountDeployment-', parameters('storageAccounts')[copyIndex()].name)]",
+      "resourceGroup": "[parameters('storageAccounts')[copyIndex()].resourceGroup]",
       "dependsOn": [
-        "[resourceId('Microsoft.Resources/resourceGroups', parameters('logAnalyticsWorkspaces')[0].resourceGroup)]"
+        "[resourceId('Microsoft.Resources/resourceGroups', parameters('storageAccounts')[copyIndex()].resourceGroup)]"
       ],
+      "copy": {
+        "name": "storageAccountCopy",
+        "count": "[length(parameters('storageAccounts'))]"
+      },
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[variables('logAnalyticsTemplateUri')]",
-          "contentVersion": "1.0.0.0"
+          "uri": "[variables('storageAccountTemplateUri')]"
+        },
+        "parameters": {
+          "storageAccountName": {
+            "value": "[parameters('storageAccounts')[copyIndex()].name]"
+          },
+          "blobSoftDeleteRetentionDays": {
+            "value": "[parameters('storageAccounts')[copyIndex()].blobSoftDeleteRetentionDays]"
+          },
+          "containerSoftDeleteRetentionDays": {
+            "value": "[parameters('storageAccounts')[copyIndex()].containerSoftDeleteRetentionDays]"
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2021-04-01",
+      "name": "[concat('logAnalyticsDeployment-', parameters('logAnalyticsWorkspaces')[copyIndex()].workspaceName)]",
+      "resourceGroup": "[parameters('logAnalyticsWorkspaces')[copyIndex()].resourceGroup]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Resources/resourceGroups', parameters('logAnalyticsWorkspaces')[copyIndex()].resourceGroup)]"
+      ],
+      "copy": {
+        "name": "logAnalyticsCopy",
+        "count": "[length(parameters('logAnalyticsWorkspaces'))]"
+      },
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('logAnalyticsTemplateUri')]"
         },
         "parameters": {
           "workspaceName": {
-            "value": "[parameters('logAnalyticsWorkspaces')[0].workspaceName]"
+            "value": "[parameters('logAnalyticsWorkspaces')[copyIndex()].workspaceName]"
           },
           "location": {
             "value": "uksouth"
@@ -155,16 +133,17 @@
     }
   ],
   "outputs": {
-    "workspaceId": {
-      "type": "string",
-      "value": "[reference('logAnalyticsDeployment').outputs.workspaceId.value]"
-    },
-    "storageAccountIds": {
+    "resourceGroupsCreated": {
       "type": "array",
-      "value": [
-        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts')[0].name)]",
-        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts')[1].name)]"
-      ]
+      "value": "[parameters('resourceGroups')]"
+    },
+    "storageAccountsCreated": {
+      "type": "array",
+      "value": "[parameters('storageAccounts')]"
+    },
+    "logAnalyticsWorkspacesCreated": {
+      "type": "array",
+      "value": "[parameters('logAnalyticsWorkspaces')]"
     }
   }
 }
