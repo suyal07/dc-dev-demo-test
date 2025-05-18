@@ -13,13 +13,10 @@
       "metadata": {
         "description": "Array of storage accounts to create, each with name, resourceGroup, blobSoftDeleteRetentionDays, and containerSoftDeleteRetentionDays"
       }
-    },
-    "templateBaseUrl": {
-      "type": "string",
-      "metadata": {
-        "description": "Base URL for GitHub raw content where template files are stored"
-      }
     }
+  },
+  "variables": {
+    "storageAccountTemplateUri": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/storageAccount.json"
   },
   "resources": [
     {
@@ -48,8 +45,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[concat(parameters('templateBaseUrl'), '/templates/independent/storageAccount.json')]",
-          "contentVersion": "1.0.0.0"
+          "uri": "[variables('storageAccountTemplateUri')]"
         },
         "parameters": {
           "storageAccountName": {

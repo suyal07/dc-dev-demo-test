@@ -17,21 +17,18 @@
     "storageAccounts": {
       "value": [
         {
-          "name": "datacatalystdemodevwhbptest",
+          "name": "datacatalystdemodevwhbpt",
           "resourceGroup": "datacatalyst-demo-dev-source-test-rg",
           "blobSoftDeleteRetentionDays": 7,
           "containerSoftDeleteRetentionDays": 7
         },
         {
-          "name": "datacatalystdevsrcsatest",
+          "name": "datacatalystdevsrcsat",
           "resourceGroup": "datacatalyst-demo-dev-source-test-rg",
           "blobSoftDeleteRetentionDays": 7,
           "containerSoftDeleteRetentionDays": 7
         }
       ]
-    },
-    "templateBaseUrl": {
-      "value": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main"
     }
   }
 }
