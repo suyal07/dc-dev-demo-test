@@ -1,0 +1,75 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "storageAccountName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the storage account (3-24 lowercase letters and numbers)"
+      },
+      "minLength": 3,
+      "maxLength": 24
+    },
+    "blobSoftDeleteRetentionDays": {
+      "type": "int",
+      "defaultValue": 7,
+      "minValue": 1,
+      "maxValue": 365,
+      "metadata": {
+        "description": "Number of days to retain soft-deleted blobs (1-365)"
+      }
+    },
+    "containerSoftDeleteRetentionDays": {
+      "type": "int",
+      "defaultValue": 7,
+      "minValue": 1,
+      "maxValue": 365,
+      "metadata": {
+        "description": "Number of days to retain soft-deleted containers (1-365)"
+      }
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2023-01-01",
+      "name": "[parameters('storageAccountName')]",
+      "location": "[resourceGroup().location]",
+      "sku": {
+        "name": "Standard_LRS"
+      },
+      "kind": "StorageV2",
+      "properties": {
+        "accessTier": "Hot",
+        "minimumTlsVersion": "TLS1_2",
+        "supportsHttpsTrafficOnly": true,
+        "allowBlobPublicAccess": false,
+        "isHnsEnabled": true,
+        "isNfsV3Enabled": false,
+        "isSftpEnabled": false
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts/blobServices",
+      "apiVersion": "2023-01-01",
+      "name": "[concat(parameters('storageAccountName'), '/default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
+      ],
+      "properties": {
+        "deleteRetentionPolicy": {
+          "enabled": true,
+          "days": "[parameters('blobSoftDeleteRetentionDays')]"
+        },
+        "containerDeleteRetentionPolicy": {
+          "enabled": true,
+          "days": "[parameters('containerSoftDeleteRetentionDays')]"
+        },
+        "isVersioningEnabled": false,
+        "changeFeed": {
+          "enabled": false
+        }
+      }
+    }
+  ]
+}
