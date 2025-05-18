@@ -13,10 +13,17 @@
       "metadata": {
         "description": "Array of storage accounts to create, each with name, resourceGroup, blobSoftDeleteRetentionDays, and containerSoftDeleteRetentionDays"
       }
+    },
+    "functionApps": {
+      "type": "array",
+      "metadata": {
+        "description": "Array of Function Apps to create, each with subscriptionId, name, location, storageBlobContainerName, storageAccountName, sku, skuCode, workerSize, workerSizeId, numberOfWorkers, hostingPlanName, serverFarmResourceGroup, alwaysOn, and workspaceResourceId"
+      }
     }
   },
   "variables": {
-    "storageAccountTemplateUri": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/storageAccount.json"
+    "storageAccountTemplateUri": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/storageAccount.json",
+    "functionAppTemplateUri": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/dependent/functionApp.json"
   },
   "resources": [
     {
@@ -59,6 +66,70 @@
           }
         }
       }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2021-04-01",
+      "name": "[concat('functionAppDeployment-', parameters('functionApps')[copyIndex()].name)]",
+      "resourceGroup": "[parameters('functionApps')[copyIndex()].serverFarmResourceGroup]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Resources/resourceGroups', parameters('functionApps')[copyIndex()].serverFarmResourceGroup)]",
+        "[concat('Microsoft.Resources/deployments/', 'storageAccountDeployment-', parameters('functionApps')[copyIndex()].storageAccountName)]"
+      ],
+      "copy": {
+        "name": "functionAppCopy",
+        "count": "[length(parameters('functionApps'))]"
+      },
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('functionAppTemplateUri')]"
+        },
+        "parameters": {
+          "subscriptionId": {
+            "value": "[parameters('functionApps')[copyIndex()].subscriptionId]"
+          },
+          "name": {
+            "value": "[parameters('functionApps')[copyIndex()].name]"
+          },
+          "location": {
+            "value": "[parameters('functionApps')[copyIndex()].location]"
+          },
+          "storageBlobContainerName": {
+            "value": "[parameters('functionApps')[copyIndex()].storageBlobContainerName]"
+          },
+          "storageAccountName": {
+            "value": "[parameters('functionApps')[copyIndex()].storageAccountName]"
+          },
+          "sku": {
+            "value": "[parameters('functionApps')[copyIndex()].sku]"
+          },
+          "skuCode": {
+            "value": "[parameters('functionApps')[copyIndex()].skuCode]"
+          },
+          "workerSize": {
+            "value": "[parameters('functionApps')[copyIndex()].workerSize]"
+          },
+          "workerSizeId": {
+            "value": "[parameters('functionApps')[copyIndex()].workerSizeId]"
+          },
+          "numberOfWorkers": {
+            "value": "[parameters('functionApps')[copyIndex()].numberOfWorkers]"
+          },
+          "hostingPlanName": {
+            "value": "[parameters('functionApps')[copyIndex()].hostingPlanName]"
+          },
+          "serverFarmResourceGroup": {
+            "value": "[parameters('functionApps')[copyIndex()].serverFarmResourceGroup]"
+          },
+          "alwaysOn": {
+            "value": "[parameters('functionApps')[copyIndex()].alwaysOn]"
+          },
+          "workspaceResourceId": {
+            "value": "[parameters('functionApps')[copyIndex()].workspaceResourceId]"
+          }
+        }
+      }
     }
   ],
   "outputs": {
@@ -69,6 +140,10 @@
     "storageAccountsCreated": {
       "type": "array",
       "value": "[parameters('storageAccounts')]"
+    },
+    "functionAppsCreated": {
+      "type": "array",
+      "value": "[parameters('functionApps')]"
     }
   }
 }
