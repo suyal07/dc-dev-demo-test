@@ -87,46 +87,6 @@
         "parameters": {
           "workspaceName": {
             "value": "[parameters('logAnalyticsWorkspaces')[copyIndex()].workspaceName]"
-          },
-          "location": {
-            "value": "uksouth"
-          },
-          "sku": {
-            "value": "pergb2018"
-          },
-          "retentionInDays": {
-            "value": 30
-          },
-          "usageTableRetentionInDays": {
-            "value": 90
-          },
-          "tags": {
-            "value": {
-              "Application": "datacatalyst-demo",
-              "Client": "nowvertical",
-              "CostCenter": "123cc",
-              "DataSensitivity": "internal",
-              "Environment": "dev",
-              "Lifecycle": "active",
-              "ManagedBy": "nowvertical",
-              "Project": "datacatalyst",
-              "Region": "uksouth",
-              "Solution": "data-integration",
-              "Tier": "core",
-              "Master_tag": "Technology:DataCatalyst:SMALLAYA:KKNOPP:LogAnalytics:N"
-            }
-          },
-          "enableLogAccessUsingOnlyResourcePermissions": {
-            "value": true
-          },
-          "dailyQuotaGb": {
-            "value": -1
-          },
-          "publicNetworkAccessForIngestion": {
-            "value": "Enabled"
-          },
-          "publicNetworkAccessForQuery": {
-            "value": "Enabled"
           }
         }
       }
