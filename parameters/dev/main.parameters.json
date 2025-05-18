@@ -29,6 +29,9 @@
           "containerSoftDeleteRetentionDays": 7
         }
       ]
+    },
+    "templateBaseUrl": {
+      "value": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main"
     }
   }
 }
