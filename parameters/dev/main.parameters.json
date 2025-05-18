@@ -30,23 +30,12 @@
         }
       ]
     },
-    "functionApps": {
+    "logAnalyticsWorkspaces": {
       "value": [
         {
-          "subscriptionId": "931b98ea-0e07-4d52-a37a-3b8fa4985688",
-          "name": "datacatalyst-demo-dev-Webhook-fa",
+          "workspaceName": "datacatalyst-demo-dev-core-lw",
           "location": "uksouth",
-          "storageBlobContainerName": "app-package-datacatalyst-demo-dev-Webhook-fa-f42f56f",
-          "storageAccountName": "datacatalystdemodevwhbpt",
-          "sku": "FlexConsumption",
-          "skuCode": "FC1",
-          "workerSize": "0",
-          "workerSizeId": "0",
-          "numberOfWorkers": "1",
-          "hostingPlanName": "ASP-datacatalystwebhookfa-9912",
-          "serverFarmResourceGroup": "datacatalyst-demo-dev-source-test-rg",
-          "alwaysOn": false,
-          "workspaceResourceId": "/subscriptions/931b98ea-0e07-4d52-a37a-3b8fa4985688/resourceGroups/datacatalyst-demo-dev-source-test-rg/providers/Microsoft.OperationalInsights/workspaces/workspace-CCAN-1bb126c1-3553-4a48-98ad-c7eaff0f8f09-skympi-bafb"
+          "resourceGroup": "datacatalyst-demo-dev-core-test-rg"
         }
       ]
     }
