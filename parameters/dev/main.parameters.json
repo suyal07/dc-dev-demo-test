@@ -17,13 +17,13 @@
     "storageAccounts": {
       "value": [
         {
-          "name": "datacatalystdemodevwhbp",
+          "name": "datacatalystdemodevwhbptest",
           "resourceGroup": "datacatalyst-demo-dev-source-test-rg",
           "blobSoftDeleteRetentionDays": 7,
           "containerSoftDeleteRetentionDays": 7
         },
         {
-          "name": "datacatalystdevsrcsa",
+          "name": "datacatalystdevsrcsatest",
           "resourceGroup": "datacatalyst-demo-dev-source-test-rg",
           "blobSoftDeleteRetentionDays": 7,
           "containerSoftDeleteRetentionDays": 7
