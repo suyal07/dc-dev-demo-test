@@ -33,7 +33,7 @@
     "logAnalyticsWorkspaces": {
       "value": [
         {
-          "workspaceName": "datacatalyst-demo-dev-core-lw",
+          "workspaceName": "datacatalyst-demo-dev-core-test-lw",
           "resourceGroup": "datacatalyst-demo-dev-core-test-rg"
         }
       ]
