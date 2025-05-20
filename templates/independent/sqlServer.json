@@ -39,6 +39,26 @@
       "metadata": {
         "description": "Performance tier (e.g., Basic, S0-S3 for Standard, GP_Gen5_2 for General Purpose)"
       }
+    },
+    "maxSizeBytes": {
+      "type": "int",
+      "metadata": {
+        "description": "Maximum size of the database in bytes"
+      }
+    },
+    "collation": {
+      "type": "string",
+      "metadata": {
+        "description": "Database collation (e.g., SQL_Latin1_General_CP1_CI_AS)"
+      }
+    },
+    "backupRetentionDays": {
+      "type": "int",
+      "minValue": 7,
+      "maxValue": 35,
+      "metadata": {
+        "description": "Number of days to retain backups for Point-in-Time Restore (7-35 days)"
+      }
     }
   },
   "resources": [
@@ -80,8 +100,19 @@
         "tier": "[parameters('databaseEdition')]"
       },
       "properties": {
-        "collation": "SQL_Latin1_General_CP1_CI_AS",
-        "maxSizeBytes": 2147483648
+        "collation": "[parameters('collation')]",
+        "maxSizeBytes": "[parameters('maxSizeBytes')]"
+      }
+    },
+    {
+      "type": "Microsoft.Sql/servers/databases/backupShortTermRetentionPolicies",
+      "apiVersion": "2023-08-01-preview",
+      "name": "[format('{0}/{1}/default', parameters('sqlServerName'), parameters('sqlDatabaseName'))]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers/databases', parameters('sqlServerName'), parameters('sqlDatabaseName'))]"
+      ],
+      "properties": {
+        "retentionDays": "[parameters('backupRetentionDays')]"
       }
     }
   ],
