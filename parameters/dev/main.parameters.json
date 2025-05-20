@@ -29,25 +29,25 @@
           "containerSoftDeleteRetentionDays": 7
         },
         {
-          "name": "datacatalystdemodevfmsa",
+          "name": "datacatalystdemodevfmsat",
           "resourceGroup": "datacatalyst-demo-dev-core-test-rg",
           "blobSoftDeleteRetentionDays": 7,
           "containerSoftDeleteRetentionDays": 7
         },
         {
-          "name": "datacatalystdemodevloc",
+          "name": "datacatalystdemodevloct",
           "resourceGroup": "datacatalyst-demo-dev-core-test-rg",
           "blobSoftDeleteRetentionDays": 7,
           "containerSoftDeleteRetentionDays": 7
         },
         {
-          "name": "datacatalystdemodevorg",
+          "name": "datacatalystdemodevorgt",
           "resourceGroup": "datacatalyst-demo-dev-core-test-rg",
           "blobSoftDeleteRetentionDays": 7,
           "containerSoftDeleteRetentionDays": 7
         },
         {
-          "name": "datacatalystdevcoresa",
+          "name": "datacatalystdevcoresat",
           "resourceGroup": "datacatalyst-demo-dev-core-test-rg",
           "blobSoftDeleteRetentionDays": 7,
           "containerSoftDeleteRetentionDays": 7
