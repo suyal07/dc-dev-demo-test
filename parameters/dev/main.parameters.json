@@ -70,6 +70,14 @@
           "backupStorageRedundancy": "LRS"
         }
       ]
+    },
+    "logAnalyticsWorkspaces": {
+      "value": [
+        {
+          "logAnalyticsWorkspaceName": "datacatalyst-demo-dev-core-test-lw",
+          "resourceGroup": "datacatalyst-demo-dev-core-test-rg"
+        }
+      ]
     }
   }
 }
