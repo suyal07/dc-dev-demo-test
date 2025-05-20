@@ -35,9 +35,9 @@
     },
     "requestedServiceObjectiveName": {
       "type": "string",
-      "allowedValues": ["Basic", "S0", "S1", "S2", "S3", "GP_Gen5_2", "BC_Gen5_2"],
+      "allowedValues": ["Basic", "S0", "S1", "S2", "S3", "GP_S_Gen5_1", "GP_Gen5_2", "BC_Gen5_2"],
       "metadata": {
-        "description": "Performance tier (e.g., Basic, S0-S3 for Standard, GP_Gen5_2 for General Purpose)"
+        "description": "Performance tier (e.g., Basic, S0-S3 for Standard, GP_S_Gen5_1 for GeneralPurpose Serverless, GP_Gen5_2 for GeneralPurpose Provisioned)"
       }
     },
     "maxSizeBytes": {
@@ -58,6 +58,13 @@
       "maxValue": 35,
       "metadata": {
         "description": "Number of days to retain backups for Point-in-Time Restore (7-35 days)"
+      }
+    },
+    "backupStorageRedundancy": {
+      "type": "string",
+      "allowedValues": ["LRS", "ZRS", "GRS"],
+      "metadata": {
+        "description": "Backup storage redundancy (LRS = Locally Redundant, ZRS = Zone-Redundant, GRS = Geo-Redundant)"
       }
     }
   },
@@ -101,7 +108,8 @@
       },
       "properties": {
         "collation": "[parameters('collation')]",
-        "maxSizeBytes": "[parameters('maxSizeBytes')]"
+        "maxSizeBytes": "[parameters('maxSizeBytes')]",
+        "backupStorageRedundancy": "[parameters('backupStorageRedundancy')]"
       }
     },
     {

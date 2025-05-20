@@ -63,10 +63,11 @@
           "administratorLoginPassword": "devp@admin4+1",
           "sqlDatabaseName": "datacatalyst-demo-dev-src-test-sqldb",
           "databaseEdition": "GeneralPurpose",
-          "requestedServiceObjectiveName": "GP_Gen5_2",
-          "maxSizeBytes": 34359738368,
+          "requestedServiceObjectiveName": "GP_S_Gen5_1",
+          "maxSizeBytes": 5368709120,
           "collation": "SQL_Latin1_General_CP1_CI_AS",
-          "backupRetentionDays": 7
+          "backupRetentionDays": 7,
+          "backupStorageRedundancy": "LRS"
         }
       ]
     }

@@ -17,7 +17,7 @@
     "sqlServers": {
       "type": "array",
       "metadata": {
-        "description": "Array of SQL Servers to create, each with sqlServerName, resourceGroup, administratorLogin, administratorLoginPassword, sqlDatabaseName, databaseEdition, requestedServiceObjectiveName, maxSizeBytes, collation, and backupRetentionDays"
+        "description": "Array of SQL Servers to create, each with sqlServerName, resourceGroup, administratorLogin, administratorLoginPassword, sqlDatabaseName, databaseEdition, requestedServiceObjectiveName, maxSizeBytes, collation, backupRetentionDays, and backupStorageRedundancy"
       }
     }
   },
@@ -111,6 +111,9 @@
           },
           "backupRetentionDays": {
             "value": "[parameters('sqlServers')[copyIndex()].backupRetentionDays]"
+          },
+          "backupStorageRedundancy": {
+            "value": "[parameters('sqlServers')[copyIndex()].backupStorageRedundancy]"
           }
         }
       }
