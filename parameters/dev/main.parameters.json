@@ -27,14 +27,30 @@
           "resourceGroup": "datacatalyst-demo-dev-source-test-rg",
           "blobSoftDeleteRetentionDays": 7,
           "containerSoftDeleteRetentionDays": 7
-        }
-      ]
-    },
-    "logAnalyticsWorkspaces": {
-      "value": [
+        },
         {
-          "workspaceName": "datacatalyst-demo-dev-core-test-lw",
-          "resourceGroup": "datacatalyst-demo-dev-core-test-rg"
+          "name": "datacatalystdemodevfmsa",
+          "resourceGroup": "datacatalyst-demo-dev-core-test-rg",
+          "blobSoftDeleteRetentionDays": 7,
+          "containerSoftDeleteRetentionDays": 7
+        },
+        {
+          "name": "datacatalystdemodevloc",
+          "resourceGroup": "datacatalyst-demo-dev-core-test-rg",
+          "blobSoftDeleteRetentionDays": 7,
+          "containerSoftDeleteRetentionDays": 7
+        },
+        {
+          "name": "datacatalystdemodevorg",
+          "resourceGroup": "datacatalyst-demo-dev-core-test-rg",
+          "blobSoftDeleteRetentionDays": 7,
+          "containerSoftDeleteRetentionDays": 7
+        },
+        {
+          "name": "datacatalystdevcoresa",
+          "resourceGroup": "datacatalyst-demo-dev-core-test-rg",
+          "blobSoftDeleteRetentionDays": 7,
+          "containerSoftDeleteRetentionDays": 7
         }
       ]
     }

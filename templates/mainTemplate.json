@@ -13,17 +13,10 @@
       "metadata": {
         "description": "Array of storage accounts to create, each with name, resourceGroup, blobSoftDeleteRetentionDays, and containerSoftDeleteRetentionDays"
       }
-    },
-    "logAnalyticsWorkspaces": {
-      "type": "array",
-      "metadata": {
-        "description": "Array of Log Analytics workspaces to create, each with workspaceName and resourceGroup"
-      }
     }
   },
   "variables": {
-    "storageAccountTemplateUri": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/storageAccount.json",
-    "logAnalyticsTemplateUri": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/loganalytics.json"
+    "storageAccountTemplateUri": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/storageAccount.json"
   },
   "resources": [
     {
@@ -66,30 +59,6 @@
           }
         }
       }
-    },
-    {
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2021-04-01",
-      "name": "[concat('logAnalyticsDeployment-', parameters('logAnalyticsWorkspaces')[copyIndex()].workspaceName)]",
-      "resourceGroup": "[parameters('logAnalyticsWorkspaces')[copyIndex()].resourceGroup]",
-      "dependsOn": [
-        "[resourceId('Microsoft.Resources/resourceGroups', parameters('logAnalyticsWorkspaces')[copyIndex()].resourceGroup)]"
-      ],
-      "copy": {
-        "name": "logAnalyticsCopy",
-        "count": "[length(parameters('logAnalyticsWorkspaces'))]"
-      },
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('logAnalyticsTemplateUri')]"
-        },
-        "parameters": {
-          "workspaceName": {
-            "value": "[parameters('logAnalyticsWorkspaces')[copyIndex()].workspaceName]"
-          }
-        }
-      }
     }
   ],
   "outputs": {
@@ -100,10 +69,6 @@
     "storageAccountsCreated": {
       "type": "array",
       "value": "[parameters('storageAccounts')]"
-    },
-    "logAnalyticsWorkspacesCreated": {
-      "type": "array",
-      "value": "[parameters('logAnalyticsWorkspaces')]"
     }
   }
 }
