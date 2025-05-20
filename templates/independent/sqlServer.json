@@ -1,0 +1,102 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "sqlServerName": {
+      "type": "string",
+      "metadata": {
+        "description": "Globally unique name for the SQL server"
+      }
+    },
+    "administratorLogin": {
+      "type": "string",
+      "metadata": {
+        "description": "Admin login for SQL server"
+      }
+    },
+    "administratorLoginPassword": {
+      "type": "secureString",
+      "metadata": {
+        "description": "Admin password for SQL server (minimum 8 characters, must include uppercase, lowercase, number, and special character)"
+      }
+    },
+    "sqlDatabaseName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the database to create"
+      }
+    },
+    "databaseEdition": {
+      "type": "string",
+      "allowedValues": ["Basic", "Standard", "Premium", "GeneralPurpose", "BusinessCritical"],
+      "metadata": {
+        "description": "SQL database edition"
+      }
+    },
+    "requestedServiceObjectiveName": {
+      "type": "string",
+      "allowedValues": ["Basic", "S0", "S1", "S2", "S3", "GP_Gen5_2", "BC_Gen5_2"],
+      "metadata": {
+        "description": "Performance tier (e.g., Basic, S0-S3 for Standard, GP_Gen5_2 for General Purpose)"
+      }
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Sql/servers",
+      "apiVersion": "2023-08-01-preview",
+      "name": "[parameters('sqlServerName')]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "administratorLogin": "[parameters('administratorLogin')]",
+        "administratorLoginPassword": "[parameters('administratorLoginPassword')]",
+        "minimalTlsVersion": "1.2",
+        "publicNetworkAccess": "Enabled"
+      }
+    },
+    {
+      "type": "Microsoft.Sql/servers/firewallRules",
+      "apiVersion": "2023-08-01-preview",
+      "name": "[concat(parameters('sqlServerName'), '/AllowAzureServices')]",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('sqlServerName'))]"
+      ],
+      "properties": {
+        "startIpAddress": "0.0.0.0",
+        "endIpAddress": "0.0.0.0"
+      }
+    },
+    {
+      "type": "Microsoft.Sql/servers/databases",
+      "apiVersion": "2023-08-01-preview",
+      "name": "[format('{0}/{1}', parameters('sqlServerName'), parameters('sqlDatabaseName'))]",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('sqlServerName'))]"
+      ],
+      "sku": {
+        "name": "[parameters('requestedServiceObjectiveName')]",
+        "tier": "[parameters('databaseEdition')]"
+      },
+      "properties": {
+        "collation": "SQL_Latin1_General_CP1_CI_AS",
+        "maxSizeBytes": 34359738368
+      }
+    }
+  ],
+  "outputs": {
+    "sqlServerName": {
+      "type": "string",
+      "value": "[parameters('sqlServerName')]"
+    },
+    "sqlDatabaseName": {
+      "type": "string",
+      "value": "[parameters('sqlDatabaseName')]"
+    },
+    "sqlServerFqdn": {
+      "type": "string",
+      "value": "[reference(resourceId('Microsoft.Sql/servers', parameters('sqlServerName')), '2023-08-01-preview').fullyQualifiedDomainName]"
+    }
+  }
+}

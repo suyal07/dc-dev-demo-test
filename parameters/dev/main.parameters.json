@@ -53,6 +53,41 @@
           "containerSoftDeleteRetentionDays": 7
         }
       ]
+    },
+    "functionApps": {
+      "value": [
+        {
+          "name": "datacatalyst-demo-dev-core-fa",
+          "resourceGroup": "datacatalyst-demo-dev-core-test-rg",
+          "storageAccountName": "datacatalystdemodevfmsat",
+          "runtimeStack": "dotnet"
+        },
+        {
+          "name": "dc-dev-core-location-fa",
+          "resourceGroup": "datacatalyst-demo-dev-core-test-rg",
+          "storageAccountName": "datacatalystdemodevloct",
+          "runtimeStack": "dotnet"
+        },
+        {
+          "name": "dc-dev-core-org-hierarchy-fa",
+          "resourceGroup": "datacatalyst-demo-dev-core-test-rg",
+          "storageAccountName": "datacatalystdemodevorgt",
+          "runtimeStack": "dotnet"
+        }
+      ]
+    },
+    "sqlServers": {
+      "value": [
+        {
+          "sqlServerName": "datacatalyst-demo-dev-src-test-sqlserver",
+          "resourceGroup": "datacatalyst-demo-dev-source-test-rg",
+          "administratorLogin": "datacatalystuser",
+          "administratorLoginPassword": "devp@admin4+1",
+          "sqlDatabaseName": "datacatalyst-demo-dev-src-test-sqldb",
+          "databaseEdition": "Basic",
+          "requestedServiceObjectiveName": "Basic"
+        }
+      ]
     }
   }
 }
