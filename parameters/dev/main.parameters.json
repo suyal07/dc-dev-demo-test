@@ -54,28 +54,6 @@
         }
       ]
     },
-    "functionApps": {
-      "value": [
-        {
-          "name": "datacatalyst-demo-dev-core-fa",
-          "resourceGroup": "datacatalyst-demo-dev-core-test-rg",
-          "storageAccountName": "datacatalystdemodevfmsat",
-          "runtimeStack": "dotnet"
-        },
-        {
-          "name": "dc-dev-core-location-fa",
-          "resourceGroup": "datacatalyst-demo-dev-core-test-rg",
-          "storageAccountName": "datacatalystdemodevloct",
-          "runtimeStack": "dotnet"
-        },
-        {
-          "name": "dc-dev-core-org-hierarchy-fa",
-          "resourceGroup": "datacatalyst-demo-dev-core-test-rg",
-          "storageAccountName": "datacatalystdemodevorgt",
-          "runtimeStack": "dotnet"
-        }
-      ]
-    },
     "sqlServers": {
       "value": [
         {

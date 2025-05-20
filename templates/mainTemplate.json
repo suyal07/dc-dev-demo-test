@@ -14,12 +14,6 @@
         "description": "Array of storage accounts to create, each with name, resourceGroup, blobSoftDeleteRetentionDays, and containerSoftDeleteRetentionDays"
       }
     },
-    "functionApps": {
-      "type": "array",
-      "metadata": {
-        "description": "Array of Function Apps to create, each with name, resourceGroup, storageAccountName, and runtimeStack"
-      }
-    },
     "sqlServers": {
       "type": "array",
       "metadata": {
@@ -29,7 +23,6 @@
   },
   "variables": {
     "storageAccountTemplateUri": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/storageAccount.json",
-    "functionAppTemplateUri": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/dependent/functionApp.json",
     "sqlServerTemplateUri": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/sqlServer.json"
   },
   "resources": [
@@ -70,37 +63,6 @@
           },
           "containerSoftDeleteRetentionDays": {
             "value": "[parameters('storageAccounts')[copyIndex()].containerSoftDeleteRetentionDays]"
-          }
-        }
-      }
-    },
-    {
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2021-04-01",
-      "name": "[concat('functionAppDeployment-', parameters('functionApps')[copyIndex()].name)]",
-      "resourceGroup": "[parameters('functionApps')[copyIndex()].resourceGroup]",
-      "dependsOn": [
-        "[resourceId('Microsoft.Resources/resourceGroups', parameters('functionApps')[copyIndex()].resourceGroup)]",
-        "[concat('storageAccountDeployment-', parameters('functionApps')[copyIndex()].storageAccountName)]"
-      ],
-      "copy": {
-        "name": "functionAppCopy",
-        "count": "[length(parameters('functionApps'))]"
-      },
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('functionAppTemplateUri')]"
-        },
-        "parameters": {
-          "functionAppName": {
-            "value": "[parameters('functionApps')[copyIndex()].name]"
-          },
-          "storageAccountName": {
-            "value": "[parameters('functionApps')[copyIndex()].storageAccountName]"
-          },
-          "runtimeStack": {
-            "value": "[parameters('functionApps')[copyIndex()].runtimeStack]"
           }
         }
       }
@@ -153,10 +115,6 @@
     "storageAccountsCreated": {
       "type": "array",
       "value": "[parameters('storageAccounts')]"
-    },
-    "functionAppsCreated": {
-      "type": "array",
-      "value": "[parameters('functionApps')]"
     },
     "sqlServersCreated": {
       "type": "array",
