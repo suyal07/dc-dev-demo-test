@@ -88,7 +88,7 @@
           "environmentName": "datacatalyst-demo-source-test-env",
           "minReplicas": 1,
           "maxReplicas": 3,
-          "databaseConnectionString": null,
+          "databaseConnectionString": "DefaultPlaceholder",
           "configPath": "/app/dab-config.json",
           "containerImage": "mcr.microsoft.com/azure-databases/data-api-builder:latest"
         }

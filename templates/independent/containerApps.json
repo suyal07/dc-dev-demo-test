@@ -10,7 +10,6 @@
         },
         "location": {
             "type": "string",
-            "defaultValue": "[resourceGroup().location]",
             "metadata": {
                 "description": "Location for all resources"
             }
@@ -23,35 +22,30 @@
         },
         "minReplicas": {
             "type": "int",
-            "defaultValue": 1,
             "metadata": {
                 "description": "Minimum number of replicas"
             }
         },
         "maxReplicas": {
             "type": "int",
-            "defaultValue": 3,
             "metadata": {
                 "description": "Maximum number of replicas"
             }
         },
         "databaseConnectionString": {
             "type": "securestring",
-            "defaultValue": null,
             "metadata": {
-                "description": "Connection string for the database (optional, can be set later)"
+                "description": "Connection string for the database (placeholder, to be updated post-deployment)"
             }
         },
         "configPath": {
             "type": "string",
-            "defaultValue": "/app/dab-config.json",
             "metadata": {
                 "description": "Path to the Data API Builder configuration file"
             }
         },
         "containerImage": {
             "type": "string",
-            "defaultValue": "mcr.microsoft.com/azure-databases/data-api-builder:latest",
             "metadata": {
                 "description": "Container image for Data API Builder"
             }
@@ -114,7 +108,12 @@
                             }
                         ]
                     },
-                    "secrets": "[if(empty(parameters('databaseConnectionString')), json('[]'), json(concat('[{\"name\": \"connection-string-secret\", \"value\": \"', parameters('databaseConnectionString'), '\"}]')))]"
+                    "secrets": [
+                        {
+                            "name": "connection-string-secret",
+                            "value": "[parameters('databaseConnectionString')]"
+                        }
+                    ]
                 },
                 "template": {
                     "containers": [
@@ -132,7 +131,7 @@
                                 },
                                 {
                                     "name": "CONNECTION_STRING_OPTION",
-                                    "secretRef": "[if(empty(parameters('databaseConnectionString')), null, 'connection-string-secret')]"
+                                    "secretRef": "connection-string-secret"
                                 },
                                 {
                                     "name": "LogLevel__Default",
@@ -152,7 +151,7 @@
                                 },
                                 {
                                     "name": "DataSource__Options__Server",
-                                    "value": "[if(empty(parameters('databaseConnectionString')), '', '${CONNECTION_STRING_OPTION}')]"
+                                    "value": "${CONNECTION_STRING_OPTION}"
                                 },
                                 {
                                     "name": "CONFIG_PATH",
