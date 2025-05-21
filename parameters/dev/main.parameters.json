@@ -93,6 +93,74 @@
           "containerImage": "mcr.microsoft.com/azure-databases/data-api-builder:latest"
         }
       ]
+    },
+    "functionApps": {
+      "value": [
+        {
+          "subscriptionId": "931b98ea-0e07-4d52-a37a-3b8fa4985688",
+          "name": "datacatalyst-demo-dev-core-test-fa",
+          "location": "uksouth",
+          "storageBlobContainerName": "app-package-datacatalyst-demo-dev-core-test-fa-f42f56f",
+          "storageAccountName": "datacatalystdemodevfmsat",
+          "sku": "FlexConsumption",
+          "skuCode": "FC1",
+          "workerSize": "0",
+          "workerSizeId": "0",
+          "numberOfWorkers": "1",
+          "hostingPlanName": "ASP-datacatalyst-demo-dev-core-test-fa-9912",
+          "serverFarmResourceGroup": "datacatalyst-demo-dev-core-test-rg",
+          "alwaysOn": false,
+          "logAnalyticsWorkspaceName": "datacatalyst-demo-dev-core-test-lw"
+        },
+        {
+          "subscriptionId": "931b98ea-0e07-4d52-a37a-3b8fa4985688",
+          "name": "datacatalyst-dev-core-location-test-fa",
+          "location": "uksouth",
+          "storageBlobContainerName": "app-package-datacatalyst-dev-core-location-test-fa-f42f56f",
+          "storageAccountName": "datacatalystdemodevloct",
+          "sku": "FlexConsumption",
+          "skuCode": "FC1",
+          "workerSize": "0",
+          "workerSizeId": "0",
+          "numberOfWorkers": "1",
+          "hostingPlanName": "ASP-datacatalyst-dev-core-location-test-fa-9912",
+          "serverFarmResourceGroup": "datacatalyst-demo-dev-core-test-rg",
+          "alwaysOn": false,
+          "logAnalyticsWorkspaceName": "datacatalyst-demo-dev-core-test-lw"
+        },
+        {
+          "subscriptionId": "931b98ea-0e07-4d52-a37a-3b8fa4985688",
+          "name": "datacatalyst-dev-core-org-hierarchy-test-fa",
+          "location": "uksouth",
+          "storageBlobContainerName": "app-package-datacatalyst-dev-core-org-hierarchy-test-fa-f42f56f",
+          "storageAccountName": "datacatalystdemodevorgt",
+          "sku": "FlexConsumption",
+          "skuCode": "FC1",
+          "workerSize": "0",
+          "workerSizeId": "0",
+          "numberOfWorkers": "1",
+          "hostingPlanName": "ASP-datacatalyst-dev-core-org-hierarchy-test-fa-9912",
+          "serverFarmResourceGroup": "datacatalyst-demo-dev-core-test-rg",
+          "alwaysOn": false,
+          "logAnalyticsWorkspaceName": "datacatalyst-demo-dev-core-test-lw"
+        },
+        {
+          "subscriptionId": "931b98ea-0e07-4d52-a37a-3b8fa4985688",
+          "name": "datacatalyst-demo-dev-Webhook-test-fa",
+          "location": "uksouth",
+          "storageBlobContainerName": "app-package-datacatalyst-demo-dev-Webhook-test-fa-f42f56f",
+          "storageAccountName": "datacatalystdemodevwhbpt",
+          "sku": "FlexConsumption",
+          "skuCode": "FC1",
+          "workerSize": "0",
+          "workerSizeId": "0",
+          "numberOfWorkers": "1",
+          "hostingPlanName": "ASP-datacatalyst-demo-dev-Webhook-test-fa-9912",
+          "serverFarmResourceGroup": "datacatalyst-demo-dev-source-test-rg",
+          "alwaysOn": false,
+          "logAnalyticsWorkspaceName": "datacatalyst-demo-dev-core-test-lw"
+        }
+      ]
     }
   }
 }
