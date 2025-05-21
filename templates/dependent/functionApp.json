@@ -71,7 +71,7 @@
         "serverFarmResourceGroup": {
             "type": "string",
             "metadata": {
-                "description": "Resource group for the App Service Plan and Log Analytics Workspace"
+                "description": "Resource group for the App Service Plan"
             }
         },
         "alwaysOn": {
@@ -84,6 +84,12 @@
             "type": "string",
             "metadata": {
                 "description": "Name of the Log Analytics Workspace for Application Insights"
+            }
+        },
+        "logAnalyticsWorkspaceResourceGroup": {
+            "type": "string",
+            "metadata": {
+                "description": "Resource group of the Log Analytics Workspace"
             }
         }
     },
@@ -210,7 +216,7 @@
                 "Request_Source": "IbizaWebAppExtensionCreate",
                 "Flow_Type": "Redfield",
                 "Application_Type": "web",
-                "WorkspaceResourceId": "[concat('/subscriptions/', parameters('subscriptionId'), '/resourceGroups/', parameters('serverFarmResourceGroup'), '/providers/Microsoft.OperationalInsights/workspaces/', parameters('logAnalyticsWorkspaceName'))]",
+                "WorkspaceResourceId": "[concat('/subscriptions/', parameters('subscriptionId'), '/resourceGroups/', parameters('logAnalyticsWorkspaceResourceGroup'), '/providers/Microsoft.OperationalInsights/workspaces/', parameters('logAnalyticsWorkspaceName'))]",
                 "DisableLocalAuth": false
             }
         },
