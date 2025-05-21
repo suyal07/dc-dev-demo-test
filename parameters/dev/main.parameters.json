@@ -179,6 +179,19 @@
           "resourceGroup": "datacatalyst-demo-dev-source-test-rg"
         }
       ]
+    },
+    "apiManagementServices": {
+      "value": [
+        {
+          "apimServiceName": "datacatalyst-demo-dev-test-apim",
+          "location": "uksouth",
+          "publisherEmail": "parth.suyal@nowvertical.com",
+          "publisherName": "NowVertical",
+          "skuName": "Developer",
+          "skuCapacity": 1,
+          "resourceGroup": "datacatalyst-demo-dev-core-test-rg"
+        }
+      ]
     }
   }
 }

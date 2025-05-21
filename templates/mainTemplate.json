@@ -43,6 +43,12 @@
       "metadata": {
         "description": "Array of Virtual Networks to provide, each with vnetName, location, and resourceGroup"
       }
+    },
+    "apiManagementServices": {
+      "type": "array",
+      "metadata": {
+        "description": "Array of API Management services to provide, each with apimServiceName, location, publisherEmail, publisherName, skuName, skuCapacity, and resourceGroup"
+      }
     }
   },
   "variables": {
@@ -51,7 +57,8 @@
     "logAnalyticsTemplateUri": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/logAnalytics.json",
     "containerAppsTemplateUri": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/containerApps.json",
     "functionAppTemplateUri": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/dependent/functionApp.json",
-    "vnetTemplateUri": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/vnet.json"
+    "vnetTemplateUri": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/vnet.json",
+    "apimTemplateUri": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/apim.json"
   },
   "resources": [
     {
@@ -88,6 +95,45 @@
           },
           "location": {
             "value": "[parameters('virtualNetworks')[copyIndex()].location]"
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2021-04-01",
+      "name": "[concat('apimDeployment-', parameters('apiManagementServices')[copyIndex()].apimServiceName)]",
+      "resourceGroup": "[parameters('apiManagementServices')[copyIndex()].resourceGroup]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Resources/resourceGroups', parameters('apiManagementServices')[copyIndex()].resourceGroup)]"
+      ],
+      "copy": {
+        "name": "apimCopy",
+        "count": "[length(parameters('apiManagementServices'))]"
+      },
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('apimTemplateUri')]"
+        },
+        "parameters": {
+          "apimServiceName": {
+            "value": "[parameters('apiManagementServices')[copyIndex()].apimServiceName]"
+          },
+          "location": {
+            "value": "[parameters('apiManagementServices')[copyIndex()].location]"
+          },
+          "publisherEmail": {
+            "value": "[parameters('apiManagementServices')[copyIndex()].publisherEmail]"
+          },
+          "publisherName": {
+            "value": "[parameters('apiManagementServices')[copyIndex()].publisherName]"
+          },
+          "skuName": {
+            "value": "[parameters('apiManagementServices')[copyIndex()].skuName]"
+          },
+          "skuCapacity": {
+            "value": "[parameters('apiManagementServices')[copyIndex()].skuCapacity]"
           }
         }
       }
@@ -339,6 +385,10 @@
     "virtualNetworksCreated": {
       "type": "array",
       "value": "[parameters('virtualNetworks')]"
+    },
+    "apiManagementServicesCreated": {
+      "type": "array",
+      "value": "[parameters('apiManagementServices')]"
     }
   }
 }
