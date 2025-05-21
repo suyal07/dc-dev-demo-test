@@ -1,214 +1,113 @@
 {
-  "$schema": "https://schema.management.azure.com/schemas/2019-08-01/subscriptionDeploymentTemplate.json#",
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
     "resourceGroups": {
       "type": "array",
       "metadata": {
-        "description": "Array of resource groups to provide, each with name and location"
+        "description": "List of resource groups to deploy"
       }
     },
     "storageAccounts": {
       "type": "array",
       "metadata": {
-        "description": "Array of storage accounts to provide, each with name, resourceGroup, blobSoftDeleteRetentionDays, and containerSoftDeleteRetentionDays"
+        "description": "List of storage accounts to deploy"
       }
     },
     "sqlServers": {
       "type": "array",
       "metadata": {
-        "description": "Array of SQL Servers to provide, each with sqlServerName, resourceGroup, administratorLogin, administratorLoginPassword, sqlDatabaseName, databaseEdition, requestedServiceObjectiveName, maxSizeBytes, collation, backupRetentionDays, and backupStorageRedundancy"
+        "description": "List of SQL servers and databases to deploy"
       }
     },
     "logAnalyticsWorkspaces": {
       "type": "array",
       "metadata": {
-        "description": "Array of Log Analytics Workspaces to provide, each with logAnalyticsWorkspaceName and resourceGroup"
+        "description": "List of Log Analytics workspaces to deploy"
       }
     },
     "containerApps": {
       "type": "array",
       "metadata": {
-        "description": "Array of Container Apps to provide, each with containerAppName, location, environmentName, minReplicas, maxReplicas, databaseConnectionString, configPath, and containerImage"
+        "description": "List of container apps to deploy"
       }
     },
     "functionApps": {
       "type": "array",
       "metadata": {
-        "description": "Array of Function Apps to provide, each with subscriptionId, name, location, storageBlobContainerName, storageAccountName, sku, skuCode, workerSize, workerSizeId, numberOfWorkers, hostingPlanName, serverFarmResourceGroup, alwaysOn, logAnalyticsWorkspaceName, and logAnalyticsWorkspaceResourceGroup"
+        "description": "List of function apps to deploy"
       }
     },
     "virtualNetworks": {
       "type": "array",
       "metadata": {
-        "description": "Array of Virtual Networks to provide, each with vnetName, location, and resourceGroup"
+        "description": "List of virtual networks to deploy"
       }
     },
     "apiManagementServices": {
       "type": "array",
       "metadata": {
-        "description": "Array of API Management services to provide, each with apimServiceName, location, publisherEmail, publisherName, skuName, skuCapacity, and resourceGroup"
+        "description": "List of API Management services to deploy"
       }
     },
     "dashboards": {
       "type": "array",
       "metadata": {
-        "description": "Array of dashboards to provide, each with subscriptionReference, coreResourceGroup, apiManagementResourceName, logAnalyticsWorkspaceName, dashboardDisplayName, dashboardName, location, and resourceGroup"
+        "description": "List of dashboards to deploy"
       }
     }
   },
   "variables": {
-    "storageAccountTemplateUri": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/storageAccount.json",
-    "sqlServerTemplateUri": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/sqlServer.json",
-    "logAnalyticsTemplateUri": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/logAnalytics.json",
-    "containerAppsTemplateUri": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/containerApps.json",
-    "functionAppTemplateUri": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/dependent/functionApp.json",
-    "vnetTemplateUri": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/vnet.json",
-    "apimTemplateUri": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/apim.json",
-    "dashboardTemplateUri": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/dependent/APIUsageAnalytics.json"
+    "githubBaseUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/dependent/"
   },
   "resources": [
+    // Deploy Resource Groups
     {
-      "type": "Microsoft.Resources/resourceGroups",
-      "apiVersion": "2021-04-01",
-      "name": "[parameters('resourceGroups')[copyIndex()].name]",
-      "location": "[parameters('resourceGroups')[copyIndex()].location]",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2022-09-01",
+      "name": "[concat('resourceGroup-', copyIndex())]",
       "copy": {
         "name": "resourceGroupCopy",
         "count": "[length(parameters('resourceGroups'))]"
       },
-      "properties": {}
-    },
-    {
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2021-04-01",
-      "name": "[concat('vnetDeployment-', parameters('virtualNetworks')[copyIndex()].vnetName)]",
-      "resourceGroup": "[parameters('virtualNetworks')[copyIndex()].resourceGroup]",
-      "dependsOn": [
-        "[resourceId('Microsoft.Resources/resourceGroups', parameters('virtualNetworks')[copyIndex()].resourceGroup)]"
-      ],
-      "copy": {
-        "name": "vnetCopy",
-        "count": "[length(parameters('virtualNetworks'))]"
-      },
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[variables('vnetTemplateUri')]"
+          "uri": "[concat(variables('githubBaseUrl'), 'resourceGroup.json')]"
         },
         "parameters": {
-          "vnetName": {
-            "value": "[parameters('virtualNetworks')[copyIndex()].vnetName]"
+          "name": {
+            "value": "[parameters('resourceGroups')[copyIndex()].name]"
           },
           "location": {
-            "value": "[parameters('virtualNetworks')[copyIndex()].location]"
+            "value": "[parameters('resourceGroups')[copyIndex()].location]"
           }
         }
       }
     },
+    // Deploy Storage Accounts (depends on Resource Groups)
     {
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2021-04-01",
-      "name": "[concat('apimDeployment-', parameters('apiManagementServices')[copyIndex()].apimServiceName)]",
-      "resourceGroup": "[parameters('apiManagementServices')[copyIndex()].resourceGroup]",
-      "dependsOn": [
-        "[resourceId('Microsoft.Resources/resourceGroups', parameters('apiManagementServices')[copyIndex()].resourceGroup)]"
-      ],
-      "copy": {
-        "name": "apimCopy",
-        "count": "[length(parameters('apiManagementServices'))]"
-      },
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('apimTemplateUri')]"
-        },
-        "parameters": {
-          "apimServiceName": {
-            "value": "[parameters('apiManagementServices')[copyIndex()].apimServiceName]"
-          },
-          "location": {
-            "value": "[parameters('apiManagementServices')[copyIndex()].location]"
-          },
-          "publisherEmail": {
-            "value": "[parameters('apiManagementServices')[copyIndex()].publisherEmail]"
-          },
-          "publisherName": {
-            "value": "[parameters('apiManagementServices')[copyIndex()].publisherName]"
-          },
-          "skuName": {
-            "value": "[parameters('apiManagementServices')[copyIndex()].skuName]"
-          },
-          "skuCapacity": {
-            "value": "[parameters('apiManagementServices')[copyIndex()].skuCapacity]"
-          }
-        }
-      }
-    },
-    {
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2021-04-01",
-      "name": "[concat('dashboardDeployment-', replace(parameters('dashboards')[copyIndex()].dashboardName, ' ', '-'))]",
-      "resourceGroup": "[parameters('dashboards')[copyIndex()].resourceGroup]",
-      "dependsOn": [
-        "[resourceId('Microsoft.Resources/resourceGroups', parameters('dashboards')[copyIndex()].resourceGroup)]",
-        "[concat('apimDeployment-', parameters('dashboards')[copyIndex()].apiManagementResourceName)]",
-        "[concat('logAnalyticsDeployment-', parameters('dashboards')[copyIndex()].logAnalyticsWorkspaceName)]"
-      ],
-      "copy": {
-        "name": "dashboardCopy",
-        "count": "[length(parameters('dashboards'))]"
-      },
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('dashboardTemplateUri')]"
-        },
-        "parameters": {
-          "subscriptionReference": {
-            "value": "[parameters('dashboards')[copyIndex()].subscriptionReference]"
-          },
-          "coreResourceGroup": {
-            "value": "[parameters('dashboards')[copyIndex()].coreResourceGroup]"
-          },
-          "apiManagementResourceName": {
-            "value": "[parameters('dashboards')[copyIndex()].apiManagementResourceName]"
-          },
-          "logAnalyticsWorkspaceName": {
-            "value": "[parameters('dashboards')[copyIndex()].logAnalyticsWorkspaceName]"
-          },
-          "dashboardDisplayName": {
-            "value": "[parameters('dashboards')[copyIndex()].dashboardDisplayName]"
-          },
-          "dashboardName": {
-            "value": "[parameters('dashboards')[copyIndex()].dashboardName]"
-          },
-          "location": {
-            "value": "[parameters('dashboards')[copyIndex()].location]"
-          }
-        }
-      }
-    },
-    {
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2021-04-01",
-      "name": "[concat('storageAccountDeployment-', parameters('storageAccounts')[copyIndex()].name)]",
-      "resourceGroup": "[parameters('storageAccounts')[copyIndex()].resourceGroup]",
-      "dependsOn": [
-        "[resourceId('Microsoft.Resources/resourceGroups', parameters('storageAccounts')[copyIndex()].resourceGroup)]"
-      ],
+      "apiVersion": "2022-09-01",
+      "name": "[concat('storageAccount-', copyIndex())]",
       "copy": {
         "name": "storageAccountCopy",
         "count": "[length(parameters('storageAccounts'))]"
       },
+      "dependsOn": [
+        "resourceGroupCopy"
+      ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[variables('storageAccountTemplateUri')]"
+          "uri": "[concat(variables('githubBaseUrl'), 'storageAccount.json')]"
         },
         "parameters": {
-          "storageAccountName": {
+          "name": {
             "value": "[parameters('storageAccounts')[copyIndex()].name]"
+          },
+          "resourceGroup": {
+            "value": "[parameters('storageAccounts')[copyIndex()].resourceGroup]"
           },
           "blobSoftDeleteRetentionDays": {
             "value": "[parameters('storageAccounts')[copyIndex()].blobSoftDeleteRetentionDays]"
@@ -219,26 +118,29 @@
         }
       }
     },
+    // Deploy SQL Servers and Databases (depends on Resource Groups)
     {
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2021-04-01",
-      "name": "[concat('sqlServerDeployment-', parameters('sqlServers')[copyIndex()].sqlServerName)]",
-      "resourceGroup": "[parameters('sqlServers')[copyIndex()].resourceGroup]",
-      "dependsOn": [
-        "[resourceId('Microsoft.Resources/resourceGroups', parameters('sqlServers')[copyIndex()].resourceGroup)]"
-      ],
+      "apiVersion": "2022-09-01",
+      "name": "[concat('sqlServer-', copyIndex())]",
       "copy": {
         "name": "sqlServerCopy",
         "count": "[length(parameters('sqlServers'))]"
       },
+      "dependsOn": [
+        "resourceGroupCopy"
+      ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[variables('sqlServerTemplateUri')]"
+          "uri": "[concat(variables('githubBaseUrl'), 'sqlServer.json')]"
         },
         "parameters": {
           "sqlServerName": {
             "value": "[parameters('sqlServers')[copyIndex()].sqlServerName]"
+          },
+          "resourceGroup": {
+            "value": "[parameters('sqlServers')[copyIndex()].resourceGroup]"
           },
           "administratorLogin": {
             "value": "[parameters('sqlServers')[copyIndex()].administratorLogin]"
@@ -270,50 +172,56 @@
         }
       }
     },
+    // Deploy Log Analytics Workspaces (depends on Resource Groups)
     {
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2021-04-01",
-      "name": "[concat('logAnalyticsDeployment-', parameters('logAnalyticsWorkspaces')[copyIndex()].logAnalyticsWorkspaceName)]",
-      "resourceGroup": "[parameters('logAnalyticsWorkspaces')[copyIndex()].resourceGroup]",
-      "dependsOn": [
-        "[resourceId('Microsoft.Resources/resourceGroups', parameters('logAnalyticsWorkspaces')[copyIndex()].resourceGroup)]"
-      ],
+      "apiVersion": "2022-09-01",
+      "name": "[concat('logAnalyticsWorkspace-', copyIndex())]",
       "copy": {
-        "name": "logAnalyticsCopy",
+        "name": "logAnalyticsWorkspaceCopy",
         "count": "[length(parameters('logAnalyticsWorkspaces'))]"
       },
+      "dependsOn": [
+        "resourceGroupCopy"
+      ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[variables('logAnalyticsTemplateUri')]"
+          "uri": "[concat(variables('githubBaseUrl'), 'logAnalyticsWorkspace.json')]"
         },
         "parameters": {
           "logAnalyticsWorkspaceName": {
             "value": "[parameters('logAnalyticsWorkspaces')[copyIndex()].logAnalyticsWorkspaceName]"
+          },
+          "resourceGroup": {
+            "value": "[parameters('logAnalyticsWorkspaces')[copyIndex()].resourceGroup]"
           }
         }
       }
     },
+    // Deploy Container Apps (depends on Resource Groups)
     {
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2021-04-01",
-      "name": "[concat('containerAppsDeployment-', parameters('containerApps')[copyIndex()].containerAppName)]",
-      "resourceGroup": "[parameters('containerApps')[copyIndex()].resourceGroup]",
-      "dependsOn": [
-        "[resourceId('Microsoft.Resources/resourceGroups', parameters('containerApps')[copyIndex()].resourceGroup)]"
-      ],
+      "apiVersion": "2022-09-01",
+      "name": "[concat('containerApp-', copyIndex())]",
       "copy": {
-        "name": "containerAppsCopy",
+        "name": "containerAppCopy",
         "count": "[length(parameters('containerApps'))]"
       },
+      "dependsOn": [
+        "resourceGroupCopy"
+      ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[variables('containerAppsTemplateUri')]"
+          "uri": "[concat(variables('githubBaseUrl'), 'containerApp.json')]"
         },
         "parameters": {
           "containerAppName": {
             "value": "[parameters('containerApps')[copyIndex()].containerAppName]"
+          },
+          "resourceGroup": {
+            "value": "[parameters('containerApps')[copyIndex()].resourceGroup]"
           },
           "location": {
             "value": "[parameters('containerApps')[copyIndex()].location]"
@@ -339,24 +247,24 @@
         }
       }
     },
+    // Deploy Function Apps (depends on Resource Groups, Storage Accounts, Log Analytics)
     {
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2021-04-01",
-      "name": "[concat('faDeploy-', parameters('functionApps')[copyIndex()].name)]",
-      "resourceGroup": "[parameters('functionApps')[copyIndex()].serverFarmResourceGroup]",
-      "dependsOn": [
-        "[resourceId('Microsoft.Resources/resourceGroups', parameters('functionApps')[copyIndex()].serverFarmResourceGroup)]",
-        "[concat('storageAccountDeployment-', parameters('functionApps')[copyIndex()].storageAccountName)]",
-        "[concat('logAnalyticsDeployment-', parameters('functionApps')[copyIndex()].logAnalyticsWorkspaceName)]"
-      ],
+      "apiVersion": "2022-09-01",
+      "name": "[concat('functionApp-', copyIndex())]",
       "copy": {
         "name": "functionAppCopy",
         "count": "[length(parameters('functionApps'))]"
       },
+      "dependsOn": [
+        "resourceGroupCopy",
+        "storageAccountCopy",
+        "logAnalyticsWorkspaceCopy"
+      ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[variables('functionAppTemplateUri')]"
+          "uri": "[concat(variables('githubBaseUrl'), 'functionApp.json')]"
         },
         "parameters": {
           "subscriptionId": {
@@ -406,44 +314,134 @@
           }
         }
       }
+    },
+    // Deploy Virtual Networks (depends on Resource Groups)
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2022-09-01",
+      "name": "[concat('virtualNetwork-', copyIndex())]",
+      "copy": {
+        "name": "virtualNetworkCopy",
+        "count": "[length(parameters('virtualNetworks'))]"
+      },
+      "dependsOn": [
+        "resourceGroupCopy"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(variables('githubBaseUrl'), 'virtualNetwork.json')]"
+        },
+        "parameters": {
+          "vnetName": {
+            "value": "[parameters('virtualNetworks')[copyIndex()].vnetName]"
+          },
+          "location": {
+            "value": "[parameters('virtualNetworks')[copyIndex()].location]"
+          },
+          "resourceGroup": {
+            "value": "[parameters('virtualNetworks')[copyIndex()].resourceGroup]"
+          }
+        }
+      }
+    },
+    // Deploy API Management Services (depends on Resource Groups)
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2022-09-01",
+      "name": "[concat('apiManagementService-', copyIndex())]",
+      "copy": {
+        "name": "apiManagementServiceCopy",
+        "count": "[length(parameters('apiManagementServices'))]"
+      },
+      "dependsOn": [
+        "resourceGroupCopy"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(variables('githubBaseUrl'), 'apiManagementService.json')]"
+        },
+        "parameters": {
+          "apimServiceName": {
+            "value": "[parameters('apiManagementServices')[copyIndex()].apimServiceName]"
+          },
+          "location": {
+            "value": "[parameters('apiManagementServices')[copyIndex()].location]"
+          },
+          "publisherEmail": {
+            "value": "[parameters('apiManagementServices')[copyIndex()].publisherEmail]"
+          },
+          "publisherName": {
+            "value": "[parameters('apiManagementServices')[copyIndex()].publisherName]"
+          },
+          "skuName": {
+            "value": "[parameters('apiManagementServices')[copyIndex()].skuName]"
+          },
+          "skuCapacity": {
+            "value": "[parameters('apiManagementServices')[copyIndex()].skuCapacity]"
+          },
+          "resourceGroup": {
+            "value": "[parameters('apiManagementServices')[copyIndex()].resourceGroup]"
+          }
+        }
+      }
+    },
+    // Deploy Dashboards (depends on Resource Groups, Log Analytics, API Management for APIUsageAnalytics)
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2022-09-01",
+      "name": "[concat('dashboard-', copyIndex())]",
+      "copy": {
+        "name": "dashboardCopy",
+        "count": "[length(parameters('dashboards'))]"
+      },
+      "dependsOn": [
+        "resourceGroupCopy",
+        "logAnalyticsWorkspaceCopy",
+        "apiManagementServiceCopy"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'API Tracker'), concat(variables('githubBaseUrl'), 'dashboard.json'), concat(variables('githubBaseUrl'), 'platformCostInsightsDashboard.json'))]"
+        },
+        "parameters": {
+          "subscriptionReference": {
+            "value": "[parameters('dashboards')[copyIndex()].subscriptionReference]"
+          },
+          "coreResourceGroup": {
+            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'API Tracker'), parameters('dashboards')[copyIndex()].coreResourceGroup, '')]"
+          },
+          "apiManagementResourceName": {
+            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'API Tracker'), parameters('dashboards')[copyIndex()].apiManagementResourceName, '')]"
+          },
+          "logAnalyticsWorkspaceName": {
+            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'API Tracker'), parameters('dashboards')[copyIndex()].logAnalyticsWorkspaceName, '')]"
+          },
+          "subscriptionName": {
+            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'PlatformCostInsights'), 'DataCatalystDevSubscription', '')]"
+          },
+          "resourceGroupList": {
+            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'PlatformCostInsights'), array(parameters('resourceGroups')[0].name, parameters('resourceGroups')[1].name), array(''))]"
+          },
+          "domainName": {
+            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'PlatformCostInsights'), 'portal.azure.com', '')]"
+          },
+          "dashboardDisplayName": {
+            "value": "[parameters('dashboards')[copyIndex()].dashboardDisplayName]"
+          },
+          "dashboardName": {
+            "value": "[parameters('dashboards')[copyIndex()].dashboardName]"
+          },
+          "location": {
+            "value": "[parameters('dashboards')[copyIndex()].location]"
+          },
+          "resourceGroup": {
+            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'API Tracker'), parameters('dashboards')[copyIndex()].resourceGroup, parameters('dashboards')[copyIndex()].resourceGroup)]"
+          }
+        }
+      }
     }
-  ],
-  "outputs": {
-    "resourceGroupsCreated": {
-      "type": "array",
-      "value": "[parameters('resourceGroups')]"
-    },
-    "storageAccountsCreated": {
-      "type": "array",
-      "value": "[parameters('storageAccounts')]"
-    },
-    "sqlServersCreated": {
-      "type": "array",
-      "value": "[parameters('sqlServers')]"
-    },
-    "logAnalyticsWorkspacesCreated": {
-      "type": "array",
-      "value": "[parameters('logAnalyticsWorkspaces')]"
-    },
-    "containerAppsCreated": {
-      "type": "array",
-      "value": "[parameters('containerApps')]"
-    },
-    "functionAppsCreated": {
-      "type": "array",
-      "value": "[parameters('functionApps')]"
-    },
-    "virtualNetworksCreated": {
-      "type": "array",
-      "value": "[parameters('virtualNetworks')]"
-    },
-    "apiManagementServicesCreated": {
-      "type": "array",
-      "value": "[parameters('apiManagementServices')]"
-    },
-    "dashboardsCreated": {
-      "type": "array",
-      "value": "[parameters('dashboards')]"
-    }
-  }
+  ]
 }

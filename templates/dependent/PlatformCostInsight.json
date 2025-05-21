@@ -1,0 +1,313 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "arm template",
+      "version": "0.25.53.49325",
+      "templateHash": "10318759955181286209"
+    }
+  },
+  "parameters": {
+    "subscriptionReference": {
+      "type": "string",
+      "metadata": {
+        "description": "Reference to the subscription Id where the dashboard is to be deployed"
+      }
+    },
+    "subscriptionName": {
+      "type": "string",
+      "metadata": {
+        "description": "Reference to the subscription Id where the dashboard is to be deployed"
+      }
+    },
+    "resourceGroupList": {
+      "type": "array",
+      "metadata": {
+        "description": "List of resource groups to filter the cost by"
+      }
+    },
+    "domainName": {
+      "type": "string",
+      "metadata": {
+        "description": "Reference to the Azure Domain Name"
+      }
+    },
+    "dashboardDisplayName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the dashboard to display in Azure portal"
+      }
+    },
+    "dashboardName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the dashboard"
+      }
+    },
+    "location": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "properties": {
+        "lenses": [
+          {
+            "order": 0,
+            "parts": [
+              {
+                "position": {
+                  "x": 0,
+                  "y": 0,
+                  "colSpan": 12,
+                  "rowSpan": 2
+                },
+                "metadata": {
+                  "inputs": [],
+                  "type": "Extension/HubsExtension/PartType/MarkdownPart",
+                  "settings": {
+                    "content": {
+                      "content": "This dashboard offers a strategic view into the cost distribution across the Data Catalyst Platform, empowering stakeholders to monitor and manage expenses effectively. It provides quick insights into historical and recent cost trends, with navigation to a detailed view on a click\n",
+                      "title": "Cost Analysis",
+                      "subtitle": "My subtitle",
+                      "markdownSource": 1,
+                      "markdownUri": ""
+                    }
+                  },
+                  "partHeader": {
+                    "subtitle": "Track, Analyze, and Optimize Your Data Catalyst Platform Spend"
+                  }
+                }
+              },
+              {
+                "position": {
+                  "x": 0,
+                  "y": 2,
+                  "colSpan": 6,
+                  "rowSpan": 4
+                },
+                "metadata": {
+                  "inputs": [
+                    {
+                      "name": "scope",
+                      "value": "[format('/subscriptions/{0}', parameters('subscriptionReference'))]"
+                    },
+                    {
+                      "name": "scopeName",
+                      "value": "[parameters('subscriptionName')]"
+                    },
+                    {
+                      "name": "view",
+                      "value": {
+                        "currency": "GBP",
+                        "dateRange": "Last6Months",
+                        "query": {
+                          "type": "ActualCost",
+                          "dataSet": {
+                            "granularity": "Monthly",
+                            "aggregation": {
+                              "totalCost": {
+                                "name": "Cost",
+                                "function": "Sum"
+                              },
+                              "totalCostUSD": {
+                                "name": "CostUSD",
+                                "function": "Sum"
+                              }
+                            },
+                            "sorting": [
+                              {
+                                "direction": "ascending",
+                                "name": "BillingMonth"
+                              }
+                            ],
+                            "filter": {
+                              "Dimensions": {
+                                "Name": "ResourceGroupName",
+                                "Operator": "In",
+                                "Values": "[parameters('resourceGroupList')]"
+                              }
+                            }
+                          },
+                          "timeframe": "None"
+                        },
+                        "chart": "StackedColumn",
+                        "accumulated": "false",
+                        "pivots": [
+                          {
+                            "type": "Dimension",
+                            "name": "ServiceName"
+                          },
+                          {
+                            "type": "Dimension",
+                            "name": "ResourceLocation"
+                          },
+                          {
+                            "type": "Dimension",
+                            "name": "ResourceGroupName"
+                          }
+                        ],
+                        "scope": "[format('/subscriptions/{0}', parameters('subscriptionReference'))]",
+                        "kpis": [
+                          {
+                            "type": "Budget",
+                            "id": "[format('/subscriptions/{0}/providers/Microsoft.Consumption/budgets/new_budget', parameters('subscriptionReference'))]",
+                            "enabled": true,
+                            "extendedProperties": {
+                              "name": "new_budget",
+                              "amount": 1200,
+                              "timeGrain": "Monthly",
+                              "type": "[parameters('subscriptionReference')]"
+                            }
+                          },
+                          {
+                            "type": "Forecast",
+                            "enabled": true
+                          }
+                        ],
+                        "displayName": "DataCatalystMonthlySpendByResourceSplit"
+                      },
+                      "isOptional": true
+                    },
+                    {
+                      "name": "externalState",
+                      "isOptional": true
+                    }
+                  ],
+                  "type": "Extension/Microsoft_Azure_CostManagement/PartType/CostAnalysisPinPart",
+                  "deepLink": "[format('#@{0}/resource/subscriptions/{1}/costByResource', parameters('domainName'), parameters('subscriptionReference'))]",
+                  "partHeader": {
+                    "title": "Monthly Spent Split (Last 6 Months)",
+                    "subtitle": "Click on this tile to go to a detailed view"
+                  }
+                }
+              },
+              {
+                "position": {
+                  "x": 6,
+                  "y": 2,
+                  "colSpan": 6,
+                  "rowSpan": 4
+                },
+                "metadata": {
+                  "inputs": [
+                    {
+                      "name": "scope",
+                      "value": "[format('/subscriptions/{0}', parameters('subscriptionReference'))]"
+                    },
+                    {
+                      "name": "scopeName",
+                      "value": "[parameters('subscriptionName')]"
+                    },
+                    {
+                      "name": "view",
+                      "value": {
+                        "currency": "GBP",
+                        "dateRange": "LastMonth",
+                        "query": {
+                          "type": "ActualCost",
+                          "dataSet": {
+                            "granularity": "Daily",
+                            "aggregation": {
+                              "totalCost": {
+                                "name": "Cost",
+                                "function": "Sum"
+                              },
+                              "totalCostUSD": {
+                                "name": "CostUSD",
+                                "function": "Sum"
+                              }
+                            },
+                            "sorting": [
+                              {
+                                "direction": "ascending",
+                                "name": "UsageDate"
+                              }
+                            ],
+                            "filter": {
+                              "Dimensions": {
+                                "Name": "ResourceGroupName",
+                                "Operator": "In",
+                                "Values": "[parameters('resourceGroupList')]"
+                              }
+                            }
+                          },
+                          "timeframe": "None"
+                        },
+                        "chart": "Area",
+                        "accumulated": "false",
+                        "pivots": [
+                          {
+                            "type": "Dimension",
+                            "name": "ServiceName"
+                          },
+                          {
+                            "type": "Dimension",
+                            "name": "ResourceLocation"
+                          },
+                          {
+                            "type": "Dimension",
+                            "name": "ResourceGroupName"
+                          }
+                        ],
+                        "scope": "[format('/subscriptions/{0}', parameters('subscriptionReference'))]",
+                        "kpis": [
+                          "type": "Budget",
+                          "id": "[format('/subscriptions/{0}/providers/Microsoft.Consumption/budgets/new_budget', parameters('subscriptionReference'))]",
+                          "enabled": true,
+                          "extendedProperties": {
+                            "name": "new_budget",
+                            "amount": 1200,
+                            "timeGrain": "Monthly",
+                            "type": "[parameters('subscriptionReference')]"
+                          }
+                        },
+                        {
+                          "type": "Forecast",
+                          "enabled": true
+                        }
+                      ],
+                      "displayName": "DataCatalystDailySpendLastMonth"
+                    },
+                    "isOptional": true
+                  },
+                  {
+                    "name": "externalState",
+                    "isOptional": true
+                  }
+                ],
+                "type": "Extension/Microsoft_Azure_CostManagement/PartType/CostAnalysisPinPart",
+                "deepLink": "[format('#@{0}/resource/subscriptions/{1}/costByResource',parameters('domainName'),parameters('subscriptionReference'))]",
+                "partHeader": {
+                  "title": "Daily Spent (Last Month)",
+                  "subtitle": "Click on this tile to go to a detailed view"
+                }
+              }
+            ]
+          }
+        ],
+        "metadata": {
+          "model": {
+            "timeRange": {
+              "value": {
+                "relative": {
+                  "duration": 24,
+                  "timeUnit": 1
+                }
+              },
+              "type": "MsPortalFx.Composition.Configuration.ValueTypes.TimeRange"
+            }
+          }
+        }
+      },
+      "name": "[parameters('dashboardName')]",
+      "type": "Microsoft.Portal/dashboards",
+      "location": "[parameters('location')]",
+      "tags": {
+        "hidden-title": "[parameters('dashboardDisplayName')]"
+      },
+      "apiVersion": "2022-12-01-preview"
+    }
+  ]
+}
