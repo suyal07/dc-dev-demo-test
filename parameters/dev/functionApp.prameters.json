@@ -1,0 +1,51 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "subscriptionId": {
+      "value": "931b98ea-0e07-4d52-a37a-3b8fa4985688"
+    },
+    "name": {
+      "value": "datacatalyst-dev-core-org-hierarchy-test-fa-25"
+    },
+    "location": {
+      "value": "uksouth"
+    },
+    "storageBlobContainerName": {
+      "value": "app-package-core-org-hierarchy-fa-f42f56f"
+    },
+    "storageAccountName": {
+      "value": "dcdevorgt25"
+    },
+    "sku": {
+      "value": "FlexConsumption"
+    },
+    "skuCode": {
+      "value": "FC1"
+    },
+    "workerSize": {
+      "value": "0"
+    },
+    "workerSizeId": {
+      "value": "0"
+    },
+    "numberOfWorkers": {
+      "value": "1"
+    },
+    "hostingPlanName": {
+      "value": "ASP-datacatalyst-dev-core-org-hierarchy-test-fa-9912-25"
+    },
+    "serverFarmResourceGroup": {
+      "value": "datacatalyst-demo-dev-core-test-rg-25"
+    },
+    "alwaysOn": {
+      "value": false
+    },
+    "logAnalyticsWorkspaceName": {
+      "value": "datacatalyst-demo-dev-core-test-lw-25"
+    },
+    "logAnalyticsWorkspaceResourceGroup": {
+      "value": "datacatalyst-demo-dev-core-test-rg-25"
+    }
+  }
+}
