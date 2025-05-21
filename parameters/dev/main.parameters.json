@@ -140,7 +140,7 @@
           "skuCode": "FC1",
           "workerSize": "0",
           "workerSizeId": "0",
-          " numberOfWorkers": "1",
+          "numberOfWorkers": "1",
           "hostingPlanName": "ASP-datacatalyst-dev-core-org-hierarchy-test-fa-9912-25",
           "serverFarmResourceGroup": "datacatalyst-demo-dev-core-test-rg-25",
           "alwaysOn": false,
