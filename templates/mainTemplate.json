@@ -55,13 +55,18 @@
       "metadata": {
         "description": "List of dashboards to deploy"
       }
+    },
+    "logicApps": {
+      "type": "array",
+      "metadata": {
+        "description": "List of Logic Apps to deploy"
+      }
     }
   },
   "variables": {
     "githubBaseUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/dependent/"
   },
   "resources": [
-    // Deploy Resource Groups
     {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
@@ -85,7 +90,6 @@
         }
       }
     },
-    // Deploy Storage Accounts (depends on Resource Groups)
     {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
@@ -118,7 +122,6 @@
         }
       }
     },
-    // Deploy SQL Servers and Databases (depends on Resource Groups)
     {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
@@ -172,7 +175,6 @@
         }
       }
     },
-    // Deploy Log Analytics Workspaces (depends on Resource Groups)
     {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
@@ -199,7 +201,6 @@
         }
       }
     },
-    // Deploy Container Apps (depends on Resource Groups)
     {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
@@ -247,7 +248,6 @@
         }
       }
     },
-    // Deploy Function Apps (depends on Resource Groups, Storage Accounts, Log Analytics)
     {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
@@ -315,7 +315,6 @@
         }
       }
     },
-    // Deploy Virtual Networks (depends on Resource Groups)
     {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
@@ -345,7 +344,6 @@
         }
       }
     },
-    // Deploy API Management Services (depends on Resource Groups)
     {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
@@ -387,7 +385,6 @@
         }
       }
     },
-    // Deploy Dashboards (depends on Resource Groups, Log Analytics, API Management for APIUsageAnalytics)
     {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
@@ -439,6 +436,38 @@
           },
           "resourceGroup": {
             "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'API Tracker'), parameters('dashboards')[copyIndex()].resourceGroup, parameters('dashboards')[copyIndex()].resourceGroup)]"
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2022-09-01",
+      "name": "[concat('logicApp-', copyIndex())]",
+      "copy": {
+        "name": "logicAppCopy",
+        "count": "[length(parameters('logicApps'))]"
+      },
+      "dependsOn": [
+        "resourceGroupCopy"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(variables('githubBaseUrl'), 'logicApps.json')]"
+        },
+        "parameters": {
+          "workflows_datacatalyst_demo_core_la_name": {
+            "value": "[parameters('logicApps')[copyIndex()].workflows_datacatalyst_demo_core_la_name]"
+          },
+          "connections_office365_externalid": {
+            "value": "[parameters('logicApps')[copyIndex()].connections_office365_externalid]"
+          },
+          "subscriptionId": {
+            "value": "[parameters('logicApps')[copyIndex()].subscriptionId]"
+          },
+          "resourceLocation": {
+            "value": "[parameters('logicApps')[copyIndex()].resourceLocation]"
           }
         }
       }
