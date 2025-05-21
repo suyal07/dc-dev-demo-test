@@ -253,35 +253,37 @@
                         ],
                         "scope": "[format('/subscriptions/{0}', parameters('subscriptionReference'))]",
                         "kpis": [
-                          "type": "Budget",
-                          "id": "[format('/subscriptions/{0}/providers/Microsoft.Consumption/budgets/new_budget', parameters('subscriptionReference'))]",
-                          "enabled": true,
-                          "extendedProperties": {
-                            "name": "new_budget",
-                            "amount": 1200,
-                            "timeGrain": "Monthly",
-                            "type": "[parameters('subscriptionReference')]"
+                          {
+                            "type": "Budget",
+                            "id": "[format('/subscriptions/{0}/providers/Microsoft.Consumption/budgets/new_budget', parameters('subscriptionReference'))]",
+                            "enabled": true,
+                            "extendedProperties": {
+                              "name": "new_budget",
+                              "amount": 1200,
+                              "timeGrain": "Monthly",
+                              "type": "[parameters('subscriptionReference')]"
+                            }
+                          },
+                          {
+                            "type": "Forecast",
+                            "enabled": true
                           }
-                        },
-                        {
-                          "type": "Forecast",
-                          "enabled": true
-                        }
-                      ],
-                      "displayName": "DataCatalystDailySpendLastMonth"
+                        ],
+                        "displayName": "DataCatalystDailySpendLastMonth"
+                      },
+                      "isOptional": true
                     },
-                    "isOptional": true
-                  },
-                  {
-                    "name": "externalState",
-                    "isOptional": true
+                    {
+                      "name": "externalState",
+                      "isOptional": true
+                    }
+                  ],
+                  "type": "Extension/Microsoft_Azure_CostManagement/PartType/CostAnalysisPinPart",
+                  "deepLink": "[format('#@{0}/resource/subscriptions/{1}/costByResource', parameters('domainName'), parameters('subscriptionReference'))]",
+                  "partHeader": {
+                    "title": "Daily Spent (Last Month)",
+                    "subtitle": "Click on this tile to go to a detailed view"
                   }
-                ],
-                "type": "Extension/Microsoft_Azure_CostManagement/PartType/CostAnalysisPinPart",
-                "deepLink": "[format('#@{0}/resource/subscriptions/{1}/costByResource',parameters('domainName'),parameters('subscriptionReference'))]",
-                "partHeader": {
-                  "title": "Daily Spent (Last Month)",
-                  "subtitle": "Click on this tile to go to a detailed view"
                 }
               }
             ]
