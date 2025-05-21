@@ -37,8 +37,9 @@
         },
         "databaseConnectionString": {
             "type": "securestring",
+            "defaultValue": null,
             "metadata": {
-                "description": "Connection string for the database"
+                "description": "Connection string for the database (optional, can be set later)"
             }
         },
         "configPath": {
@@ -113,12 +114,7 @@
                             }
                         ]
                     },
-                    "secrets": [
-                        {
-                            "name": "connection-string-secret",
-                            "value": "[parameters('databaseConnectionString')]"
-                        }
-                    ]
+                    "secrets": "[if(empty(parameters('databaseConnectionString')), json('[]'), json(concat('[{\"name\": \"connection-string-secret\", \"value\": \"', parameters('databaseConnectionString'), '\"}]')))]"
                 },
                 "template": {
                     "containers": [
@@ -136,7 +132,7 @@
                                 },
                                 {
                                     "name": "CONNECTION_STRING_OPTION",
-                                    "secretRef": "connection-string-secret"
+                                    "secretRef": "[if(empty(parameters('databaseConnectionString')), null, 'connection-string-secret')]"
                                 },
                                 {
                                     "name": "LogLevel__Default",
@@ -156,7 +152,7 @@
                                 },
                                 {
                                     "name": "DataSource__Options__Server",
-                                    "value": "${CONNECTION_STRING_OPTION}"
+                                    "value": "[if(empty(parameters('databaseConnectionString')), '', '${CONNECTION_STRING_OPTION}')]"
                                 },
                                 {
                                     "name": "CONFIG_PATH",
@@ -197,4 +193,3 @@
         }
     }
 }
-
