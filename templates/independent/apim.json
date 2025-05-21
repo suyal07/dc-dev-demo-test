@@ -1,0 +1,82 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "apimServiceName": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the API Management service."
+      }
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]",
+      "metadata": {
+        "description": "Location for the API Management service."
+      }
+    },
+    "publisherEmail": {
+      "type": "string",
+      "metadata": {
+        "description": "The email address of the API Management service administrator."
+      }
+    },
+    "publisherName": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the publisher for the API Management service."
+      }
+    },
+    "skuName": {
+      "type": "string",
+      "defaultValue": "Developer",
+      "allowedValues": [
+        "Developer",
+        "Basic",
+        "Standard",
+        "Premium"
+      ],
+      "metadata": {
+        "description": "The pricing tier of the API Management service."
+      }
+    },
+    "skuCapacity": {
+      "type": "int",
+      "defaultValue": 1,
+      "metadata": {
+        "description": "The capacity (number of units) for the API Management service."
+      }
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.ApiManagement/service",
+      "apiVersion": "2022-08-01",
+      "name": "[parameters('apimServiceName')]",
+      "location": "[parameters('location')]",
+      "tags": {
+        "Project": "datacatalyst",
+        "Tier": "core",
+        "Solution": "data-integration",
+        "Environment": "dev",
+        "CostCenter": "123cc",
+        "Application": "datacatalyst-demo",
+        "ManagedBy": "nowvertical",
+        "DataSensitivity": "internal",
+        "Region": "uksouth",
+        "Lifecycle": "active",
+        "Client": "nowvertical"
+      },
+      "sku": {
+        "name": "[parameters('skuName')]",
+        "capacity": "[parameters('skuCapacity')]"
+      },
+      "properties": {
+        "publisherEmail": "[parameters('publisherEmail')]",
+        "publisherName": "[parameters('publisherName')]",
+        "publicIPAddresses": [],
+        "virtualNetworkType": "None"
+      }
+    }
+  ]
+}
