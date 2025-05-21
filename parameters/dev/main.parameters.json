@@ -82,10 +82,10 @@
     "containerApps": {
       "value": [
         {
-          "containerAppName": "datacatalyst-demo-source-test-ca-25",
+          "containerAppName": "dc-src-test-ca-25",
           "resourceGroup": "datacatalyst-demo-dev-source-test-rg-25",
           "location": "uksouth",
-          "environmentName": "datacatalyst-demo-source-test-env-25",
+          "environmentName": "dc-src-test-env-25",
           "minReplicas": 1,
           "maxReplicas": 3,
           "databaseConnectionString": "DefaultPlaceholder",
@@ -140,7 +140,7 @@
           "skuCode": "FC1",
           "workerSize": "0",
           "workerSizeId": "0",
-          "numberOfWorkers": "1",
+          " numberOfWorkers": "1",
           "hostingPlanName": "ASP-datacatalyst-dev-core-org-hierarchy-test-fa-9912-25",
           "serverFarmResourceGroup": "datacatalyst-demo-dev-core-test-rg-25",
           "alwaysOn": false,
