@@ -35,7 +35,7 @@
         "databaseConnectionString": {
             "type": "securestring",
             "metadata": {
-                "description": "Connection string for the database (placeholder, to be updated post-deployment)"
+                "description": "Connection string for the database"
             }
         },
         "configPath": {
