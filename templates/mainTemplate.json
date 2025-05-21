@@ -64,7 +64,8 @@
     }
   },
   "variables": {
-    "githubBaseUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/dependent/"
+    "githubBaseUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/dependent/",
+    "githubIndependentUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/"
   },
   "resources": [
     {
@@ -454,7 +455,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[concat(variables('githubBaseUrl'), 'logicApps.json')]"
+          "uri": "[concat(variables('githubIndependentUrl'), 'logicApps.json')]"
         },
         "parameters": {
           "workflows_datacatalyst_demo_core_la_name": {
