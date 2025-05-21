@@ -49,6 +49,12 @@
       "metadata": {
         "description": "Array of API Management services to provide, each with apimServiceName, location, publisherEmail, publisherName, skuName, skuCapacity, and resourceGroup"
       }
+    },
+    "dashboards": {
+      "type": "array",
+      "metadata": {
+        "description": "Array of dashboards to provide, each with subscriptionReference, coreResourceGroup, apiManagementResourceName, logAnalyticsWorkspaceName, dashboardDisplayName, dashboardName, location, and resourceGroup"
+      }
     }
   },
   "variables": {
@@ -58,7 +64,8 @@
     "containerAppsTemplateUri": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/containerApps.json",
     "functionAppTemplateUri": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/dependent/functionApp.json",
     "vnetTemplateUri": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/vnet.json",
-    "apimTemplateUri": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/apim.json"
+    "apimTemplateUri": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/apim.json",
+    "dashboardTemplateUri": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/dependent/APIUsageAnalytics.json"
   },
   "resources": [
     {
@@ -134,6 +141,50 @@
           },
           "skuCapacity": {
             "value": "[parameters('apiManagementServices')[copyIndex()].skuCapacity]"
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2021-04-01",
+      "name": "[concat('dashboardDeployment-', parameters('dashboards')[copyIndex()].dashboardName)]",
+      "resourceGroup": "[parameters('dashboards')[copyIndex()].resourceGroup]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Resources/resourceGroups', parameters('dashboards')[copyIndex()].resourceGroup)]",
+        "[concat('apimDeployment-', parameters('dashboards')[copyIndex()].apiManagementResourceName)]",
+        "[concat('logAnalyticsDeployment-', parameters('dashboards')[copyIndex()].logAnalyticsWorkspaceName)]"
+      ],
+      "copy": {
+        "name": "dashboardCopy",
+        "count": "[length(parameters('dashboards'))]"
+      },
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('dashboardTemplateUri')]"
+        },
+        "parameters": {
+          "subscriptionReference": {
+            "value": "[parameters('dashboards')[copyIndex()].subscriptionReference]"
+          },
+          "coreResourceGroup": {
+            "value": "[parameters('dashboards')[copyIndex()].coreResourceGroup]"
+          },
+          " apiManagementResourceName": {
+            "value": "[parameters('dashboards')[copyIndex()].apiManagementResourceName]"
+          },
+          "logAnalyticsWorkspaceName": {
+            "value": "[parameters('dashboards')[copyIndex()].logAnalyticsWorkspaceName]"
+          },
+          "dashboardDisplayName": {
+            "value": "[parameters('dashboards')[copyIndex()].dashboardDisplayName]"
+          },
+          "dashboardName": {
+            "value": "[parameters('dashboards')[copyIndex()].dashboardName]"
+          },
+          "location": {
+            "value": "[parameters('dashboards')[copyIndex()].location]"
           }
         }
       }
@@ -389,6 +440,10 @@
     "apiManagementServicesCreated": {
       "type": "array",
       "value": "[parameters('apiManagementServices')]"
+    },
+    "dashboardsCreated": {
+      "type": "array",
+      "value": "[parameters('dashboards')]"
     }
   }
 }

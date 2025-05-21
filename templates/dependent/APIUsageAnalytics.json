@@ -1,0 +1,951 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "arm-template",
+      "version": "0.25.53.49325",
+      "templateHash": "10318759955181286209"
+    }
+  },
+  "parameters": {
+    "subscriptionReference": {
+      "type": "string",
+      "metadata": {
+        "description": "Reference to the subscription Id where the dashboard is to be deployed"
+      }
+    },
+    "coreResourceGroup": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the core resource group"
+      }
+    },
+    "apiManagementResourceName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the API Management resource that hosts the APIs"
+      }
+    },
+    "logAnalyticsWorkspaceName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the log analytics workspace that stores logging info"
+      }
+    },
+    "dashboardDisplayName": {
+      "type": "string",
+      "defaultValue": "API Tracker",
+      "metadata": {
+        "description": "Name of the dashboard to display in Azure portal"
+      }
+    },
+    "dashboardName": {
+      "type": "string",
+      "defaultValue": "API Tracker",
+      "metadata": {
+        "description": "Name of the dashboard"
+      }
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]"
+    }
+  },
+  "resources": [
+    {
+      "properties": {
+        "lenses": [
+          {
+            "order": 0,
+            "parts": [
+              {
+                "position": {
+                  "x": 0,
+                  "y": 0,
+                  "colSpan": 12,
+                  "rowSpan": 2
+                },
+                "metadata": {
+                  "inputs": [],
+                  "type": "Extension/HubsExtension/PartType/MarkdownPart",
+                  "settings": {
+                    "content": {
+                      "content": "This dashboard provides a clear view of API usage patterns across the organization.\nIt highlights the total number of API calls and breaks them down by region to identify traffic distribution.\nBy analyzing these insights, teams can monitor adoption, optimize performance, and spot regional trends.\nIt serves as a valuable tool for both operational monitoring and strategic decision-making",
+                      "title": "API Usage Analytics",
+                      "subtitle": "Actionable insights revealing key trends and patterns ",
+                      "markdownSource": 1,
+                      "markdownUri": ""
+                    }
+                  }
+                }
+              },
+              {
+                "position": {
+                  "x": 0,
+                  "y": 2,
+                  "colSpan": 6,
+                  "rowSpan": 4
+                },
+                "metadata": {
+                  "inputs": [
+                    {
+                      "name": "resourceTypeMode",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "ComponentId",
+                      "value": "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName'))]"
+                    },
+                    {
+                      "name": "Scope",
+                      "value": {
+                        "resourceIds": [
+                          "[resourceId('Microsoft.ApiManagement/service', parameters('apiManagementResourceName'))]"
+                        ]
+                      },
+                      "isOptional": true
+                    },
+                    {
+                      "name": "PartId",
+                      "value": "1098bb64-141f-4bd4-8d41-56b7c9e310a2",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "Version",
+                      "value": "2.0",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "TimeRange",
+                      "value": "P1D",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "DashboardId",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "DraftRequestParameters",
+                      "value": {
+                        "scope": "hierarchy"
+                      },
+                      "isOptional": true
+                    },
+                    {
+                      "name": "Query",
+                      "value": "datatable(APIName: string, APIDescription: string)\n[\n    \"getemployee\",\"Retrieve details of all employees\",\n    \"getfilename\", \"Retrieve a list of files available at the source\",\n    \"getorghierarchy\",\"Retrieve the complete organizational hierarchy\",\n    \"getspecificfile\",\"Download a specific document\",\n    \"getLocation\",\"Retrieve all office location details\"\n]\n",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "ControlType",
+                      "value": "AnalyticsGrid",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "SpecificChart",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "PartTitle",
+                      "value": "Analytics",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "PartSubTitle",
+                      "value": "[parameters('apiManagementResourceName')]",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "Dimensions",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "LegendOptions",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "IsQueryContainTimeRange",
+                      "value": false,
+                      "isOptional": true
+                    }
+                  ],
+                  "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
+                  "settings": {
+                    "content": {
+                      "GridColumnsWidth": {
+                        "APIDescription": "307px",
+                        "APIName": "165px"
+                      },
+                      "PartTitle": "Available APIs Overview",
+                      "PartSubTitle": "A list of available APIs with their respective endpoints and descriptions"
+                    }
+                  }
+                }
+              },
+              {
+                "position": {
+                  "x": 6,
+                  "y": 2,
+                  "colSpan": 6,
+                  "rowSpan": 4
+                },
+                "metadata": {
+                  "inputs": [
+                    {
+                      "name": "sharedTimeRange",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "options",
+                      "value": {
+                        "chart": {
+                          "metrics": [
+                            {
+                              "resourceMetadata": {
+                                "id": "[resourceId('Microsoft.ApiManagement/service', parameters('apiManagementResourceName'))]"
+                              },
+                              "name": "Requests",
+                              "aggregationType": 1,
+                              "namespace": "microsoft.apimanagement/service",
+                              "metricVisualization": {
+                                "displayName": "Requests"
+                              }
+                            }
+                          ],
+                          "title": "API Traffic Over Time",
+                          "titleKind": 2,
+                          "visualization": {
+                            "chartType": 2,
+                            "legendVisualization": {
+                              "isVisible": true,
+                              "position": 2,
+                              "hideHoverCard": false,
+                              "hideLabelNames": true
+                            },
+                            "axisVisualization": {
+                              "x": {
+                                "isVisible": true,
+                                "axisType": 2
+                              },
+                              "y": {
+                                "isVisible": true,
+                                "axisType": 1
+                              }
+                            }
+                          },
+                          "filterCollection": {
+                            "filters": [
+                              {
+                                "key": "ApiId",
+                                "operator": 1,
+                                "values": [
+                                  "allorganization1",
+                                  "coernerstonetest1",
+                                  "__Empty"
+                                ]
+                              }
+                            ]
+                          },
+                          "timespan": {
+                            "relative": {
+                              "duration": 86400000
+                            },
+                            "showUTCTime": true,
+                            "grain": 1
+                          }
+                        }
+                      },
+                      "isOptional": true
+                    }
+                  ],
+                  "type": "Extension/HubsExtension/PartType/MonitorChartPart",
+                  "settings": {
+                    "content": {
+                      "options": {
+                        "chart": {
+                          "metrics": [
+                            {
+                              "resourceMetadata": {
+                                "id": "[resourceId('Microsoft.ApiManagement/service', parameters('apiManagementResourceName'))]"
+                              },
+                              "name": "Requests",
+                              "aggregationType": 1,
+                              "namespace": "microsoft.apimanagement/service",
+                              "metricVisualization": {
+                                "displayName": "Requests"
+                              }
+                            }
+                          ],
+                          "title": "API Traffic Over Time",
+                          "titleKind": 2,
+                          "visualization": {
+                            "chartType": 2,
+                            "legendVisualization": {
+                              "isVisible": true,
+                              "position": 2,
+                              "hideHoverCard": true,
+                              "hideLabelNames": true
+                            },
+                            "axisVisualization": {
+                              "x": {
+                                "isVisible": true,
+                                "axisType": 2
+                              },
+                              "y": {
+                                "isVisible": true,
+                                "axisType": 1
+                              }
+                            },
+                            "disablePinning": true
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "filters": {
+                    "ApiId": {
+                      "model": {
+                        "operator": "notEquals",
+                        "values": [
+                          "allorganization1",
+                          "coernerstonetest1",
+                          "__Empty"
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "position": {
+                  "x": 0,
+                  "y": 6,
+                  "colSpan": 6,
+                  "rowSpan": 4
+                },
+                "metadata": {
+                  "inputs": [
+                    {
+                      "name": "resourceTypeMode",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "ComponentId",
+                      "value": "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName'))]",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "Scope",
+                      "value": {
+                        "resourceIds": [
+                          "[resourceId('Microsoft.ApiManagement/service', parameters('apiManagementResourceName'))]"
+                        ]
+                      },
+                      "isOptional": true
+                    },
+                    {
+                      "name": "PartId",
+                      "value": "5ff7ce6c-52a6-4127-b2f4-52bdc12d91da",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "Version",
+                      "value": "2.0",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "TimeRange",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "DashboardId",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "DraftRequestParameters",
+                      "value": {
+                        "scope": "hierarchy"
+                      },
+                      "isOptional": true
+                    },
+                    {
+                      "name": "Query",
+                      "value": "//Most Popular APIs\nApiManagementGatewayLogs\n| where TimeGenerated > ago(1d)\n|where isnotempty(ApiId)\n| project\n    SelfServiceAPIName = replace_string(replace_string(ApiId, '-v1', ''), '-v2', ''),\n    CorrelationId,\n    Operation = OperationId\n| summarize NumberOfCalls = count(CorrelationId) by SelfServiceAPIName, Operation\n| order by NumberOfCalls desc\n",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "ControlType",
+                      "value": "AnalyticsGrid",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "SpecificChart",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "PartTitle",
+                      "value": "Analytics",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "PartSubTitle",
+                      "value": "[parameters('apiManagementResourceName')]",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "Dimensions",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "LegendOptions",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "IsQueryContainTimeRange",
+                      "value": true,
+                      "isOptional": true
+                    }
+                  ],
+                  "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
+                  "settings": {
+                    "content": {
+                      "GridColumnsWidth": {
+                        "SelfServiceAPIName": "172px"
+                      },
+                      "Query": "//Most Popular APIs\nApiManagementGatewayLogs\n| where TimeGenerated > ago(1d)\n| where isnotempty(ApiId)\n| project\n    APIName = replace_string(replace_string(ApiId, '-v1', ''), '-v2', ''),\n    CorrelationId,\n    Operation = OperationId\n| summarize NumberOfCalls = count(CorrelationId) by APIName, Operation\n| order by NumberOfCalls desc\n\n",
+                      "ControlType": "FrameControlChart",
+                      "SpecificChart": "StackedColumn",
+                      "PartTitle": "Number of Calls by API",
+                      "PartSubTitle": "Displays the number of calls made to each API, helping identify the most and least used endpoints",
+                      "Dimensions": {
+                        "xAxis": {
+                          "name": "APIName",
+                          "type": "string"
+                        },
+                        "yAxis": [
+                          {
+                            "name": "NumberOfCalls",
+                            "type": "long"
+                          }
+                        ],
+                        "splitBy": [
+                          {
+                            "name": "Operation",
+                            "type": "string"
+                          }
+                        ],
+                        "aggregation": "Sum"
+                      },
+                      "LegendOptions": {
+                        "isEnabled": true,
+                        "position": "Bottom"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "position": {
+                  "x": 6,
+                  "y": 6,
+                  "colSpan": 6,
+                  "rowSpan": 4
+                },
+                "metadata": {
+                  "inputs": [
+                    {
+                      "name": "resourceTypeMode",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "ComponentId",
+                      "value": "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName'))]",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "Scope",
+                      "value": {
+                        "resourceIds": [
+                          "[resourceId('Microsoft.ApiManagement/service', parameters('apiManagementResourceName'))]"
+                        ]
+                      },
+                      "isOptional": true
+                    },
+                    {
+                      "name": "PartId",
+                      "value": "3f6a436b-5150-449c-b391-ba6760113483",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "Version",
+                      "value": "2.0",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "TimeRange",
+                      "value": "PT30M",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "DashboardId",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "DraftRequestParameters",
+                      "value": {
+                        "scope": "hierarchy"
+                      },
+                      "isOptional": true
+                    },
+                    {
+                      "name": "Query",
+                      "value": "//Most Popular APIs\nApiManagementGatewayLogs\n| where TimeGenerated > ago(1d)\n| where isnotempty(ApiId)\n| project\n    APIName = replace_string(replace_string(ApiId, '-v1', ''), '-v2', ''),\n    CorrelationId,\n    Region\n| summarize NumberOfCalls = count(CorrelationId) by APIName, Region\n| order by NumberOfCalls desc\n\n",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "ControlType",
+                      "value": "AnalyticsGrid",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "SpecificChart",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "PartTitle",
+                      "value": "Analytics",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "PartSubTitle",
+                      "value": "[parameters('apiManagementResourceName')]",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "Dimensions",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "LegendOptions",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "IsQueryContainTimeRange",
+                      "value": true,
+                      "isOptional": true
+                    }
+                  ],
+                  "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
+                  "settings": {
+                    "content": {
+                      "ControlType": "FrameControlChart",
+                      "SpecificChart": "StackedColumn",
+                      "PartTitle": "Number of API Calls by API by Region",
+                      "PartSubTitle": "Displays the number of calls made to each API, helping identify the most and least used endpoints by Region",
+                      "Dimensions": {
+                        "xAxis": {
+                          "name": "APIName",
+                          "type": "string"
+                        },
+                        "yAxis": [
+                          {
+                            "name": "NumberOfCalls",
+                            "type": "long"
+                          }
+                        ],
+                        "splitBy": [
+                          {
+                            "name": "Region",
+                            "type": "string"
+                          }
+                        ],
+                        "aggregation": "Sum"
+                      },
+                      "LegendOptions": {
+                        "isEnabled": true,
+                        "position": "Bottom"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "position": {
+                  "x": 0,
+                  "y": 10,
+                  "colSpan": 6,
+                  "rowSpan": 4
+                },
+                "metadata": {
+                  "inputs": [
+                    {
+                      "name": "resourceTypeMode",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "ComponentId",
+                      "value": "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName'))]",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "Scope",
+                      "value": {
+                        "resourceIds": [
+                          "[resourceId('Microsoft.ApiManagement/service', parameters('apiManagementResourceName'))]"
+                        ]
+                      },
+                      "isOptional": true
+                    },
+                    {
+                      "name": "PartId",
+                      "value": "12a1be35-63a5-46d3-ba1d-715b281e59c9",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "Version",
+                      "value": "2.0",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "TimeRange",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "DashboardId",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "DraftRequestParameters",
+                      "value": {
+                        "scope": "hierarchy"
+                      },
+                      "isOptional": true
+                    },
+                    {
+                      "name": "Query",
+                      "value": "//Unique API Consumers\nApiManagementGatewayLogs\n| where TimeGenerated > ago(1d)\n| where isnotempty(ApiId)\n| summarize NumberOfCalls = count(CorrelationId)\n    by\n    ClientIP = CallerIpAddress,\n    APIName = replace_string(replace_string(ApiId, '-v1', ''), '-v2', '')\n| order by NumberOfCalls desc, APIName\n",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "ControlType",
+                      "value": "AnalyticsGrid",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "SpecificChart",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "PartTitle",
+                      "value": "Analytics",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "PartSubTitle",
+                      "value": "[parameters('apiManagementResourceName')]",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "Dimensions",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "LegendOptions",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "IsQueryContainTimeRange",
+                      "value": true,
+                      "isOptional": true
+                    }
+                  ],
+                  "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
+                  "settings": {
+                    "content": {
+                      "PartTitle": "Number of API Calls by User",
+                      "PartSubTitle": "Displays the number of calls per API per user"
+                    }
+                  }
+                }
+              },
+              {
+                "position": {
+                  "x": 6,
+                  "y": 10,
+                  "colSpan": 6,
+                  "rowSpan": 4
+                },
+                "metadata": {
+                  "inputs": [
+                    {
+                      "name": "resourceTypeMode",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "ComponentId",
+                      "value": "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName'))]",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "Scope",
+                      "value": {
+                        "resourceIds": [
+                          "[resourceId('Microsoft.ApiManagement/service', parameters('apiManagementResourceName'))]"
+                        ]
+                      },
+                      "isOptional": true
+                    },
+                    {
+                      "name": "PartId",
+                      "value": "3eaf5098-28f1-47c6-b144-e6752c30d59c",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "Version",
+                      "value": "2.0",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "TimeRange",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "DashboardId",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "DraftRequestParameters",
+                      "value": {
+                        "scope": "hierarchy"
+                      },
+                      "isOptional": true
+                    },
+                    {
+                      "name": "Query",
+                      "value": "ApiManagementGatewayLogs\n| where TimeGenerated > ago(1h)  // Adjust time range as needed\n| project TimeGenerated, ResponseTime = todouble(TotalTime)\n| summarize AvgResponseTime = avg(ResponseTime) by bin(TimeGenerated, 5m)\n| order by TimeGenerated asc\n\n",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "ControlType",
+                      "value": "AnalyticsGrid",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "SpecificChart",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "PartTitle",
+                      "value": "Analytics",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "PartSubTitle",
+                      "value": "[parameters('apiManagementResourceName')]",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "Dimensions",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "LegendOptions",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "IsQueryContainTimeRange",
+                      "value": true,
+                      "isOptional": true
+                    }
+                  ],
+                  "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
+                  "settings": {
+                    "content": {
+                      "Query": "ApiManagementGatewayLogs\n| where isnotempty(ApiId)\n| project\n    APIName = replace_string(replace_string(ApiId, '-v1', ''), '-v2', ''),\n    ResponseTime = todouble(TotalTime)\n| summarize AvgResponseTime = avg(ResponseTime) by APIName\n| order by AvgResponseTime desc \n\n",
+                      "ControlType": "FrameControlChart",
+                      "SpecificChart": "StackedArea",
+                      "PartTitle": "API Performance Insights",
+                      "PartSubTitle": "View of API performance, highlighting response times in MilliSeconds",
+                      "Dimensions": {
+                        "xAxis": {
+                          "name": "APIName",
+                          "type": "string"
+                        },
+                        "yAxis": [
+                          {
+                            "name": "AvgResponseTime",
+                            "type": "real"
+                          }
+                        ],
+                        "splitBy": [],
+                        "aggregation": "Sum"
+                      },
+                      "LegendOptions": {
+                        "isEnabled": true,
+                        "position": "Bottom"
+                      },
+                      "IsQueryContainTimeRange": false
+                    }
+                  }
+                }
+              },
+              {
+                "position": {
+                  "x": 0,
+                  "y": 14,
+                  "colSpan": 12,
+                  "rowSpan": 4
+                },
+                "metadata": {
+                  "inputs": [
+                    {
+                      "name": "resourceTypeMode",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "ComponentId",
+                      "value": "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName'))]",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "Scope",
+                      "value": {
+                        "resourceIds": [
+                          "[resourceId('Microsoft.ApiManagement/service', parameters('apiManagementResourceName'))]"
+                        ]
+                      },
+                      "isOptional": true
+                    },
+                    {
+                      "name": "PartId",
+                      "value": "85193f79-64fe-4b52-869b-cc39711749e0",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "Version",
+                      "value": "2.0",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "TimeRange",
+                      "value": "PT1H",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "DashboardId",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "DraftRequestParameters",
+                      "value": {
+                        "scope": "hierarchy"
+                      },
+                      "isOptional": true
+                    },
+                    {
+                      "name": "Query",
+                      "value": "ApiManagementGatewayLogs\n|project APIName = replace_string(replace_string(ApiId, '-v1', ''), '-v2', ''),TimeGenerated\n|where isnotempty( APIName)\n| summarize LastCallTime = max(TimeGenerated) by APIName\n| join kind=inner (\n    ApiManagementGatewayLogs\n    | project TimeGenerated, \n    APIName = replace_string(replace_string(ApiId, '-v1', ''), '-v2', ''), ResponseCode, LastErrorReason\n) on APIName, $left.LastCallTime == $right.TimeGenerated\n| project APIName, LastCallTime, ResponseCode,LastErrorReason\n| order by LastCallTime desc\n",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "ControlType",
+                      "value": "AnalyticsGrid",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "SpecificChart",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "PartTitle",
+                      "value": "Analytics",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "PartSubTitle",
+                      "value": "[parameters('apiManagementResourceName')]",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "Dimensions",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "LegendOptions",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "IsQueryContainTimeRange",
+                      "value": false,
+                      "isOptional": true
+                    }
+                  ],
+                  "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
+                  "settings": {
+                    "content": {
+                      "GridColumnsWidth": {
+                        "LastErrorReason": "338px",
+                        "APIName": "305px",
+                        "LastCallTime": "232px"
+                      },
+                      "PartTitle": "Last API Call Status Overview",
+                      "PartSubTitle": "Displays the status of the most recent API call for each endpoint, including response codes and timestamps"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "metadata": {
+          "model": {
+            "timeRange": {
+              "value": {
+                "relative": {
+                  "duration": 24,
+                  "timeUnit": 1
+                }
+              },
+              "type": "MsPortalFx.Composition.Configuration.ValueTypes.TimeRange"
+            },
+            "filterLocale": {
+              "value": "en-us"
+            },
+            "filters": {
+              "value": {
+                "MsPortalFx_TimeRange": {
+                  "model": {
+                    "format": "utc",
+                    "granularity": "auto",
+                    "relative": "7d"
+                  },
+                  "displayCache": {
+                    "name": "UTC Time",
+                    "value": "Past 7 days"
+                  },
+                  "filteredPartIds": [
+                    "StartboardPart-LogsDashboardPart-01e05115-a58e-4276-9494-25eea3a53056",
+                    "StartboardPart-MonitorChartPart-01e05115-a58e-4276-9494-25eea3a5315d",
+                    "StartboardPart-LogsDashboardPart-c50631bb-7fc0-4688-a671-118c41dee053",
+                    "StartboardPart-LogsDashboardPart-c50631bb-7fc0-4688-a671-118c41dee0c9",
+                    "StartboardPart-LogsDashboardPart-8c9a1b54-0099-43f3-8eb8-19d3672eb083",
+                    "StartboardPart-LogsDashboardPart-4f1a5fe1-2af8-41c8-a5ca-fbc3ae19212f",
+                    "StartboardPart-LogsDashboardPart-4f1a5fe1-2af8-41c8-a5ca-fbc3ae1921bd"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "name": "[parameters('dashboardName')]",
+      "type": "Microsoft.Portal/dashboards",
+      "location": "[parameters('location')]",
+      "tags": {
+        "hidden-title": "[parameters('dashboardDisplayName')]"
+      },
+      "apiVersion": "2022-12-01-preview"
+    }
+  ]
+}
