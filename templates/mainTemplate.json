@@ -171,7 +171,7 @@
           "coreResourceGroup": {
             "value": "[parameters('dashboards')[copyIndex()].coreResourceGroup]"
           },
-          " apiManagementResourceName": {
+          "apiManagementResourceName": {
             "value": "[parameters('dashboards')[copyIndex()].apiManagementResourceName]"
           },
           "logAnalyticsWorkspaceName": {
