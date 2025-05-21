@@ -5,11 +5,11 @@
     "resourceGroups": {
       "value": [
         {
-          "name": "datacatalyst-demo-dev-core-test-rg",
+          "name": "datacatalyst-demo-dev-core-test-rg-25",
           "location": "uksouth"
         },
         {
-          "name": "datacatalyst-demo-dev-source-test-rg",
+          "name": "datacatalyst-demo-dev-source-test-rg-25",
           "location": "uksouth"
         }
       ]
@@ -17,38 +17,38 @@
     "storageAccounts": {
       "value": [
         {
-          "name": "datacatalystdemodevwhbpt",
-          "resourceGroup": "datacatalyst-demo-dev-source-test-rg",
+          "name": "datacatalystdemodevwhbpt25",
+          "resourceGroup": "datacatalyst-demo-dev-source-test-rg-25",
           "blobSoftDeleteRetentionDays": 7,
           "containerSoftDeleteRetentionDays": 7
         },
         {
-          "name": "datacatalystdevsrcsat",
-          "resourceGroup": "datacatalyst-demo-dev-source-test-rg",
+          "name": "datacatalystdevsrcsat25",
+          "resourceGroup": "datacatalyst-demo-dev-source-test-rg-25",
           "blobSoftDeleteRetentionDays": 7,
           "containerSoftDeleteRetentionDays": 7
         },
         {
-          "name": "datacatalystdemodevfmsat",
-          "resourceGroup": "datacatalyst-demo-dev-core-test-rg",
+          "name": "datacatalystdemodevfmsat25",
+          "resourceGroup": "datacatalyst-demo-dev-core-test-rg-25",
           "blobSoftDeleteRetentionDays": 7,
           "containerSoftDeleteRetentionDays": 7
         },
         {
-          "name": "datacatalystdemodevloct",
-          "resourceGroup": "datacatalyst-demo-dev-core-test-rg",
+          "name": "datacatalystdemodevloct25",
+          "resourceGroup": "datacatalyst-demo-dev-core-test-rg-25",
           "blobSoftDeleteRetentionDays": 7,
           "containerSoftDeleteRetentionDays": 7
         },
         {
-          "name": "datacatalystdemodevorgt",
-          "resourceGroup": "datacatalyst-demo-dev-core-test-rg",
+          "name": "datacatalystdemodevorgt25",
+          "resourceGroup": "datacatalyst-demo-dev-core-test-rg-25",
           "blobSoftDeleteRetentionDays": 7,
           "containerSoftDeleteRetentionDays": 7
         },
         {
-          "name": "datacatalystdevcoresat",
-          "resourceGroup": "datacatalyst-demo-dev-core-test-rg",
+          "name": "datacatalystdevcoresat25",
+          "resourceGroup": "datacatalyst-demo-dev-core-test-rg-25",
           "blobSoftDeleteRetentionDays": 7,
           "containerSoftDeleteRetentionDays": 7
         }
@@ -57,11 +57,11 @@
     "sqlServers": {
       "value": [
         {
-          "sqlServerName": "datacatalyst-demo-dev-src-test-sqlserver",
-          "resourceGroup": "datacatalyst-demo-dev-source-test-rg",
+          "sqlServerName": "datacatalyst-demo-dev-src-test-sqlserver-25",
+          "resourceGroup": "datacatalyst-demo-dev-source-test-rg-25",
           "administratorLogin": "datacatalystuser",
           "administratorLoginPassword": "devp@admin4+1",
-          "sqlDatabaseName": "datacatalyst-demo-dev-src-test-sqldb",
+          "sqlDatabaseName": "datacatalyst-demo-dev-src-test-sqldb-25",
           "databaseEdition": "GeneralPurpose",
           "requestedServiceObjectiveName": "GP_S_Gen5_1",
           "maxSizeBytes": 5368709120,
@@ -74,18 +74,18 @@
     "logAnalyticsWorkspaces": {
       "value": [
         {
-          "logAnalyticsWorkspaceName": "datacatalyst-demo-dev-core-test-lw-20250521",
-          "resourceGroup": "datacatalyst-demo-dev-core-test-rg"
+          "logAnalyticsWorkspaceName": "datacatalyst-demo-dev-core-test-lw-25",
+          "resourceGroup": "datacatalyst-demo-dev-core-test-rg-25"
         }
       ]
     },
     "containerApps": {
       "value": [
         {
-          "containerAppName": "datacatalyst-demo-source-test-ca",
-          "resourceGroup": "datacatalyst-demo-dev-source-test-rg",
+          "containerAppName": "datacatalyst-demo-source-test-ca-25",
+          "resourceGroup": "datacatalyst-demo-dev-source-test-rg-25",
           "location": "uksouth",
-          "environmentName": "datacatalyst-demo-source-test-env",
+          "environmentName": "datacatalyst-demo-source-test-env-25",
           "minReplicas": 1,
           "maxReplicas": 3,
           "databaseConnectionString": "DefaultPlaceholder",
@@ -98,98 +98,98 @@
       "value": [
         {
           "subscriptionId": "931b98ea-0e07-4d52-a37a-3b8fa4985688",
-          "name": "datacatalyst-demo-dev-core-test-fa",
+          "name": "datacatalyst-demo-dev-core-test-fa-25",
           "location": "uksouth",
           "storageBlobContainerName": "app-package-core-test-fa-f42f56f",
-          "storageAccountName": "datacatalystdemodevfmsat",
+          "storageAccountName": "datacatalystdemodevfmsat25",
           "sku": "FlexConsumption",
           "skuCode": "FC1",
           "workerSize": "0",
           "workerSizeId": "0",
           "numberOfWorkers": "1",
-          "hostingPlanName": "ASP-datacatalyst-demo-dev-core-test-fa-9912",
-          "serverFarmResourceGroup": "datacatalyst-demo-dev-core-test-rg",
+          "hostingPlanName": "ASP-datacatalyst-demo-dev-core-test-fa-9912-25",
+          "serverFarmResourceGroup": "datacatalyst-demo-dev-core-test-rg-25",
           "alwaysOn": false,
-          "logAnalyticsWorkspaceName": "datacatalyst-demo-dev-core-test-lw-20250521",
-          "logAnalyticsWorkspaceResourceGroup": "datacatalyst-demo-dev-core-test-rg"
+          "logAnalyticsWorkspaceName": "datacatalyst-demo-dev-core-test-lw-25",
+          "logAnalyticsWorkspaceResourceGroup": "datacatalyst-demo-dev-core-test-rg-25"
         },
         {
           "subscriptionId": "931b98ea-0e07-4d52-a37a-3b8fa4985688",
-          "name": "datacatalyst-dev-core-location-test-fa",
+          "name": "datacatalyst-dev-core-location-test-fa-25",
           "location": "uksouth",
           "storageBlobContainerName": "app-package-core-location-fa-f42f56f",
-          "storageAccountName": "datacatalystdemodevloct",
+          "storageAccountName": "datacatalystdemodevloct25",
           "sku": "FlexConsumption",
           "skuCode": "FC1",
           "workerSize": "0",
           "workerSizeId": "0",
           "numberOfWorkers": "1",
-          "hostingPlanName": "ASP-datacatalyst-dev-core-location-test-fa-9912",
-          "serverFarmResourceGroup": "datacatalyst-demo-dev-core-test-rg",
+          "hostingPlanName": "ASP-datacatalyst-dev-core-location-test-fa-9912-25",
+          "serverFarmResourceGroup": "datacatalyst-demo-dev-core-test-rg-25",
           "alwaysOn": false,
-          "logAnalyticsWorkspaceName": "datacatalyst-demo-dev-core-test-lw-20250521",
-          "logAnalyticsWorkspaceResourceGroup": "datacatalyst-demo-dev-core-test-rg"
+          "logAnalyticsWorkspaceName": "datacatalyst-demo-dev-core-test-lw-25",
+          "logAnalyticsWorkspaceResourceGroup": "datacatalyst-demo-dev-core-test-rg-25"
         },
         {
           "subscriptionId": "931b98ea-0e07-4d52-a37a-3b8fa4985688",
-          "name": "datacatalyst-dev-core-org-hierarchy-test-fa",
+          "name": "datacatalyst-dev-core-org-hierarchy-test-fa-25",
           "location": "uksouth",
           "storageBlobContainerName": "app-package-core-org-hierarchy-fa-f42f56f",
-          "storageAccountName": "datacatalystdemodevorgt",
+          "storageAccountName": "datacatalystdemodevorgt25",
           "sku": "FlexConsumption",
           "skuCode": "FC1",
           "workerSize": "0",
           "workerSizeId": "0",
           "numberOfWorkers": "1",
-          "hostingPlanName": "ASP-datacatalyst-dev-core-org-hierarchy-test-fa-9912",
-          "serverFarmResourceGroup": "datacatalyst-demo-dev-core-test-rg",
+          "hostingPlanName": "ASP-datacatalyst-dev-core-org-hierarchy-test-fa-9912-25",
+          "serverFarmResourceGroup": "datacatalyst-demo-dev-core-test-rg-25",
           "alwaysOn": false,
-          "logAnalyticsWorkspaceName": "datacatalyst-demo-dev-core-test-lw-20250521",
-          "logAnalyticsWorkspaceResourceGroup": "datacatalyst-demo-dev-core-test-rg"
+          "logAnalyticsWorkspaceName": "datacatalyst-demo-dev-core-test-lw-25",
+          "logAnalyticsWorkspaceResourceGroup": "datacatalyst-demo-dev-core-test-rg-25"
         },
         {
           "subscriptionId": "931b98ea-0e07-4d52-a37a-3b8fa4985688",
-          "name": "datacatalyst-demo-dev-Webhook-test-fa",
+          "name": "datacatalyst-demo-dev-Webhook-test-fa-25",
           "location": "uksouth",
           "storageBlobContainerName": "app-package-webhook-test-fa-f42f56f",
-          "storageAccountName": "datacatalystdemodevwhbpt",
+          "storageAccountName": "datacatalystdemodevwhbpt25",
           "sku": "FlexConsumption",
           "skuCode": "FC1",
           "workerSize": "0",
           "workerSizeId": "0",
           "numberOfWorkers": "1",
-          "hostingPlanName": "ASP-datacatalyst-demo-dev-Webhook-test-fa-9912",
-          "serverFarmResourceGroup": "datacatalyst-demo-dev-source-test-rg",
+          "hostingPlanName": "ASP-datacatalyst-demo-dev-Webhook-test-fa-9912-25",
+          "serverFarmResourceGroup": "datacatalyst-demo-dev-source-test-rg-25",
           "alwaysOn": false,
-          "logAnalyticsWorkspaceName": "datacatalyst-demo-dev-core-test-lw-20250521",
-          "logAnalyticsWorkspaceResourceGroup": "datacatalyst-demo-dev-core-test-rg"
+          "logAnalyticsWorkspaceName": "datacatalyst-demo-dev-core-test-lw-25",
+          "logAnalyticsWorkspaceResourceGroup": "datacatalyst-demo-dev-core-test-rg-25"
         }
       ]
     },
     "virtualNetworks": {
       "value": [
         {
-          "vnetName": "datacatalyst-demo-core-test-vnet",
+          "vnetName": "datacatalyst-demo-core-test-vnet-25",
           "location": "uksouth",
-          "resourceGroup": "datacatalyst-demo-dev-core-test-rg"
+          "resourceGroup": "datacatalyst-demo-dev-core-test-rg-25"
         },
         {
-          "vnetName": "datacatalyst-demo-source-test-vnet",
+          "vnetName": "datacatalyst-demo-source-test-vnet-25",
           "location": "uksouth",
-          "resourceGroup": "datacatalyst-demo-dev-source-test-rg"
+          "resourceGroup": "datacatalyst-demo-dev-source-test-rg-25"
         }
       ]
     },
     "apiManagementServices": {
       "value": [
         {
-          "apimServiceName": "datacatalyst-demo-dev-test-apim",
+          "apimServiceName": "datacatalyst-demo-dev-test-apim-25",
           "location": "uksouth",
           "publisherEmail": "parth.suyal@nowvertical.com",
           "publisherName": "NowVertical",
           "skuName": "Developer",
           "skuCapacity": 1,
-          "resourceGroup": "datacatalyst-demo-dev-core-test-rg"
+          "resourceGroup": "datacatalyst-demo-dev-core-test-rg-25"
         }
       ]
     },
@@ -197,13 +197,13 @@
       "value": [
         {
           "subscriptionReference": "931b98ea-0e07-4d52-a37a-3b8fa4985688",
-          "coreResourceGroup": "datacatalyst-demo-dev-core-test-rg",
-          "apiManagementResourceName": "datacatalyst-demo-dev-test-apim",
-          "logAnalyticsWorkspaceName": "datacatalyst-demo-dev-core-test-lw-20250521",
+          "coreResourceGroup": "datacatalyst-demo-dev-core-test-rg-25",
+          "apiManagementResourceName": "datacatalyst-demo-dev-test-apim-25",
+          "logAnalyticsWorkspaceName": "datacatalyst-demo-dev-core-test-lw-25",
           "dashboardDisplayName": "API Tracker",
-          "dashboardName": "API Tracker",
+          "dashboardName": "API-Tracker-25",
           "location": "uksouth",
-          "resourceGroup": "datacatalyst-demo-dev-core-test-rg"
+          "resourceGroup": "datacatalyst-demo-dev-core-test-rg-25"
         }
       ]
     }
