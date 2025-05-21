@@ -1,0 +1,134 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "workflows_datacatalyst_demo_core_la_name": {
+      "type": "String"
+    },
+    "connections_office365_externalid": {
+      "type": "String"
+    }
+  },
+  "variables": {},
+  "resources": [
+    {
+      "type": "Microsoft.Logic/workflows",
+      "apiVersion": "2017-07-01",
+      "name": "[parameters('workflows_datacatalyst_demo_core_la_name')]",
+      "location": "uksouth",
+      "tags": {
+        "Application": "datacatalyst-demo",
+        "Client": "nowvertical",
+        "CostCenter": "123cc",
+        "DataSensitivity": "internal",
+        "Environment": "dev",
+        "Lifecycle": "active",
+        "ManagedBy": "nowvertical",
+        "Project": "datacatalyst",
+        "Region": "uksouth",
+        "Solution": "data-integration",
+        "Tier": "core",
+        "Master_tag": "Technology:DataCatalyst:SMALLAYA:KKNOPP:LA:N"
+      },
+      "properties": {
+        "state": "Enabled",
+        "definition": {
+          "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+          "contentVersion": "1.0.0.0",
+          "parameters": {
+            "$connections": {
+              "defaultValue": {},
+              "type": "Object"
+            }
+          },
+          "triggers": {
+            "When_a_HTTP_request_is_received": {
+              "type": "Request",
+              "kind": "Http",
+              "inputs": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "recepients": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "content": {
+                      "type": "string"
+                    },
+                    "subject": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "actions": {
+            "Parse_JSON": {
+              "runAfter": {},
+              "type": "ParseJson",
+              "inputs": {
+                "content": "@triggerBody()",
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "recepients": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "content": {
+                      "type": "string"
+                    },
+                    "subject": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "Send_Notification": {
+              "runAfter": {
+                "Parse_JSON": [
+                  "Succeeded"
+                ]
+              },
+              "type": "ApiConnection",
+              "inputs": {
+                "host": {
+                  "connection": {
+                    "name": "@parameters('$connections')['office365']['connectionId']"
+                  }
+                },
+                "method": "post",
+                "body": {
+                  "To": "@join(triggerBody()['recepients'], ';')",
+                  "Subject": "@body('Parse_JSON')?['subject']",
+                  "Body": "<p class=\"editor-paragraph\">@{body('Parse_JSON')?['content']}</p>",
+                  "Importance": "Normal"
+                },
+                "path": "/v2/Mail"
+              }
+            }
+          },
+          "outputs": {}
+        },
+        "parameters": {
+          "$connections": {
+            "value": {
+              "office365": {
+                "id": "/subscriptions/931b98ea-0e07-4d52-a37a-3b8fa4985688/providers/Microsoft.Web/locations/uksouth/managedApis/office365",
+                "connectionId": "[parameters('connections_office365_externalid')]",
+                "connectionName": "office365"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
