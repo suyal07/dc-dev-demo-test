@@ -148,7 +148,7 @@
     {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2021-04-01",
-      "name": "[concat('dashboardDeployment-', parameters('dashboards')[copyIndex()].dashboardName)]",
+      "name": "[concat('dashboardDeployment-', replace(parameters('dashboards')[copyIndex()].dashboardName, ' ', '-'))]",
       "resourceGroup": "[parameters('dashboards')[copyIndex()].resourceGroup]",
       "dependsOn": [
         "[resourceId('Microsoft.Resources/resourceGroups', parameters('dashboards')[copyIndex()].resourceGroup)]",
