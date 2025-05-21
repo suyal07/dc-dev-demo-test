@@ -165,6 +165,20 @@
           "logAnalyticsWorkspaceResourceGroup": "datacatalyst-demo-dev-core-test-rg"
         }
       ]
+    },
+    "virtualNetworks": {
+      "value": [
+        {
+          "vnetName": "datacatalyst-demo-core-test-vnet",
+          "location": "uksouth",
+          "resourceGroup": "datacatalyst-demo-dev-core-test-rg"
+        },
+        {
+          "vnetName": "datacatalyst-demo-source-test-vnet",
+          "location": "uksouth",
+          "resourceGroup": "datacatalyst-demo-dev-source-test-rg"
+        }
+      ]
     }
   }
 }
