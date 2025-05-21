@@ -299,7 +299,7 @@
             "value": "[parameters('functionApps')[copyIndex()].serverFarmResourceGroup]"
           },
           "alwaysOn": {
-            "value": "[parameters('functionApps')[copyIndex()].alwaysaresOn]"
+            "value": "[parameters('functionApps')[copyIndex()].alwaysOn]"
           },
           "logAnalyticsWorkspaceName": {
             "value": "[parameters('functionApps')[copyIndex()].logAnalyticsWorkspaceName]"
