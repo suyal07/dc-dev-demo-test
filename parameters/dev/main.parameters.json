@@ -74,7 +74,7 @@
     "logAnalyticsWorkspaces": {
       "value": [
         {
-          "logAnalyticsWorkspaceName": "datacatalyst-demo-dev-core-test-lw",
+          "logAnalyticsWorkspaceName": "datacatalyst-demo-dev-core-test-lw-20250521",
           "resourceGroup": "datacatalyst-demo-dev-core-test-rg"
         }
       ]
@@ -110,7 +110,7 @@
           "hostingPlanName": "ASP-datacatalyst-demo-dev-core-test-fa-9912",
           "serverFarmResourceGroup": "datacatalyst-demo-dev-core-test-rg",
           "alwaysOn": false,
-          "logAnalyticsWorkspaceName": "datacatalyst-demo-dev-core-test-lw",
+          "logAnalyticsWorkspaceName": "datacatalyst-demo-dev-core-test-lw-20250521",
           "logAnalyticsWorkspaceResourceGroup": "datacatalyst-demo-dev-core-test-rg"
         },
         {
@@ -127,7 +127,7 @@
           "hostingPlanName": "ASP-datacatalyst-dev-core-location-test-fa-9912",
           "serverFarmResourceGroup": "datacatalyst-demo-dev-core-test-rg",
           "alwaysOn": false,
-          "logAnalyticsWorkspaceName": "datacatalyst-demo-dev-core-test-lw",
+          "logAnalyticsWorkspaceName": "datacatalyst-demo-dev-core-test-lw-20250521",
           "logAnalyticsWorkspaceResourceGroup": "datacatalyst-demo-dev-core-test-rg"
         },
         {
@@ -144,7 +144,7 @@
           "hostingPlanName": "ASP-datacatalyst-dev-core-org-hierarchy-test-fa-9912",
           "serverFarmResourceGroup": "datacatalyst-demo-dev-core-test-rg",
           "alwaysOn": false,
-          "logAnalyticsWorkspaceName": "datacatalyst-demo-dev-core-test-lw",
+          "logAnalyticsWorkspaceName": "datacatalyst-demo-dev-core-test-lw-20250521",
           "logAnalyticsWorkspaceResourceGroup": "datacatalyst-demo-dev-core-test-rg"
         },
         {
@@ -161,7 +161,7 @@
           "hostingPlanName": "ASP-datacatalyst-demo-dev-Webhook-test-fa-9912",
           "serverFarmResourceGroup": "datacatalyst-demo-dev-source-test-rg",
           "alwaysOn": false,
-          "logAnalyticsWorkspaceName": "datacatalyst-demo-dev-core-test-lw",
+          "logAnalyticsWorkspaceName": "datacatalyst-demo-dev-core-test-lw-20250521",
           "logAnalyticsWorkspaceResourceGroup": "datacatalyst-demo-dev-core-test-rg"
         }
       ]
@@ -199,7 +199,7 @@
           "subscriptionReference": "931b98ea-0e07-4d52-a37a-3b8fa4985688",
           "coreResourceGroup": "datacatalyst-demo-dev-core-test-rg",
           "apiManagementResourceName": "datacatalyst-demo-dev-test-apim",
-          "logAnalyticsWorkspaceName": "datacatalyst-demo-dev-core-test-lw",
+          "logAnalyticsWorkspaceName": "datacatalyst-demo-dev-core-test-lw-20250521",
           "dashboardDisplayName": "API Tracker",
           "dashboardName": "API Tracker",
           "location": "uksouth",
