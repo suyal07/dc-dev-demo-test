@@ -66,6 +66,12 @@
       "metadata": {
         "description": "Backup storage redundancy (LRS = Locally Redundant, ZRS = Zone-Redundant, GRS = Geo-Redundant)"
       }
+    },
+    "location": {
+      "type": "string",
+      "metadata": {
+        "description": "Location of the SQL server"
+      }
     }
   },
   "resources": [
@@ -73,7 +79,7 @@
       "type": "Microsoft.Sql/servers",
       "apiVersion": "2023-08-01-preview",
       "name": "[parameters('sqlServerName')]",
-      "location": "[resourceGroup().location]",
+      "location": "[parameters('location')]",
       "properties": {
         "administratorLogin": "[parameters('administratorLogin')]",
         "administratorLoginPassword": "[parameters('administratorLoginPassword')]",
@@ -85,7 +91,7 @@
       "type": "Microsoft.Sql/servers/firewallRules",
       "apiVersion": "2023-08-01-preview",
       "name": "[concat(parameters('sqlServerName'), '/AllowAzureServices')]",
-      "location": "[resourceGroup().location]",
+      "location": "[parameters('location')]",
       "dependsOn": [
         "[resourceId('Microsoft.Sql/servers', parameters('sqlServerName'))]"
       ],
@@ -98,7 +104,7 @@
       "type": "Microsoft.Sql/servers/databases",
       "apiVersion": "2023-08-01-preview",
       "name": "[format('{0}/{1}', parameters('sqlServerName'), parameters('sqlDatabaseName'))]",
-      "location": "[resourceGroup().location]",
+      "location": "[parameters('location')]",
       "dependsOn": [
         "[resourceId('Microsoft.Sql/servers', parameters('sqlServerName'))]"
       ],

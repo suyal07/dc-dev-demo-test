@@ -27,6 +27,12 @@
       "metadata": {
         "description": "Number of days to retain soft-deleted containers (1-365)"
       }
+    },
+    "location": {
+      "type": "string",
+      "metadata": {
+        "description": "Location of the storage account"
+      }
     }
   },
   "resources": [
@@ -34,7 +40,7 @@
       "type": "Microsoft.Storage/storageAccounts",
       "apiVersion": "2023-01-01",
       "name": "[parameters('storageAccountName')]",
-      "location": "[resourceGroup().location]",
+      "location": "[parameters('location')]",
       "sku": {
         "name": "Standard_LRS"
       },
