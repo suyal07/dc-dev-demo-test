@@ -108,11 +108,8 @@
           "uri": "[concat(variables('githubIndependentUrl'), 'storageAccount.json')]"
         },
         "parameters": {
-          "name": {
+          "storageAccountName": {
             "value": "[parameters('storageAccounts')[copyIndex()].name]"
-          },
-          "resourceGroup": {
-            "value": "[parameters('storageAccounts')[copyIndex()].resourceGroup]"
           },
           "blobSoftDeleteRetentionDays": {
             "value": "[parameters('storageAccounts')[copyIndex()].blobSoftDeleteRetentionDays]"
@@ -143,9 +140,6 @@
         "parameters": {
           "sqlServerName": {
             "value": "[parameters('sqlServers')[copyIndex()].sqlServerName]"
-          },
-          "resourceGroup": {
-            "value": "[parameters('sqlServers')[copyIndex()].resourceGroup]"
           },
           "administratorLogin": {
             "value": "[parameters('sqlServers')[copyIndex()].administratorLogin]"
@@ -197,9 +191,6 @@
         "parameters": {
           "logAnalyticsWorkspaceName": {
             "value": "[parameters('logAnalyticsWorkspaces')[copyIndex()].logAnalyticsWorkspaceName]"
-          },
-          "resourceGroup": {
-            "value": "[parameters('logAnalyticsWorkspaces')[copyIndex()].resourceGroup]"
           }
         }
       }
@@ -224,9 +215,6 @@
         "parameters": {
           "containerAppName": {
             "value": "[parameters('containerApps')[copyIndex()].containerAppName]"
-          },
-          "resourceGroup": {
-            "value": "[parameters('containerApps')[copyIndex()].resourceGroup]"
           },
           "location": {
             "value": "[parameters('containerApps')[copyIndex()].location]"
