@@ -240,6 +240,16 @@
           "recipientEmailAddresses": "abc.xyz@company.com;pqr.hij@company.com;mno.lbb@company.com"
         }
       ]
+    },
+    "actionGroups": {
+      "value": [
+        {
+          "actionGroupName": "datacatalyst-demo-dev-core-alert-action-group",
+          "actionGroupShortName": "dcAlertAg",
+          "logicAppResourceId": "/subscriptions/931b98ea-0e07-4d52-a37a-3b8fa4985688/resourceGroups/datacatalyst-demo-dev-core-test-rg/providers/Microsoft.Logic/workflows/datacatalyst-demo-dev-core-alerts-la",
+          "logicAppCallbackUrl": "https://prod-14.uksouth.logic.azure.com:443/workflows/35f85d3f838c4f5296e7add23837dfd8/triggers/When_a_HTTP_request_is_received/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2FWhen_a_HTTP_request_is_received%2Frun&sv=1.0&sig=bUjEKlwbFCoI51LxUgwQil0a_XupAHJWLBL17af9k9c"
+        }
+      ]
     }
   }
 }

@@ -61,6 +61,12 @@
       "metadata": {
         "description": "List of Logic Apps to deploy"
       }
+    },
+    "actionGroups": {
+      "type": "array",
+      "metadata": {
+        "description": "List of Action Groups to deploy"
+      }
     }
   },
   "variables": {
@@ -501,6 +507,40 @@
           },
           "recipientEmailAddresses": {
             "value": "[parameters('logicApps')[1].recipientEmailAddresses]"
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2022-09-01",
+      "name": "[concat('actionGroup-', copyIndex())]",
+      "copy": {
+        "name": "actionGroupCopy",
+        "count": "[length(parameters('actionGroups'))]"
+      },
+      "dependsOn": [
+        "resourceGroupCopy",
+        "logicAppCopy",
+        "alertsLogicAppCopy"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(variables('githubBaseUrl'), 'actionGroupApim.json')]"
+        },
+        "parameters": {
+          "actionGroupName": {
+            "value": "[parameters('actionGroups')[copyIndex()].actionGroupName]"
+          },
+          "actionGroupShortName": {
+            "value": "[parameters('actionGroups')[copyIndex()].actionGroupShortName]"
+          },
+          "logicAppResourceId": {
+            "value": "[parameters('actionGroups')[copyIndex()].logicAppResourceId]"
+          },
+          "logicAppCallbackUrl": {
+            "value": "[parameters('actionGroups')[copyIndex()].logicAppCallbackUrl]"
           }
         }
       }

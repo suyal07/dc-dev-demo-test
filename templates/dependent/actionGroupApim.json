@@ -1,0 +1,75 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "actionGroupName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the alert action group"
+      }
+    },
+    "actionGroupShortName": {
+      "type": "string",
+      "metadata": {
+        "description": "Short Name of the alert action group"
+      }
+    },
+    "logicAppResourceId": {
+      "type": "string",
+      "metadata": {
+        "description": "Resource Id of the Logic App"
+      }
+    },
+    "logicAppCallbackUrl": {
+      "type": "string",
+      "metadata": {
+        "description": "Callback URL of the Logic App trigger"
+      }
+    }
+  },
+  "variables": {},
+  "resources": [
+    {
+      "type": "Microsoft.Insights/actionGroups",
+      "apiVersion": "2024-10-01-preview",
+      "name": "[parameters('actionGroupName')]",
+      "location": "Global",
+      "tags": {
+        "Application": "datacatalyst-demo",
+        "Client": "nowvertical",
+        "CostCenter": "123cc",
+        "DataSensitivity": "internal",
+        "Environment": "dev",
+        "Lifecycle": "active",
+        "ManagedBy": "nowvertical",
+        "Master_tag": "Technology:DataCatalyst:SMALLAYA:KKNOPP:AG:N",
+        "Project": "datacatalyst",
+        "Region": "uksouth",
+        "Solution": "data-integration",
+        "Tier": "core"
+      },
+      "properties": {
+        "groupShortName": "[parameters('actionGroupShortName')]",
+        "enabled": true,
+        "emailReceivers": [],
+        "smsReceivers": [],
+        "webhookReceivers": [],
+        "eventHubReceivers": [],
+        "itsmReceivers": [],
+        "azureAppPushReceivers": [],
+        "automationRunbookReceivers": [],
+        "voiceReceivers": [],
+        "logicAppReceivers": [
+          {
+            "name": "emailalert",
+            "resourceId": "[parameters('logicAppResourceId')]",
+            "callbackUrl": "[parameters('logicAppCallbackUrl')]",
+            "useCommonAlertSchema": true
+          }
+        ],
+        "azureFunctionReceivers": [],
+        "armRoleReceivers": []
+      }
+    }
+  ]
+}

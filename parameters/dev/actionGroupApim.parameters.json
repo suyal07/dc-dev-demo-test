@@ -1,0 +1,18 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "actionGroupName": {
+      "value": "datacatalyst-demo-dev-core-alert-action-group"
+    },
+    "actionGroupShortName": {
+      "value": "dcAlertAg"
+    },
+    "logicAppResourceId": {
+      "value": "/subscriptions/931b98ea-0e07-4d52-a37a-3b8fa4985688/resourceGroups/datacatalyst-demo-dev-core-test-rg-25/providers/Microsoft.Logic/workflows/datacatalyst-demo-dev-core-alerts-la"
+    },
+    "logicAppCallbackUrl": {
+      "value": "https://prod-14.uksouth.logic.azure.com:443/workflows/35f85d3f838c4f5296e7add23837dfd8/triggers/When_a_HTTP_request_is_received/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2FWhen_a_HTTP_request_is_received%2Frun&sv=1.0&sig=bUjEKlwbFCoI51LxUgwQil0a_XupAHJWLBL17af9k9c"
+    }
+  }
+}
