@@ -116,6 +116,9 @@
           },
           "containerSoftDeleteRetentionDays": {
             "value": "[parameters('storageAccounts')[copyIndex()].containerSoftDeleteRetentionDays]"
+          },
+          "location": {
+            "value": "[parameters('storageAccounts')[copyIndex()].location]"
           }
         }
       }
@@ -167,8 +170,10 @@
           },
           "backupStorageRedundancy": {
             "value": "[parameters('sqlServers')[copyIndex()].backupStorageRedundancy]"
+          },
+          "location": {
+          "value": "[parameters('sqlServers')[copyIndex()].location]"
           }
-        }
       }
     },
     {
