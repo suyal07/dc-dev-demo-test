@@ -17,7 +17,7 @@
     "storageAccounts": {
       "value": [
         {
-          "name": "datacatalystdemodevwhbpt",
+          "name": "datacatalystdevwhbpt",
           "resourceGroup": "datacatalyst-demo-dev-source-test-rg",
           "blobSoftDeleteRetentionDays": 7,
           "containerSoftDeleteRetentionDays": 7
@@ -29,19 +29,19 @@
           "containerSoftDeleteRetentionDays": 7
         },
         {
-          "name": "datacatalystdemodevfmsat",
+          "name": "datacatalystdevfmsat",
           "resourceGroup": "datacatalyst-demo-dev-core-test-rg",
           "blobSoftDeleteRetentionDays": 7,
           "containerSoftDeleteRetentionDays": 7
         },
         {
-          "name": "datacatalystdemodevloct",
+          "name": "datacatalystdevloct",
           "resourceGroup": "datacatalyst-demo-dev-core-test-rg",
           "blobSoftDeleteRetentionDays": 7,
           "containerSoftDeleteRetentionDays": 7
         },
         {
-          "name": "datacatalystdemodevorgt",
+          "name": "datacatalystdevorgt",
           "resourceGroup": "datacatalyst-demo-dev-core-test-rg",
           "blobSoftDeleteRetentionDays": 7,
           "containerSoftDeleteRetentionDays": 7
@@ -101,7 +101,7 @@
           "name": "datacatalyst-demo-dev-core-test-fa",
           "location": "uksouth",
           "storageBlobContainerName": "app-package-core-test-fa-f42f56f",
-          "storageAccountName": "datacatalystdemodevfmsat",
+          "storageAccountName": "datacatalystdevfmsat",
           "sku": "FlexConsumption",
           "skuCode": "FC1",
           "workerSize": "0",
@@ -118,7 +118,7 @@
           "name": "datacatalyst-dev-core-location-test-fa",
           "location": "uksouth",
           "storageBlobContainerName": "app-package-core-location-fa-f42f56f",
-          "storageAccountName": "datacatalystdemodevloct",
+          "storageAccountName": "datacatalystdevloct",
           "sku": "FlexConsumption",
           "skuCode": "FC1",
           "workerSize": "0",
@@ -135,7 +135,7 @@
           "name": "datacatalyst-dev-core-org-hierarchy-test-fa",
           "location": "uksouth",
           "storageBlobContainerName": "app-package-core-org-hierarchy-fa-f42f56f",
-          "storageAccountName": "datacatalystdemodevorgt",
+          "storageAccountName": "datacatalystdevorgt",
           "sku": "FlexConsumption",
           "skuCode": "FC1",
           "workerSize": "0",
@@ -152,7 +152,7 @@
           "name": "datacatalyst-demo-dev-Webhook-test-fa",
           "location": "uksouth",
           "storageBlobContainerName": "app-package-webhook-test-fa-f42f56f",
-          "storageAccountName": "datacatalystdemodevwhbpt",
+          "storageAccountName": "datacatalystdevwhbpt",
           "sku": "FlexConsumption",
           "skuCode": "FC1",
           "workerSize": "0",
