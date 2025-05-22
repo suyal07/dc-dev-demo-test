@@ -109,7 +109,7 @@
         },
         "parameters": {
           "storageAccountName": {
-            "value": "[parameters('storageAccounts')[copyIndex()].name]"
+            "value": "[concat(parameters('storageAccounts')[copyIndex()].name, '-', parameters('storageAccounts')[copyIndex()].resourceGroup)]"
           },
           "blobSoftDeleteRetentionDays": {
             "value": "[parameters('storageAccounts')[copyIndex()].blobSoftDeleteRetentionDays]"
@@ -139,7 +139,7 @@
         },
         "parameters": {
           "sqlServerName": {
-            "value": "[parameters('sqlServers')[copyIndex()].sqlServerName]"
+            "value": "[concat(parameters('sqlServers')[copyIndex()].sqlServerName, '-', parameters('sqlServers')[copyIndex()].resourceGroup)]"
           },
           "administratorLogin": {
             "value": "[parameters('sqlServers')[copyIndex()].administratorLogin]"
