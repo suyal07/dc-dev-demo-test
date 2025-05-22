@@ -70,7 +70,6 @@
     }
   },
   "variables": {
-    "githubRootUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/",
     "githubDependentUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/dependent/",
     "githubIndependentUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/",
     "resourceGroupLocations": {
@@ -80,27 +79,13 @@
   },
   "resources": [
     {
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2022-09-01",
-      "name": "[concat('resourceGroup-', copyIndex())]",
+      "type": "Microsoft.Resources/resourceGroups",
+      "apiVersion": "2021-04-01",
+      "name": "[parameters('resourceGroups')[copyIndex()].name]",
+      "location": "[parameters('resourceGroups')[copyIndex()].location]",
       "copy": {
         "name": "resourceGroupCopy",
         "count": "[length(parameters('resourceGroups'))]"
-      },
-      "location": "[parameters('resourceGroups')[copyIndex()].location]",
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[concat(variables('githubRootUrl'), 'resourceGroup.json')]"
-        },
-        "parameters": {
-          "name": {
-            "value": "[parameters('resourceGroups')[copyIndex()].name]"
-          },
-          "location": {
-            "value": "[parameters('resourceGroups')[copyIndex()].location]"
-          }
-        }
       }
     },
     {
@@ -112,13 +97,13 @@
         "count": "[length(parameters('storageAccounts'))]"
       },
       "dependsOn": [
-        "resourceGroupCopy"
+        "[concat('Microsoft.Resources/resourceGroups/', parameters('storageAccounts')[copyIndex()].resourceGroup)]"
       ],
       "location": "[variables('resourceGroupLocations')[parameters('storageAccounts')[copyIndex()].resourceGroup]]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[concat(variables('githubRootUrl'), 'storageAccount.json')]"
+          "uri": "[concat(variables('githubDependentUrl'), 'storageAccount.json')]"
         },
         "parameters": {
           "name": {
@@ -145,13 +130,13 @@
         "count": "[length(parameters('sqlServers'))]"
       },
       "dependsOn": [
-        "resourceGroupCopy"
+        "[concat('Microsoft.Resources/resourceGroups/', parameters('sqlServers')[copyIndex()].resourceGroup)]"
       ],
       "location": "[variables('resourceGroupLocations')[parameters('sqlServers')[copyIndex()].resourceGroup]]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[concat(variables('githubRootUrl'), 'sqlServer.json')]"
+          "uri": "[concat(variables('githubDependentUrl'), 'sqlServer.json')]"
         },
         "parameters": {
           "sqlServerName": {
@@ -199,13 +184,13 @@
         "count": "[length(parameters('logAnalyticsWorkspaces'))]"
       },
       "dependsOn": [
-        "resourceGroupCopy"
+        "[concat('Microsoft.Resources/resourceGroups/', parameters('logAnalyticsWorkspaces')[copyIndex()].resourceGroup)]"
       ],
       "location": "[variables('resourceGroupLocations')[parameters('logAnalyticsWorkspaces')[copyIndex()].resourceGroup]]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[concat(variables('githubRootUrl'), 'logAnalyticsWorkspace.json')]"
+          "uri": "[concat(variables('githubDependentUrl'), 'logAnalyticsWorkspace.json')]"
         },
         "parameters": {
           "logAnalyticsWorkspaceName": {
@@ -226,13 +211,13 @@
         "count": "[length(parameters('containerApps'))]"
       },
       "dependsOn": [
-        "resourceGroupCopy"
+        "[concat('Microsoft.Resources/resourceGroups/', parameters('containerApps')[copyIndex()].resourceGroup)]"
       ],
       "location": "[variables('resourceGroupLocations')[parameters('containerApps')[copyIndex()].resourceGroup]]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[concat(variables('githubRootUrl'), 'containerApp.json')]"
+          "uri": "[concat(variables('githubDependentUrl'), 'containerApp.json')]"
         },
         "parameters": {
           "containerAppName": {
@@ -274,7 +259,7 @@
         "count": "[length(parameters('functionApps'))]"
       },
       "dependsOn": [
-        "resourceGroupCopy",
+        "[concat('Microsoft.Resources/resourceGroups/', parameters('functionApps')[copyIndex()].serverFarmResourceGroup)]",
         "storageAccountCopy",
         "logAnalyticsWorkspaceCopy"
       ],
@@ -282,7 +267,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[concat(variables('githubRootUrl'), 'functionApp.json')]"
+          "uri": "[concat(variables('githubDependentUrl'), 'functionApp.json')]"
         },
         "parameters": {
           "subscriptionId": {
@@ -342,13 +327,13 @@
         "count": "[length(parameters('virtualNetworks'))]"
       },
       "dependsOn": [
-        "resourceGroupCopy"
+        "[concat('Microsoft.Resources/resourceGroups/', parameters('virtualNetworks')[copyIndex()].resourceGroup)]"
       ],
       "location": "[variables('resourceGroupLocations')[parameters('virtualNetworks')[copyIndex()].resourceGroup]]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[concat(variables('githubRootUrl'), 'virtualNetwork.json')]"
+          "uri": "[concat(variables('githubDependentUrl'), 'virtualNetwork.json')]"
         },
         "parameters": {
           "vnetName": {
@@ -372,13 +357,13 @@
         "count": "[length(parameters('apiManagementServices'))]"
       },
       "dependsOn": [
-        "resourceGroupCopy"
+        "[concat('Microsoft.Resources/resourceGroups/', parameters('apiManagementServices')[copyIndex()].resourceGroup)]"
       ],
       "location": "[variables('resourceGroupLocations')[parameters('apiManagementServices')[copyIndex()].resourceGroup]]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[concat(variables('githubRootUrl'), 'apiManagementService.json')]"
+          "uri": "[concat(variables('githubDependentUrl'), 'apiManagementService.json')]"
         },
         "parameters": {
           "apimServiceName": {
@@ -414,7 +399,7 @@
         "count": "[length(parameters('dashboards'))]"
       },
       "dependsOn": [
-        "resourceGroupCopy",
+        "[concat('Microsoft.Resources/resourceGroups/', parameters('dashboards')[copyIndex()].resourceGroup)]",
         "logAnalyticsWorkspaceCopy",
         "apiManagementServiceCopy"
       ],
@@ -422,7 +407,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'API Tracker'), concat(variables('githubRootUrl'), 'dashboard.json'), concat(variables('githubRootUrl'), 'platformCostInsightsDashboard.json'))]"
+          "uri": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'API Tracker'), concat(variables('githubDependentUrl'), 'dashboard.json'), concat(variables('githubDependentUrl'), 'platformCostInsightsDashboard.json'))]"
         },
         "parameters": {
           "subscriptionReference": {
@@ -471,7 +456,7 @@
         "count": 1
       },
       "dependsOn": [
-        "resourceGroupCopy"
+        "[concat('Microsoft.Resources/resourceGroups/', split(parameters('logicApps')[0].connections_office365_externalid, '/')[4])]"
       ],
       "location": "[parameters('logicApps')[0].resourceLocation]",
       "properties": {
@@ -505,7 +490,7 @@
         "count": 1
       },
       "dependsOn": [
-        "resourceGroupCopy",
+        "[concat('Microsoft.Resources/resourceGroups/', split(parameters('logicApps')[1].office365ConnectionExternalId, '/')[4])]",
         "logicAppCopy"
       ],
       "location": "[variables('resourceGroupLocations')[split(parameters('logicApps')[1].office365ConnectionExternalId, '/')[4]]]",
@@ -536,7 +521,7 @@
         "count": "[length(parameters('actionGroups'))]"
       },
       "dependsOn": [
-        "resourceGroupCopy",
+        "[concat('Microsoft.Resources/resourceGroups/', split(parameters('actionGroups')[copyIndex()].logicAppResourceId, '/')[4])]",
         "logicAppCopy",
         "alertsLogicAppCopy"
       ],
