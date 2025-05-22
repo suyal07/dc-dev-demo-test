@@ -1,0 +1,15 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "logicAppName": {
+      "value": "datacatalyst-demo-dev-core-alerts-la"
+    },
+    "office365ConnectionExternalId": {
+      "value": "/subscriptions/931b98ea-0e07-4d52-a37a-3b8fa4985688/resourceGroups/datacatalyst-demo-dev-core-test-rg-25/providers/Microsoft.Web/connections/office365"
+    },
+    "recipientEmailAddresses": {
+      "value": "abc.xyz@company.com;pqr.hij@company.com;mno.lbb@company.com"
+    }
+  }
+}

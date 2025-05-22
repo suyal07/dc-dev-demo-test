@@ -444,10 +444,11 @@
     {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
-      "name": "[concat('logicApp-', copyIndex())]",
+      "name": "[if(equals(copyIndex(), 0), concat('logicApp-', copyIndex()), '')]",
+      "condition": "[equals(copyIndex(), 0)]",
       "copy": {
         "name": "logicAppCopy",
-        "count": "[length(parameters('logicApps'))]"
+        "count": 1
       },
       "dependsOn": [
         "resourceGroupCopy"
@@ -459,16 +460,47 @@
         },
         "parameters": {
           "workflows_datacatalyst_demo_core_la_name": {
-            "value": "[parameters('logicApps')[copyIndex()].workflows_datacatalyst_demo_core_la_name]"
+            "value": "[parameters('logicApps')[0].workflows_datacatalyst_demo_core_la_name]"
           },
           "connections_office365_externalid": {
-            "value": "[parameters('logicApps')[copyIndex()].connections_office365_externalid]"
+            "value": "[parameters('logicApps')[0].connections_office365_externalid]"
           },
           "subscriptionId": {
-            "value": "[parameters('logicApps')[copyIndex()].subscriptionId]"
+            "value": "[parameters('logicApps')[0].subscriptionId]"
           },
           "resourceLocation": {
-            "value": "[parameters('logicApps')[copyIndex()].resourceLocation]"
+            "value": "[parameters('logicApps')[0].resourceLocation]"
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2022-09-01",
+      "name": "[if(equals(copyIndex(), 1), concat('alertsLogicApp-', copyIndex()), '')]",
+      "condition": "[equals(copyIndex(), 1)]",
+      "copy": {
+        "name": "alertsLogicAppCopy",
+        "count": 1
+      },
+      "dependsOn": [
+        "resourceGroupCopy",
+        "logicAppCopy"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(variables('githubIndependentUrl'), 'alertsLogicApp.json')]"
+        },
+        "parameters": {
+          "logicAppName": {
+            "value": "[parameters('logicApps')[1].logicAppName]"
+          },
+          "office365ConnectionExternalId": {
+            "value": "[parameters('logicApps')[1].office365ConnectionExternalId]"
+          },
+          "recipientEmailAddresses": {
+            "value": "[parameters('logicApps')[1].recipientEmailAddresses]"
           }
         }
       }

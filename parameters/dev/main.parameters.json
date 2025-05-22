@@ -233,6 +233,11 @@
           "connections_office365_externalid": "/subscriptions/931b98ea-0e07-4d52-a37a-3b8fa4985688/resourceGroups/datacatalyst-demo-dev-core-test-rg/providers/Microsoft.Web/connections/office365",
           "subscriptionId": "931b98ea-0e07-4d52-a37a-3b8fa4985688",
           "resourceLocation": "uksouth"
+        },
+        {
+          "logicAppName": "datacatalyst-demo-dev-core-alerts-la",
+          "office365ConnectionExternalId": "/subscriptions/931b98ea-0e07-4d52-a37a-3b8fa4985688/resourceGroups/datacatalyst-demo-dev-core-test-rg/providers/Microsoft.Web/connections/office365",
+          "recipientEmailAddresses": "abc.xyz@company.com;pqr.hij@company.com;mno.lbb@company.com"
         }
       ]
     }
