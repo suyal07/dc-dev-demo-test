@@ -109,7 +109,7 @@
         },
         "parameters": {
           "storageAccountName": {
-            "value": "[concat(parameters('storageAccounts')[copyIndex()].name, '-', parameters('storageAccounts')[copyIndex()].resourceGroup)]"
+            "value": "[parameters('storageAccounts')[copyIndex()].name]"
           },
           "blobSoftDeleteRetentionDays": {
             "value": "[parameters('storageAccounts')[copyIndex()].blobSoftDeleteRetentionDays]"
@@ -139,7 +139,7 @@
         },
         "parameters": {
           "sqlServerName": {
-            "value": "[concat(parameters('sqlServers')[copyIndex()].sqlServerName, '-', parameters('sqlServers')[copyIndex()].resourceGroup)]"
+            "value": "[parameters('sqlServers')[copyIndex()].sqlServerName]"
           },
           "administratorLogin": {
             "value": "[parameters('sqlServers')[copyIndex()].administratorLogin]"
@@ -483,7 +483,7 @@
         "[concat('Microsoft.Resources/resourceGroups/', split(parameters('logicApps')[1].office365ConnectionExternalId, '/')[4])]",
         "logicAppCopy"
       ],
-      "location": "[variables('resourceGroupLocations')[split(parameters('logicApps')[1].office365ConnectionExternalId, '/')[4]]]",
+      "location": "[variables('resourceGroupLocations')[split(parameters('logicApps')[1].office365ConnectionExternalId, '/')[4])]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -515,7 +515,7 @@
         "logicAppCopy",
         "alertsLogicAppCopy"
       ],
-      "location": "[variables('resourceGroupLocations')[split(parameters('actionGroups')[copyIndex()].logicAppResourceId, '/')[4]]]",
+      "location": "[variables('resourceGroupLocations')[split(parameters('actionGroups')[copyIndex()].logicAppResourceId, '/')[4])]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
