@@ -1,0 +1,15 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "alertRuleName": {
+      "value": "datacatalyst-demo-dev-core-api-blocked-unauthorized-access-alert"
+    },
+    "actionGroupExternalid": {
+      "value": "/subscriptions/931b98ea-0e07-4d52-a37a-3b8fa4985688/resourceGroups/datacatalyst-demo-dev-core-test-rg-25/providers/microsoft.insights/actiongroups/datacatalyst-demo-dev-core-alert-action-group"
+    },
+    "resourceGroupReferencewithAPIMHosted": {
+      "value": "/subscriptions/931b98ea-0e07-4d52-a37a-3b8fa4985688/resourcegroups/datacatalyst-demo-dev-core-test-rg-25"
+    }
+  }
+}
