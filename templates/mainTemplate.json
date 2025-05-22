@@ -70,8 +70,10 @@
     }
   },
   "variables": {
-    "githubDependentUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/dependent/",
+    "//": "Independent templates are for standalone resources with minimal dependencies",
     "githubIndependentUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/",
+    "//": "Dependent templates are for resources with dependencies (e.g., on resource groups, storage accounts, etc.)",
+    "githubDependentUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/dependent/",
     "resourceGroupLocations": {
       "[parameters('resourceGroups')[0].name]": "[parameters('resourceGroups')[0].location]",
       "[parameters('resourceGroups')[1].name]": "[parameters('resourceGroups')[1].location]"
@@ -103,7 +105,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[concat(variables('githubDependentUrl'), 'storageAccount.json')]"
+          "uri": "[concat(variables('githubIndependentUrl'), 'storageAccount.json')]"
         },
         "parameters": {
           "name": {
@@ -136,7 +138,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[concat(variables('githubDependentUrl'), 'sqlServer.json')]"
+          "uri": "[concat(variables('githubIndependentUrl'), 'sqlServer.json')]"
         },
         "parameters": {
           "sqlServerName": {
@@ -190,7 +192,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[concat(variables('githubDependentUrl'), 'logAnalyticsWorkspace.json')]"
+          "uri": "[concat(variables('githubIndependentUrl'), 'logAnalytics.json')]"
         },
         "parameters": {
           "logAnalyticsWorkspaceName": {
@@ -217,7 +219,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[concat(variables('githubDependentUrl'), 'containerApp.json')]"
+          "uri": "[concat(variables('githubIndependentUrl'), 'containerApps.json')]"
         },
         "parameters": {
           "containerAppName": {
@@ -333,7 +335,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[concat(variables('githubDependentUrl'), 'virtualNetwork.json')]"
+          "uri": "[concat(variables('githubIndependentUrl'), 'vnet.json')]"
         },
         "parameters": {
           "vnetName": {
@@ -363,7 +365,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[concat(variables('githubDependentUrl'), 'apiManagementService.json')]"
+          "uri": "[concat(variables('githubIndependentUrl'), 'apim.json')]"
         },
         "parameters": {
           "apimServiceName": {
@@ -407,7 +409,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'API Tracker'), concat(variables('githubDependentUrl'), 'dashboard.json'), concat(variables('githubDependentUrl'), 'platformCostInsightsDashboard.json'))]"
+          "uri": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'API Tracker'), concat(variables('githubDependentUrl'), 'APIUsageAnalytics.json'), concat(variables('githubDependentUrl'), 'PlatformCostInsights.json'))]"
         },
         "parameters": {
           "subscriptionReference": {
