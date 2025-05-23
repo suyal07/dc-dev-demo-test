@@ -172,7 +172,7 @@
             "value": "[parameters('sqlServers')[copyIndex()].backupStorageRedundancy]"
           },
           "location": {
-          "value": "[parameters('sqlServers')[copyIndex()].location]"
+            "value": "[parameters('sqlServers')[copyIndex()].location]"
           }
         }
       }
@@ -337,9 +337,6 @@
           },
           "location": {
             "value": "[parameters('virtualNetworks')[copyIndex()].location]"
-          },
-          "resourceGroup": {
-            "value": "[parameters('virtualNetworks')[copyIndex()].resourceGroup]"
           }
         }
       }
@@ -379,9 +376,6 @@
           },
           "skuCapacity": {
             "value": "[parameters('apiManagementServices')[copyIndex()].skuCapacity]"
-          },
-          "resourceGroup": {
-            "value": "[parameters('apiManagementServices')[copyIndex()].resourceGroup]"
           }
         }
       }
@@ -418,15 +412,6 @@
           "logAnalyticsWorkspaceName": {
             "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'API Tracker'), parameters('dashboards')[copyIndex()].logAnalyticsWorkspaceName, '')]"
           },
-          "subscriptionName": {
-            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'PlatformCostInsights'), 'DataCatalystDevSubscription', '')]"
-          },
-          "resourceGroupList": {
-            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'PlatformCostInsights'), array(parameters('resourceGroups')[0].name, parameters('resourceGroups')[1].name), array(''))]"
-          },
-          "domainName": {
-            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'PlatformCostInsights'), 'portal.azure.com', '')]"
-          },
           "dashboardDisplayName": {
             "value": "[parameters('dashboards')[copyIndex()].dashboardDisplayName]"
           },
@@ -436,8 +421,14 @@
           "location": {
             "value": "[parameters('dashboards')[copyIndex()].location]"
           },
-          "resourceGroup": {
-            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'API Tracker'), parameters('dashboards')[copyIndex()].resourceGroup, parameters('dashboards')[copyIndex()].resourceGroup)]"
+          "subscriptionName": {
+            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'PlatformCostInsights'), parameters('dashboards')[copyIndex()].subscriptionName, '')]"
+          },
+          "resourceGroupList": {
+            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'PlatformCostInsights'), parameters('dashboards')[copyIndex()].resourceGroupList, array(''))]"
+          },
+          "domainName": {
+            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'PlatformCostInsights'), parameters('dashboards')[copyIndex()].domainName, '')]"
           }
         }
       }
@@ -489,7 +480,7 @@
         "[concat('Microsoft.Resources/resourceGroups/', split(parameters('logicApps')[1].office365ConnectionExternalId, '/')[4])]",
         "logicAppCopy"
       ],
-      "location": "[variables('resourceGroupLocations')[split(parameters('logicApps')[1].office365ConnectionExternalId, '/')[4]]]",
+      "location": "[variables('resourceGroupLocations')[split(parameters('logicApps')[1].office365ConnectionExternalId, '/')[4])]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
