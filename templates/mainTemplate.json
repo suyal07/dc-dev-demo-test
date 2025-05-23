@@ -70,9 +70,7 @@
     }
   },
   "variables": {
-    "//": "Independent templates are for standalone resources with minimal dependencies",
     "githubIndependentUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/",
-    "//": "Dependent templates are for resources with dependencies (e.g., on resource groups, storage accounts, etc.)",
     "githubDependentUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/dependent/",
     "resourceGroupLocations": {
       "[parameters('resourceGroups')[0].name]": "[parameters('resourceGroups')[0].location]",
@@ -459,7 +457,7 @@
         "[concat('Microsoft.Resources/resourceGroups/', split(parameters('logicApps')[1].office365ConnectionExternalId, '/')[4])]",
         "logicAppCopy"
       ],
-      "location": "[variables('resourceGroupLocations')[split(parameters('logicApps')[1].office365ConnectionExternalId, '/')[4])]",
+      "location": "[variables('resourceGroupLocations')[split(parameters('logicApps')[1].office365ConnectionExternalId, '/')[4]]]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -473,9 +471,7 @@
             "value": "[parameters('logicApps')[1].office365ConnectionExternalId]"
           },
           "recipientEmailAddresses": {
-            "value": "[parameters('logicApps')[1].recipientEmailAddresses-": {
-              "value": "[parameters('logicApps')[1].recipientEmailAddresses]"
-            }
+            "value": "[parameters('logicApps')[1].recipientEmailAddresses]"
           }
         }
       }
