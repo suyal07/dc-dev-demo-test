@@ -77,6 +77,52 @@
     "resourceGroupLocations": {
       "[parameters('resourceGroups')[0].name]": "[parameters('resourceGroups')[0].location]",
       "[parameters('resourceGroups')[1].name]": "[parameters('resourceGroups')[1].location]"
+    },
+    "apiTrackerDashboardParams": {
+      "subscriptionReference": {
+        "value": "[parameters('dashboards')[copyIndex()].subscriptionReference]"
+      },
+      "coreResourceGroup": {
+        "value": "[parameters('dashboards')[copyIndex()].coreResourceGroup]"
+      },
+      "apiManagementResourceName": {
+        "value": "[parameters('dashboards')[copyIndex()].apiManagementResourceName]"
+      },
+      "logAnalyticsWorkspaceName": {
+        "value": "[parameters('dashboards')[copyIndex()].logAnalyticsWorkspaceName]"
+      },
+      "dashboardDisplayName": {
+        "value": "[parameters('dashboards')[copyIndex()].dashboardDisplayName]"
+      },
+      "dashboardName": {
+        "value": "[parameters('dashboards')[copyIndex()].dashboardName]"
+      },
+      "location": {
+        "value": "[parameters('dashboards')[copyIndex()].location]"
+      }
+    },
+    "platformCostInsightsDashboardParams": {
+      "subscriptionReference": {
+        "value": "[parameters('dashboards')[copyIndex()].subscriptionReference]"
+      },
+      "subscriptionName": {
+        "value": "[parameters('dashboards')[copyIndex()].subscriptionName]"
+      },
+      "resourceGroupList": {
+        "value": "[parameters('dashboards')[copyIndex()].resourceGroupList]"
+      },
+      "domainName": {
+        "value": "[parameters('dashboards')[copyIndex()].domainName]"
+      },
+      "dashboardDisplayName": {
+        "value": "[parameters('dashboards')[copyIndex()].dashboardDisplayName]"
+      },
+      "dashboardName": {
+        "value": "[parameters('dashboards')[copyIndex()].dashboardName]"
+      },
+      "location": {
+        "value": "[parameters('dashboards')[copyIndex()].location]"
+      }
     }
   },
   "resources": [
@@ -399,7 +445,7 @@
         "templateLink": {
           "uri": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'API Tracker'), concat(variables('githubDependentUrl'), 'APIUsageAnalytics.json'), concat(variables('githubDependentUrl'), 'PlatformCostInsights.json'))]"
         },
-        "parameters": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'API Tracker'), json('{\"subscriptionReference\": {\"value\": \"[parameters(\\'dashboards\\')[copyIndex()].subscriptionReference]\"}, \"coreResourceGroup\": {\"value\": \"[parameters(\\'dashboards\\')[copyIndex()].coreResourceGroup]\"}, \"apiManagementResourceName\": {\"value\": \"[parameters(\\'dashboards\\')[copyIndex()].apiManagementResourceName]\"}, \"logAnalyticsWorkspaceName\": {\"value\": \"[parameters(\\'dashboards\\')[copyIndex()].logAnalyticsWorkspaceName]\"}, \"dashboardDisplayName\": {\"value\": \"[parameters(\\'dashboards\\')[copyIndex()].dashboardDisplayName]\"}, \"dashboardName\": {\"value\": \"[parameters(\\'dashboards\\')[copyIndex()].dashboardName]\"}, \"location\": {\"value\": \"[parameters(\\'dashboards\\')[copyIndex()].location]\"}}'), json('{\"subscriptionReference\": {\"value\": \"[parameters(\\'dashboards\\')[copyIndex()].subscriptionReference]\"}, \"subscriptionName\": {\"value\": \"[parameters(\\'dashboards\\')[copyIndex()].subscriptionName]\"}, \"resourceGroupList\": {\"value\": \"[parameters(\\'dashboards\\')[copyIndex()].resourceGroupList]\"}, \"domainName\": {\"value\": \"[parameters(\\'dashboards\\')[copyIndex()].domainName]\"}, \"dashboardDisplayName\": {\"value\": \"[parameters(\\'dashboards\\')[copyIndex()].dashboardDisplayName]\"}, \"dashboardName\": {\"value\": \"[parameters(\\'dashboards\\')[copyIndex()].dashboardName]\"}, \"location\": {\"value\": \"[parameters(\\'dashboards\\')[copyIndex()].location]\"}}'))]"
+        "parameters": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'API Tracker'), variables('apiTrackerDashboardParams'), variables('platformCostInsightsDashboardParams'))]"
       }
     },
     {
