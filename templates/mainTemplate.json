@@ -94,6 +94,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
       "name": "[concat('storageAccount-', copyIndex())]",
+      "resourceGroup": "[parameters('storageAccounts')[copyIndex()].resourceGroup]",
       "copy": {
         "name": "storageAccountCopy",
         "count": "[length(parameters('storageAccounts'))]"
@@ -127,6 +128,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
       "name": "[concat('sqlServer-', copyIndex())]",
+      "resourceGroup": "[parameters('sqlServers')[copyIndex()].resourceGroup]",
       "copy": {
         "name": "sqlServerCopy",
         "count": "[length(parameters('sqlServers'))]"
@@ -181,6 +183,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
       "name": "[concat('logAnalyticsWorkspace-', copyIndex())]",
+      "resourceGroup": "[parameters('logAnalyticsWorkspaces')[copyIndex()].resourceGroup]",
       "copy": {
         "name": "logAnalyticsWorkspaceCopy",
         "count": "[length(parameters('logAnalyticsWorkspaces'))]"
@@ -205,6 +208,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
       "name": "[concat('containerApp-', copyIndex())]",
+      "resourceGroup": "[parameters('containerApps')[copyIndex()].resourceGroup]",
       "copy": {
         "name": "containerAppCopy",
         "count": "[length(parameters('containerApps'))]"
@@ -250,6 +254,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
       "name": "[concat('functionApp-', copyIndex())]",
+      "resourceGroup": "[parameters('functionApps')[copyIndex()].serverFarmResourceGroup]",
       "copy": {
         "name": "functionAppCopy",
         "count": "[length(parameters('functionApps'))]"
@@ -318,6 +323,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
       "name": "[concat('virtualNetwork-', copyIndex())]",
+      "resourceGroup": "[parameters('virtualNetworks')[copyIndex()].resourceGroup]",
       "copy": {
         "name": "virtualNetworkCopy",
         "count": "[length(parameters('virtualNetworks'))]"
@@ -345,6 +351,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
       "name": "[concat('apiManagementService-', copyIndex())]",
+      "resourceGroup": "[parameters('apiManagementServices')[copyIndex()].resourceGroup]",
       "copy": {
         "name": "apiManagementServiceCopy",
         "count": "[length(parameters('apiManagementServices'))]"
@@ -384,6 +391,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
       "name": "[concat('dashboard-', copyIndex())]",
+      "resourceGroup": "[parameters('dashboards')[copyIndex()].resourceGroup]",
       "copy": {
         "name": "dashboardCopy",
         "count": "[length(parameters('dashboards'))]"
@@ -411,6 +419,7 @@
         "name": "logicAppCopy",
         "count": 1
       },
+      "resourceGroup": "[split(parameters('logicApps')[0].connections_office365_externalid, '/')[4]]",
       "dependsOn": [
         "[concat('Microsoft.Resources/resourceGroups/', split(parameters('logicApps')[0].connections_office365_externalid, '/')[4])]"
       ],
@@ -445,6 +454,7 @@
         "name": "alertsLogicAppCopy",
         "count": 1
       },
+      "resourceGroup": "[split(parameters('logicApps')[1].office365ConnectionExternalId, '/')[4]]",
       "dependsOn": [
         "[concat('Microsoft.Resources/resourceGroups/', split(parameters('logicApps')[1].office365ConnectionExternalId, '/')[4])]",
         "logicAppCopy"
@@ -463,7 +473,9 @@
             "value": "[parameters('logicApps')[1].office365ConnectionExternalId]"
           },
           "recipientEmailAddresses": {
-            "value": "[parameters('logicApps')[1].recipientEmailAddresses]"
+            "value": "[parameters('logicApps')[1].recipientEmailAddresses-": {
+              "value": "[parameters('logicApps')[1].recipientEmailAddresses]"
+            }
           }
         }
       }
@@ -472,6 +484,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
       "name": "[concat('actionGroup-', copyIndex())]",
+      "resourceGroup": "[split(parameters('actionGroups')[copyIndex()].logicAppResourceId, '/')[4]]",
       "copy": {
         "name": "actionGroupCopy",
         "count": "[length(parameters('actionGroups'))]"
