@@ -61,6 +61,18 @@
       "metadata": {
         "description": "List of Logic Apps to deploy"
       }
+    },
+    "actionGroups": {
+      "type": "array",
+      "metadata": {
+        "description": "List of Action Groups to deploy"
+      }
+    },
+    "scheduledQueryRules": {
+      "type": "array",
+      "metadata": {
+        "description": "List of Scheduled Query Rules to deploy"
+      }
     }
   },
   "variables": {
@@ -501,6 +513,70 @@
           },
           "recipientEmailAddresses": {
             "value": "[parameters('logicApps')[1].recipientEmailAddresses]"
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2022-09-01",
+      "name": "[concat('actionGroup-', copyIndex())]",
+      "copy": {
+        "name": "actionGroupCopy",
+        "count": "[length(parameters('actionGroups'))]"
+      },
+      "dependsOn": [
+        "resourceGroupCopy",
+        "logicAppCopy",
+        "alertsLogicAppCopy"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(variables('githubBaseUrl'), 'actionGroupApim.json')]"
+        },
+        "parameters": {
+          "actionGroupName": {
+            "value": "[parameters('actionGroups')[copyIndex()].actionGroupName]"
+          },
+          "actionGroupShortName": {
+            "value": "[parameters('actionGroups')[copyIndex()].actionGroupShortName]"
+          },
+          "logicAppResourceId": {
+            "value": "[parameters('actionGroups')[copyIndex()].logicAppResourceId]"
+          },
+          "logicAppCallbackUrl": {
+            "value": "[parameters('actionGroups')[copyIndex()].logicAppCallbackUrl]"
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2022-09-01",
+      "name": "[concat('scheduledQueryRule-', copyIndex())]",
+      "copy": {
+        "name": "scheduledQueryRuleCopy",
+        "count": "[length(parameters('scheduledQueryRules'))]"
+      },
+      "dependsOn": [
+        "resourceGroupCopy",
+        "actionGroupCopy"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(variables('githubBaseUrl'), 'unauthorizedAlerts.json')]"
+        },
+        "parameters": {
+          "alertRuleName": {
+            "value": "[parameters('scheduledQueryRules')[copyIndex()].alertRuleName]"
+          },
+          "actionGroupExternalid": {
+            "value": "[parameters('scheduledQueryRules')[copyIndex()].actionGroupExternalid]"
+          },
+          "resourceGroupReferencewithAPIMHosted": {
+            "value": "[parameters('scheduledQueryRules')[copyIndex()].resourceGroupReferencewithAPIMHosted]"
           }
         }
       }
