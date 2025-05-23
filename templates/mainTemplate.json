@@ -445,7 +445,7 @@
       "dependsOn": [
         "[concat('Microsoft.Resources/resourceGroups/', split(parameters('logicApps')[0].connections_office365_externalid, '/')[4])]"
       ],
-      "location": "[variables('resourceGroupLocations')[split(parameters('logicApps')[0].connections_office365_externalid, '/')[4])]",
+      "location": "[variables('resourceGroupLocations')[split(parameters('logicApps')[0].connections_office365_externalid, '/')[4]]]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
