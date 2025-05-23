@@ -399,38 +399,7 @@
         "templateLink": {
           "uri": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'API Tracker'), concat(variables('githubDependentUrl'), 'APIUsageAnalytics.json'), concat(variables('githubDependentUrl'), 'PlatformCostInsights.json'))]"
         },
-        "parameters": {
-          "subscriptionReference": {
-            "value": "[parameters('dashboards')[copyIndex()].subscriptionReference]"
-          },
-          "dashboardDisplayName": {
-            "value": "[parameters('dashboards')[copyIndex()].dashboardDisplayName]"
-          },
-          "dashboardName": {
-            "value": "[parameters('dashboards')[copyIndex()].dashboardName]"
-          },
-          "location": {
-            "value": "[parameters('dashboards')[copyIndex()].location]"
-          },
-          "coreResourceGroup": {
-            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'API Tracker'), parameters('dashboards')[copyIndex()].coreResourceGroup, json('null'))]"
-          },
-          "apiManagementResourceName": {
-            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'API Tracker'), parameters('dashboards')[copyIndex()].apiManagementResourceName, json('null'))]"
-          },
-          "logAnalyticsWorkspaceName": {
-            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'API Tracker'), parameters('dashboards')[copyIndex()].logAnalyticsWorkspaceName, json('null'))]"
-          },
-          "subscriptionName": {
-            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'PlatformCostInsights'), parameters('dashboards')[copyIndex()].subscriptionName, json('null'))]"
-          },
-          "resourceGroupList": {
-            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'PlatformCostInsights'), parameters('dashboards')[copyIndex()].resourceGroupList, json('null'))]"
-          },
-          "domainName": {
-            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'PlatformCostInsights'), parameters('dashboards')[copyIndex()].domainName, json('null'))]"
-          }
-        }
+        "parameters": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'API Tracker'), json(concat('{\"subscriptionReference\": {\"value\": \"', parameters('dashboards')[copyIndex()].subscriptionReference, '\"}, \"coreResourceGroup\": {\"value\": \"', parameters('dashboards')[copyIndex()].coreResourceGroup, '\"}, \"apiManagementResourceName\": {\"value\": \"', parameters('dashboards')[copyIndex()].apiManagementResourceName, '\"}, \"logAnalyticsWorkspaceName\": {\"value\": \"', parameters('dashboards')[copyIndex()].logAnalyticsWorkspaceName, '\"}, \"dashboardDisplayName\": {\"value\": \"', parameters('dashboards')[copyIndex()].dashboardDisplayName, '\"}, \"dashboardName\": {\"value\": \"', parameters('dashboards')[copyIndex()].dashboardName, '\"}, \"location\": {\"value\": \"', parameters('dashboards')[copyIndex()].location, '\"}}')), json(concat('{\"subscriptionReference\": {\"value\": \"', parameters('dashboards')[copyIndex()].subscriptionReference, '\"}, \"subscriptionName\": {\"value\": \"', parameters('dashboards')[copyIndex()].subscriptionName, '\"}, \"resourceGroupList\": {\"value\": \"', parameters('dashboards')[copyIndex()].resourceGroupList, '\"}, \"domainName\": {\"value\": \"', parameters('dashboards')[copyIndex()].domainName, '\"}, \"dashboardDisplayName\": {\"value\": \"', parameters('dashboards')[copyIndex()].dashboardDisplayName, '\"}, \"dashboardName\": {\"value\": \"', parameters('dashboards')[copyIndex()].dashboardName, '\"}, \"location\": {\"value\": \"', parameters('dashboards')[copyIndex()].location, '\"}}')))]"
       }
     },
     {
