@@ -110,7 +110,6 @@
       "dependsOn": [
         "[concat('Microsoft.Resources/resourceGroups/', parameters('storageAccounts')[copyIndex()].resourceGroup)]"
       ],
-      "location": "[variables('resourceGroupLocations')[parameters('storageAccounts')[copyIndex()].resourceGroup]]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -144,7 +143,6 @@
       "dependsOn": [
         "[concat('Microsoft.Resources/resourceGroups/', parameters('sqlServers')[copyIndex()].resourceGroup)]"
       ],
-      "location": "[variables('resourceGroupLocations')[parameters('sqlServers')[copyIndex()].resourceGroup]]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -199,7 +197,6 @@
       "dependsOn": [
         "[concat('Microsoft.Resources/resourceGroups/', parameters('logAnalyticsWorkspaces')[copyIndex()].resourceGroup)]"
       ],
-      "location": "[variables('resourceGroupLocations')[parameters('logAnalyticsWorkspaces')[copyIndex()].resourceGroup]]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -228,7 +225,6 @@
         "[concat('Microsoft.Resources/resourceGroups/', parameters('containerApps')[copyIndex()].resourceGroup)]",
         "logAnalyticsWorkspaceCopy"
       ],
-      "location": "[variables('resourceGroupLocations')[parameters('containerApps')[copyIndex()].resourceGroup]]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -279,7 +275,6 @@
         "storageAccountCopy",
         "logAnalyticsWorkspaceCopy"
       ],
-      "location": "[variables('resourceGroupLocations')[parameters('functionApps')[copyIndex()].serverFarmResourceGroup]]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -355,7 +350,6 @@
       "dependsOn": [
         "[concat('Microsoft.Resources/resourceGroups/', parameters('virtualNetworks')[copyIndex()].resourceGroup)]"
       ],
-      "location": "[variables('resourceGroupLocations')[parameters('virtualNetworks')[copyIndex()].resourceGroup]]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -383,7 +377,6 @@
       "dependsOn": [
         "[concat('Microsoft.Resources/resourceGroups/', parameters('apiManagementServices')[copyIndex()].resourceGroup)]"
       ],
-      "location": "[variables('resourceGroupLocations')[parameters('apiManagementServices')[copyIndex()].resourceGroup]]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -425,7 +418,6 @@
         "logAnalyticsWorkspaceCopy",
         "apiManagementServiceCopy"
       ],
-      "location": "[variables('resourceGroupLocations')[parameters('dashboards')[copyIndex()].resourceGroup]]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -477,7 +469,6 @@
       "dependsOn": [
         "[concat('Microsoft.Resources/resourceGroups/', split(parameters('logicApps')[copyIndex()].office365ConnectionExternalId, '/')[4])]"
       ],
-      "location": "[variables('resourceGroupLocations')[split(parameters('logicApps')[copyIndex()].office365ConnectionExternalId, '/')[4]]]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -515,7 +506,6 @@
         "[concat('Microsoft.Resources/resourceGroups/', split(parameters('actionGroups')[copyIndex()].logicAppResourceId, '/')[4])]",
         "logicAppCopy"
       ],
-      "location": "[if(contains(variables('resourceGroupLocations'), split(parameters('actionGroups')[copyIndex()].logicAppResourceId, '/')[4]), variables('resourceGroupLocations')[split(parameters('actionGroups')[copyIndex()].logicAppResourceId, '/')[4]], parameters('resourceGroups')[0].location)]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
