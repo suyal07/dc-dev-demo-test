@@ -126,7 +126,7 @@
             "value": "[parameters('storageAccounts')[copyIndex()].containerSoftDeleteRetentionDays]"
           },
           "location": {
-            "value": "[parameters('storageAccounts')[copyIndex()].location]"
+            "value": "[variables('resourceGroupLocations')[parameters('storageAccounts')[copyIndex()].resourceGroup]]"
           }
         }
       }
@@ -180,7 +180,7 @@
             "value": "[parameters('sqlServers')[copyIndex()].backupStorageRedundancy]"
           },
           "location": {
-            "value": "[parameters('sqlServers')[copyIndex()].location]"
+            "value": "[variables('resourceGroupLocations')[parameters('sqlServers')[copyIndex()].resourceGroup]]"
           }
         }
       }
@@ -235,7 +235,7 @@
             "value": "[parameters('containerApps')[copyIndex()].containerAppName]"
           },
           "location": {
-            "value": "[parameters('containerApps')[copyIndex()].location]"
+            "value": "[variables('resourceGroupLocations')[parameters('containerApps')[copyIndex()].resourceGroup]]"
           },
           "environmentName": {
             "value": "[parameters('containerApps')[copyIndex()].environmentName]"
@@ -288,7 +288,7 @@
             "value": "[parameters('functionApps')[copyIndex()].name]"
           },
           "location": {
-            "value": "[parameters('functionApps')[copyIndex()].location]"
+            "value": "[variables('resourceGroupLocations')[parameters('functionApps')[copyIndex()].serverFarmResourceGroup]]"
           },
           "storageBlobContainerName": {
             "value": "[parameters('functionApps')[copyIndex()].storageBlobContainerName]"
@@ -351,7 +351,7 @@
             "value": "[parameters('virtualNetworks')[copyIndex()].vnetName]"
           },
           "location": {
-            "value": "[parameters('virtualNetworks')[copyIndex()].location]"
+            "value": "[variables('resourceGroupLocations')[parameters('virtualNetworks')[copyIndex()].resourceGroup]]"
           }
         }
       }
@@ -378,7 +378,7 @@
             "value": "[parameters('apiManagementServices')[copyIndex()].apimServiceName]"
           },
           "location": {
-            "value": "[parameters('apiManagementServices')[copyIndex()].location]"
+            "value": "[variables('resourceGroupLocations')[parameters('apiManagementServices')[copyIndex()].resourceGroup]]"
           },
           "publisherEmail": {
             "value": "[parameters('apiManagementServices')[copyIndex()].publisherEmail]"
@@ -425,7 +425,7 @@
             "value": "[parameters('dashboards')[copyIndex()].dashboardName]"
           },
           "location": {
-            "value": "[parameters('dashboards')[copyIndex()].location]"
+            "value": "[variables('resourceGroupLocations')[parameters('dashboards')[copyIndex()].resourceGroup]]"
           },
           "coreResourceGroup": {
             "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'API Tracker'), parameters('dashboards')[copyIndex()].coreResourceGroup, '')]"
@@ -476,7 +476,7 @@
             "value": "[parameters('logicApps')[copyIndex()].subscriptionId]"
           },
           "resourceLocation": {
-            "value": "[parameters('logicApps')[copyIndex()].resourceLocation]"
+            "value": "[variables('resourceGroupLocations')[split(parameters('logicApps')[copyIndex()].office365ConnectionExternalId, '/')[4]]]"
           },
           "[if(equals(copyIndex(), 1), 'recipientEmailAddresses', 'dummy')]": {
             "value": "[if(equals(copyIndex(), 1), parameters('logicApps')[copyIndex()].recipientEmailAddresses, '')]"
