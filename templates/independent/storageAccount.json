@@ -50,9 +50,7 @@
         "minimumTlsVersion": "TLS1_2",
         "supportsHttpsTrafficOnly": true,
         "allowBlobPublicAccess": false,
-        "isHnsEnabled": true,
-        "isNfsV3Enabled": false,
-        "isSftpEnabled": false
+        "isHnsEnabled": false
       }
     },
     {
@@ -70,10 +68,6 @@
         "containerDeleteRetentionPolicy": {
           "enabled": true,
           "days": "[parameters('containerSoftDeleteRetentionDays')]"
-        },
-        "isVersioningEnabled": false,
-        "changeFeed": {
-          "enabled": false
         }
       }
     }
