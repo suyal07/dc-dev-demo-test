@@ -452,7 +452,7 @@
             "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'PlatformCostInsights'), parameters('dashboards')[copyIndex()].subscriptionName, '')]"
           },
           "resourceGroupList": {
-            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'PlatformCostInsights'), json(parameters('dashboards')[copyIndex()].resourceGroupList), createArray())]"
+            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'PlatformCostInsights'), json(parameters('dashboards')[copyIndex()].resourceGroupList), json('[]'))]"
           },
           "domainName": {
             "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'PlatformCostInsights'), parameters('dashboards')[copyIndex()].domainName, '')]"
@@ -490,7 +490,7 @@
           "resourceLocation": {
             "value": "[variables('resourceGroupLocations')[split(parameters('logicApps')[copyIndex()].office365ConnectionExternalId, '/')[4]]]"
           },
-          "[if(equals(copyIndex(), 1), 'recipientEmailAddresses', 'dummy')]": {
+          "recipientEmailAddresses": {
             "value": "[if(equals(copyIndex(), 1), parameters('logicApps')[copyIndex()].recipientEmailAddresses, '')]"
           }
         }
