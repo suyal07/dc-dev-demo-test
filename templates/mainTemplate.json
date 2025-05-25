@@ -110,6 +110,7 @@
       "dependsOn": [
         "[concat('Microsoft.Resources/resourceGroups/', parameters('storageAccounts')[copyIndex()].resourceGroup)]"
       ],
+      "location": "[variables('resourceGroupLocations')[parameters('storageAccounts')[copyIndex()].resourceGroup]]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -143,6 +144,7 @@
       "dependsOn": [
         "[concat('Microsoft.Resources/resourceGroups/', parameters('sqlServers')[copyIndex()].resourceGroup)]"
       ],
+      "location": "[variables('resourceGroupLocations')[parameters('sqlServers')[copyIndex()].resourceGroup]]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -197,6 +199,7 @@
       "dependsOn": [
         "[concat('Microsoft.Resources/resourceGroups/', parameters('logAnalyticsWorkspaces')[copyIndex()].resourceGroup)]"
       ],
+      "location": "[variables('resourceGroupLocations')[parameters('logAnalyticsWorkspaces')[copyIndex()].resourceGroup]]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -225,6 +228,7 @@
         "[concat('Microsoft.Resources/resourceGroups/', parameters('containerApps')[copyIndex()].resourceGroup)]",
         "logAnalyticsWorkspaceCopy"
       ],
+      "location": "[variables('resourceGroupLocations')[parameters('containerApps')[copyIndex()].resourceGroup]]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -275,6 +279,7 @@
         "storageAccountCopy",
         "logAnalyticsWorkspaceCopy"
       ],
+      "location": "[variables('resourceGroupLocations')[parameters('functionApps')[copyIndex()].serverFarmResourceGroup]]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -295,15 +300,6 @@
           },
           "storageAccountName": {
             "value": "[parameters('functionApps')[copyIndex()].storageAccountName]"
-          },
-          "storageAccountResourceGroup": {
-            "value": "[parameters('functionApps')[copyIndex()].serverFarmResourceGroup]"
-          },
-          "blobSoftDeleteRetentionDays": {
-            "value": 7
-          },
-          "containerSoftDeleteRetentionDays": {
-            "value": 7
           },
           "sku": {
             "value": "[parameters('functionApps')[copyIndex()].sku]"
@@ -334,9 +330,6 @@
           },
           "logAnalyticsWorkspaceResourceGroup": {
             "value": "[parameters('functionApps')[copyIndex()].logAnalyticsWorkspaceResourceGroup]"
-          },
-          "workspaceResourceId": {
-            "value": "[reference(concat('logAnalyticsWorkspace-', 0)).outputs.workspaceResourceId.value]"
           }
         }
       }
@@ -353,6 +346,7 @@
       "dependsOn": [
         "[concat('Microsoft.Resources/resourceGroups/', parameters('virtualNetworks')[copyIndex()].resourceGroup)]"
       ],
+      "location": "[variables('resourceGroupLocations')[parameters('virtualNetworks')[copyIndex()].resourceGroup]]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -380,6 +374,7 @@
       "dependsOn": [
         "[concat('Microsoft.Resources/resourceGroups/', parameters('apiManagementServices')[copyIndex()].resourceGroup)]"
       ],
+      "location": "[variables('resourceGroupLocations')[parameters('apiManagementServices')[copyIndex()].resourceGroup]]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -421,6 +416,7 @@
         "logAnalyticsWorkspaceCopy",
         "apiManagementServiceCopy"
       ],
+      "location": "[variables('resourceGroupLocations')[parameters('dashboards')[copyIndex()].resourceGroup]]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -439,14 +435,23 @@
           "location": {
             "value": "[parameters('dashboards')[copyIndex()].location]"
           },
-          "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'API Tracker'), 'coreResourceGroup', 'subscriptionName')]": {
-            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'API Tracker'), parameters('dashboards')[copyIndex()].coreResourceGroup, parameters('dashboards')[copyIndex()].subscriptionName)]"
+          "coreResourceGroup": {
+            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'API Tracker'), parameters('dashboards')[copyIndex()].coreResourceGroup, '')]"
           },
-          "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'API Tracker'), 'apiManagementResourceName', 'resourceGroupList')]": {
-            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'API Tracker'), parameters('dashboards')[copyIndex()].apiManagementResourceName, parameters('dashboards')[copyIndex()].resourceGroupList)]"
+          "apiManagementResourceName": {
+            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'API Tracker'), parameters('dashboards')[copyIndex()].apiManagementResourceName, '')]"
           },
-          "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'API Tracker'), 'logAnalyticsWorkspaceName', 'domainName')]": {
-            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'API Tracker'), parameters('dashboards')[copyIndex()].logAnalyticsWorkspaceName, parameters('dashboards')[copyIndex()].domainName)]"
+          "logAnalyticsWorkspaceName": {
+            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'API Tracker'), parameters('dashboards')[copyIndex()].logAnalyticsWorkspaceName, '')]"
+          },
+          "subscriptionName": {
+            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'PlatformCostInsights'), parameters('dashboards')[copyIndex()].subscriptionName, '')]"
+          },
+          "resourceGroupList": {
+            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'PlatformCostInsights'), json(parameters('dashboards')[copyIndex()].resourceGroupList), createArray())]"
+          },
+          "domainName": {
+            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'PlatformCostInsights'), parameters('dashboards')[copyIndex()].domainName, '')]"
           }
         }
       }
@@ -463,6 +468,7 @@
       "dependsOn": [
         "[concat('Microsoft.Resources/resourceGroups/', split(parameters('logicApps')[copyIndex()].office365ConnectionExternalId, '/')[4])]"
       ],
+      "location": "[variables('resourceGroupLocations')[split(parameters('logicApps')[copyIndex()].office365ConnectionExternalId, '/')[4]]]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -481,7 +487,7 @@
           "resourceLocation": {
             "value": "[parameters('logicApps')[copyIndex()].resourceLocation]"
           },
-          "recipientEmailAddresses": {
+          "[if(equals(copyIndex(), 1), 'recipientEmailAddresses', 'dummy')]": {
             "value": "[if(equals(copyIndex(), 1), parameters('logicApps')[copyIndex()].recipientEmailAddresses, '')]"
           }
         }
@@ -500,6 +506,7 @@
         "[concat('Microsoft.Resources/resourceGroups/', split(parameters('actionGroups')[copyIndex()].logicAppResourceId, '/')[4])]",
         "logicAppCopy"
       ],
+      "location": "[if(contains(variables('resourceGroupLocations'), split(parameters('actionGroups')[copyIndex()].logicAppResourceId, '/')[4]), variables('resourceGroupLocations')[split(parameters('actionGroups')[copyIndex()].logicAppResourceId, '/')[4]], parameters('resourceGroups')[0].location)]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -521,11 +528,5 @@
         }
       }
     }
-  ],
-  "outputs": {
-    "workspaceResourceId": {
-      "type": "string",
-      "value": "[reference(concat('logAnalyticsWorkspace-', 0)).outputs.workspaceResourceId.value]"
-    }
-  }
+  ]
 }
