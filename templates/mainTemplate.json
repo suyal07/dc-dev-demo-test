@@ -410,52 +410,81 @@
     {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
-      "name": "[concat('dashboard-', copyIndex())]",
-      "resourceGroup": "[parameters('dashboards')[copyIndex()].resourceGroup]",
-      "copy": {
-        "name": "dashboardCopy",
-        "count": "[length(parameters('dashboards'))]"
-      },
+      "name": "dashboard-0",
+      "resourceGroup": "[parameters('dashboards')[0].resourceGroup]",
       "dependsOn": [
-        "[concat('Microsoft.Resources/resourceGroups/', parameters('dashboards')[copyIndex()].resourceGroup)]",
+        "[concat('Microsoft.Resources/resourceGroups/', parameters('dashboards')[0].resourceGroup)]",
         "logAnalyticsWorkspaceCopy",
         "apiManagementServiceCopy"
       ],
+      "condition": "[greaterOrEquals(length(parameters('dashboards')), 1)]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'API Tracker'), variables('apiUsageAnalyticsTemplateUrl'), variables('platformCostInsightsTemplateUrl'))]"
+          "uri": "[variables('apiUsageAnalyticsTemplateUrl')]"
         },
         "parameters": {
           "subscriptionReference": {
-            "value": "[parameters('dashboards')[copyIndex()].subscriptionReference]"
-          },
-          "dashboardDisplayName": {
-            "value": "[parameters('dashboards')[copyIndex()].dashboardDisplayName]"
-          },
-          "dashboardName": {
-            "value": "[parameters('dashboards')[copyIndex()].dashboardName]"
-          },
-          "location": {
-            "value": "[parameters('dashboards')[copyIndex()].location]"
+            "value": "[parameters('dashboards')[0].subscriptionReference]"
           },
           "coreResourceGroup": {
-            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'API Tracker'), parameters('dashboards')[copyIndex()].coreResourceGroup, '')]"
+            "value": "[parameters('dashboards')[0].coreResourceGroup]"
           },
           "apiManagementResourceName": {
-            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'API Tracker'), parameters('dashboards')[copyIndex()].apiManagementResourceName, '')]"
+            "value": "[parameters('dashboards')[0].apiManagementResourceName]"
           },
           "logAnalyticsWorkspaceName": {
-            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'API Tracker'), parameters('dashboards')[copyIndex()].logAnalyticsWorkspaceName, '')]"
+            "value": "[parameters('dashboards')[0].logAnalyticsWorkspaceName]"
+          },
+          "dashboardDisplayName": {
+            "value": "[parameters('dashboards')[0].dashboardDisplayName]"
+          },
+          "dashboardName": {
+            "value": "[parameters('dashboards')[0].dashboardName]"
+          },
+          "location": {
+            "value": "[parameters('dashboards')[0].location]"
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2022-09-01",
+      "name": "dashboard-1",
+      "resourceGroup": "[parameters('dashboards')[1].resourceGroup]",
+      "dependsOn": [
+        "[concat('Microsoft.Resources/resourceGroups/', parameters('dashboards')[1].resourceGroup)]",
+        "logAnalyticsWorkspaceCopy",
+        "apiManagementServiceCopy"
+      ],
+      "condition": "[greaterOrEquals(length(parameters('dashboards')), 2)]",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('platformCostInsightsTemplateUrl')]"
+        },
+        "parameters": {
+          "subscriptionReference": {
+            "value": "[parameters('dashboards')[1].subscriptionReference]"
           },
           "subscriptionName": {
-            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'PlatformCostInsights'), parameters('dashboards')[copyIndex()].subscriptionName, '')]"
+            "value": "[parameters('dashboards')[1].subscriptionName]"
           },
           "resourceGroupList": {
-            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'PlatformCostInsights'), json(parameters('dashboards')[copyIndex()].resourceGroupList), json('[]'))]"
+            "value": "[json(parameters('dashboards')[1].resourceGroupList)]"
           },
           "domainName": {
-            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'PlatformCostInsights'), parameters('dashboards')[copyIndex()].domainName, '')]"
+            "value": "[parameters('dashboards')[1].domainName]"
+          },
+          "dashboardDisplayName": {
+            "value": "[parameters('dashboards')[1].dashboardDisplayName]"
+          },
+          "dashboardName": {
+            "value": "[parameters('dashboards')[1].dashboardName]"
+          },
+          "location": {
+            "value": "[parameters('dashboards')[1].location]"
           }
         }
       }
