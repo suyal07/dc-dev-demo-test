@@ -2,17 +2,17 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "workflows_datacatalyst_demo_core_la_name": {
-      "type": "String"
+    "workflows_datacatalyst_core_la_name": {
+      "type": "string"
     },
-    "connections_office365_externalid": {
-      "type": "String"
+    "office365ConnectionExternalId": {
+      "type": "string"
     },
     "subscriptionId": {
-      "type": "String"
+      "type": "string"
     },
     "resourceLocation": {
-      "type": "String"
+      "type": "string"
     }
   },
   "variables": {},
@@ -32,8 +32,8 @@
     },
     {
       "type": "Microsoft.Logic/workflows",
-      "apiVersion": "2017-07-01",
-      "name": "[parameters('workflows_datacatalyst_demo_core_la_name')]",
+      "apiVersion": "2019-05-01",
+      "name": "[parameters('workflows_datacatalyst_core_la_name')]",
       "location": "[parameters('resourceLocation')]",
       "dependsOn": [
         "Microsoft.Web/connections/office365"
@@ -144,7 +144,7 @@
             "value": {
               "office365": {
                 "id": "[concat('/subscriptions/', parameters('subscriptionId'), '/providers/Microsoft.Web/locations/', parameters('resourceLocation'), '/managedApis/office365')]",
-                "connectionId": "[parameters('connections_office365_externalid')]",
+                "connectionId": "[parameters('office365ConnectionExternalId')]",
                 "connectionName": "office365"
               }
             }

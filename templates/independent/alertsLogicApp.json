@@ -3,26 +3,32 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "logicAppName": {
-           "type": "String"
+           "type": "string"
         },
         "office365ConnectionExternalId": {
-           "type": "String"
+           "type": "string"
         },
         "recipientEmailAddresses": {
-            "type": "String"
+            "type": "string"
+        },
+        "subscriptionId": {
+            "type": "string"
+        },
+        "resourceLocation": {
+            "type": "string"
         }
     },
     "variables": {},
     "resources": [
         {
             "type": "Microsoft.Logic/workflows",
-            "apiVersion": "2017-07-01",
+            "apiVersion": "2019-05-01",
             "name": "[parameters('logicAppName')]",
-            "location": "uksouth",
+            "location": "[parameters('resourceLocation')]",
             "tags": {
                 "Application": "datacatalyst-demo",
                 "Client": "nowvertical",
-                "CostCenter": "cc123",
+                "CostCenter": "123cc",
                 "DataSensitivity": "internal",
                 "Environment": "dev",
                 "Lifecycle": "active",
@@ -520,18 +526,6 @@
                                 }
                             }
                         },
-                        "Set_Affected_Resource": {
-                            "runAfter": {
-                                "Initialize_Variable_For_Affected_Resources": [
-                                    "Succeeded"
-                                ]
-                            },
-                            "type": "SetVariable",
-                            "inputs": {
-                                "name": "allOfArray",
-                                "value": "@body('Parse_JSON')?['data']?['alertContext']?['condition']?['allOf']"
-                            }
-                        },
                         "Initialize_Email_Body": {
                             "runAfter": {
                                 "Parse_JSON": [
@@ -547,6 +541,18 @@
                                     }
                                 ]
                             }
+                        },
+                        "Set_Affected_Resource": {
+                            "runAfter": {
+                                "Initialize_Variable_For_Affected_Resources": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "SetVariable",
+                            "inputs": {
+                                "name": "allOfArray",
+                                "value": "@body('Parse_JSON')?['data']?['alertContext']?['condition']?['allOf']"
+                            }
                         }
                     },
                     "outputs": {}
@@ -555,7 +561,7 @@
                     "$connections": {
                         "value": {
                             "office365": {
-                                "id": "/subscriptions/931b98ea-0e07-4d52-a37a-3b8fa4985688/providers/Microsoft.Web/locations/uksouth/managedApis/office365",
+                                "id": "[concat('/subscriptions/', parameters('subscriptionId'), '/providers/Microsoft.Web/locations/', parameters('resourceLocation'), '/managedApis/office365')]",
                                 "connectionId": "[parameters('office365ConnectionExternalId')]",
                                 "connectionName": "office365"
                             }

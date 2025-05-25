@@ -58,7 +58,7 @@
     "resources": [
         {
             "type": "Microsoft.OperationalInsights/workspaces",
-            "apiVersion": "2022-10-01",
+            "apiVersion": "2023-03-01",
             "name": "[variables('logAnalyticsWorkspaceName')]",
             "location": "[parameters('location')]",
             "properties": {
@@ -73,7 +73,7 @@
         },
         {
             "type": "Microsoft.App/managedEnvironments",
-            "apiVersion": "2022-10-01",
+            "apiVersion": "2023-05-01",
             "name": "[variables('containerAppEnvName')]",
             "location": "[parameters('location')]",
             "properties": {
@@ -81,7 +81,7 @@
                     "destination": "log-analytics",
                     "logAnalyticsConfiguration": {
                         "customerId": "[reference(resourceId('Microsoft.OperationalInsights/workspaces', variables('logAnalyticsWorkspaceName'))).customerId]",
-                        "sharedKey": "[listKeys(resourceId('Microsoft.OperationalInsights/workspaces', variables('logAnalyticsWorkspaceName')), '2022-10-01').primarySharedKey]"
+                        "sharedKey": "[listKeys(resourceId('Microsoft.OperationalInsights/workspaces', variables('logAnalyticsWorkspaceName')), '2023-03-01').primarySharedKey]"
                     }
                 }
             },
@@ -91,7 +91,7 @@
         },
         {
             "type": "Microsoft.App/containerApps",
-            "apiVersion": "2022-10-01",
+            "apiVersion": "2023-05-01",
             "name": "[parameters('containerAppName')]",
             "location": "[parameters('location')]",
             "properties": {

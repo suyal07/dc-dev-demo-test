@@ -3,7 +3,7 @@
   "contentVersion": "1.0.0.0",
   "metadata": {
     "_generator": {
-      "name": "arm template",
+      "name": "arm-template",
       "version": "0.25.53.49325",
       "templateHash": "10318759955181286209"
     }
@@ -309,7 +309,7 @@
       "tags": {
         "hidden-title": "[parameters('dashboardDisplayName')]"
       },
-      "apiVersion": "2022-12-01-preview"
+      "apiVersion": "2023-09-01"
     }
   ]
 }

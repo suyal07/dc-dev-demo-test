@@ -945,7 +945,7 @@
       "tags": {
         "hidden-title": "[parameters('dashboardDisplayName')]"
       },
-      "apiVersion": "2022-12-01-preview"
+      "apiVersion": "2023-09-01"
     }
   ]
 }

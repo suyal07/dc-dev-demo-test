@@ -51,7 +51,7 @@
   "resources": [
     {
       "type": "Microsoft.ApiManagement/service",
-      "apiVersion": "2022-08-01",
+      "apiVersion": "2023-05-01-preview",
       "name": "[parameters('apimServiceName')]",
       "location": "[parameters('location')]",
       "tags": {
@@ -63,7 +63,7 @@
         "Application": "datacatalyst-demo",
         "ManagedBy": "nowvertical",
         "DataSensitivity": "internal",
-        "Region": "uksouth",
+        "Region": "[parameters('location')]",
         "Lifecycle": "active",
         "Client": "nowvertical"
       },
