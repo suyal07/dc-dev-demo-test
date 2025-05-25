@@ -232,28 +232,28 @@
         },
         "parameters": {
           "containerAppName": {
-            "value": "[parameters('containerApps')[0].containerAppName]"
+            "value": "[parameters('containerApps')[copyIndex()].containerAppName]"
           },
           "location": {
-            "value": "[parameters('containerApps')[0].location]"
+            "value": "[parameters('containerApps')[copyIndex()].location]"
           },
           "environmentName": {
-            "value": "[parameters('containerApps')[0].environmentName]"
+            "value": "[parameters('containerApps')[copyIndex()].environmentName]"
           },
           "minReplicas": {
-            "value": "[parameters('containerApps')[0].minReplicas]"
+            "value": "[parameters('containerApps')[copyIndex()].minReplicas]"
           },
           "maxReplicas": {
-            "value": "[parameters('containerApps')[0].maxReplicas]"
+            "value": "[parameters('containerApps')[copyIndex()].maxReplicas]"
           },
           "databaseConnectionString": {
-            "value": "[parameters('containerApps')[0].databaseConnectionString]"
+            "value": "[parameters('containerApps')[copyIndex()].databaseConnectionString]"
           },
           "configPath": {
-            "value": "[parameters('containerApps')[0].configPath]"
+            "value": "[parameters('containerApps')[copyIndex()].configPath]"
           },
           "containerImage": {
-            "value": "[parameters('containerApps')[0].containerImage]"
+            "value": "[parameters('containerApps')[copyIndex()].containerImage]"
           },
           "logAnalyticsWorkspaceName": {
             "value": "[parameters('logAnalyticsWorkspaces')[0].logAnalyticsWorkspaceName]"
@@ -451,7 +451,7 @@
             "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'PlatformCostInsights'), parameters('dashboards')[copyIndex()].subscriptionName, '')]"
           },
           "resourceGroupList": {
-            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'PlatformCostInsights'), json(parameters('dashboards')[copyIndex()].resourceGroupList), createArray())]"
+            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'PlatformCostInsights'), parameters('dashboards')[copyIndex()].resourceGroupList, createArray())]"
           },
           "domainName": {
             "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'PlatformCostInsights'), parameters('dashboards')[copyIndex()].domainName, '')]"
