@@ -6,13 +6,19 @@
             "type": "string"
         }
     },
+    "location": {
+            "type": "string",
+            "metadata": {
+                "description": "Location for the Log Analytics workspace"
+            }
+        },
     "variables": {},
     "resources": [
         {
             "type": "Microsoft.OperationalInsights/workspaces",
             "apiVersion": "2025-02-01",
             "name": "[parameters('logAnalyticsWorkspaceName')]",
-            "location": "uksouth",
+            "location": "[parameters('location')]",
             "tags": {
                 "Application": "datacatalyst-demo",
                 "Client": "nowvertical",
