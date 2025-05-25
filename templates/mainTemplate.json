@@ -124,9 +124,6 @@
           },
           "containerSoftDeleteRetentionDays": {
             "value": "[parameters('storageAccounts')[copyIndex()].containerSoftDeleteRetentionDays]"
-          },
-          "location": {
-            "value": "[parameters('storageAccounts')[copyIndex()].location]"
           }
         }
       }
@@ -178,9 +175,6 @@
           },
           "backupStorageRedundancy": {
             "value": "[parameters('sqlServers')[copyIndex()].backupStorageRedundancy]"
-          },
-          "location": {
-            "value": "[parameters('sqlServers')[copyIndex()].location]"
           }
         }
       }
@@ -234,9 +228,6 @@
           "containerAppName": {
             "value": "[parameters('containerApps')[copyIndex()].containerAppName]"
           },
-          "location": {
-            "value": "[parameters('containerApps')[copyIndex()].location]"
-          },
           "environmentName": {
             "value": "[parameters('containerApps')[copyIndex()].environmentName]"
           },
@@ -286,9 +277,6 @@
           },
           "name": {
             "value": "[parameters('functionApps')[copyIndex()].name]"
-          },
-          "location": {
-            "value": "[parameters('functionApps')[copyIndex()].location]"
           },
           "storageBlobContainerName": {
             "value": "[parameters('functionApps')[copyIndex()].storageBlobContainerName]"
@@ -349,9 +337,6 @@
         "parameters": {
           "vnetName": {
             "value": "[parameters('virtualNetworks')[copyIndex()].vnetName]"
-          },
-          "location": {
-            "value": "[parameters('virtualNetworks')[copyIndex()].location]"
           }
         }
       }
@@ -376,9 +361,6 @@
         "parameters": {
           "apimServiceName": {
             "value": "[parameters('apiManagementServices')[copyIndex()].apimServiceName]"
-          },
-          "location": {
-            "value": "[parameters('apiManagementServices')[copyIndex()].location]"
           },
           "publisherEmail": {
             "value": "[parameters('apiManagementServices')[copyIndex()].publisherEmail]"
@@ -423,9 +405,6 @@
           },
           "dashboardName": {
             "value": "[parameters('dashboards')[copyIndex()].dashboardName]"
-          },
-          "location": {
-            "value": "[parameters('dashboards')[copyIndex()].location]"
           },
           "coreResourceGroup": {
             "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'API Tracker'), parameters('dashboards')[copyIndex()].coreResourceGroup, '')]"

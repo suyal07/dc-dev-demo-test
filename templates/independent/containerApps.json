@@ -58,7 +58,8 @@
         }
     },
     "variables": {
-        "containerAppEnvName": "[parameters('environmentName')]"
+        "containerAppEnvName": "[parameters('environmentName')]",
+        "logAnalyticsResourceGroup": "datacatalyst-demo-dev-core-test-rg"
     },
     "resources": [
         {
@@ -70,14 +71,11 @@
                 "appLogsConfiguration": {
                     "destination": "log-analytics",
                     "logAnalyticsConfiguration": {
-                        "customerId": "[reference(resourceId('Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName')), '2022-10-01').customerId]",
-                        "sharedKey": "[listKeys(resourceId('Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName')), '2022-10-01').primarySharedKey]"
+                        "customerId": "[reference(resourceId(variables('logAnalyticsResourceGroup'), 'Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName')), '2022-10-01').customerId]",
+                        "sharedKey": "[listKeys(resourceId(variables('logAnalyticsResourceGroup'), 'Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName')), '2022-10-01').primarySharedKey]"
                     }
                 }
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName'))]"
-            ]
+            }
         },
         {
             "type": "Microsoft.App/containerApps",
