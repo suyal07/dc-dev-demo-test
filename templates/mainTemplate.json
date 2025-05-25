@@ -272,7 +272,6 @@
       },
       "dependsOn": [
         "[concat('Microsoft.Resources/resourceGroups/', parameters('functionApps')[copyIndex()].serverFarmResourceGroup)]",
-        "storageAccountCopy",
         "logAnalyticsWorkspaceCopy"
       ],
       "properties": {
@@ -295,6 +294,15 @@
           },
           "storageAccountName": {
             "value": "[parameters('functionApps')[copyIndex()].storageAccountName]"
+          },
+          "storageAccountResourceGroup": {
+            "value": "[parameters('functionApps')[copyIndex()].storageAccountResourceGroup]"
+          },
+          "blobSoftDeleteRetentionDays": {
+            "value": "[parameters('functionApps')[copyIndex()].blobSoftDeleteRetentionDays]"
+          },
+          "containerSoftDeleteRetentionDays": {
+            "value": "[parameters('functionApps')[copyIndex()].containerSoftDeleteRetentionDays]"
           },
           "sku": {
             "value": "[parameters('functionApps')[copyIndex()].sku]"
@@ -470,13 +478,13 @@
             "value": "[if(equals(copyIndex(), 0), parameters('logicApps')[copyIndex()].workflows_datacatalyst_core_la_name, '')]"
           },
           "office365ConnectionExternalId": {
-            "value": "[if(equals(copyIndex(), 0), parameters('logicApps')[copyIndex()].office365ConnectionExternalId, parameters('logicApps')[copyIndex()].office365ConnectionExternalId)]"
+            "value": "[parameters('logicApps')[copyIndex()].office365ConnectionExternalId]"
           },
           "subscriptionId": {
-            "value": "[if(equals(copyIndex(), 0), parameters('logicApps')[copyIndex()].subscriptionId, parameters('logicApps')[copyIndex()].subscriptionId)]"
+            "value": "[parameters('logicApps')[copyIndex()].subscriptionId]"
           },
           "resourceLocation": {
-            "value": "[if(equals(copyIndex(), 0), parameters('logicApps')[copyIndex()].resourceLocation, parameters('logicApps')[copyIndex()].resourceLocation)]"
+            "value": "[parameters('logicApps')[copyIndex()].resourceLocation]"
           },
           "logicAppName": {
             "value": "[if(equals(copyIndex(), 1), parameters('logicApps')[copyIndex()].logicAppName, '')]"

@@ -17,7 +17,7 @@
     "location": {
       "type": "string",
       "metadata": {
-        "description": "Location for the function app"
+        "description": "Location for all resources"
       }
     },
     "storageBlobContainerName": {
@@ -30,6 +30,24 @@
       "type": "string",
       "metadata": {
         "description": "Name of the storage account"
+      }
+    },
+    "storageAccountResourceGroup": {
+      "type": "string",
+      "metadata": {
+        "description": "Resource group for the storage account"
+      }
+    },
+    "blobSoftDeleteRetentionDays": {
+      "type": "int",
+      "metadata": {
+        "description": "Number of days to retain soft-deleted blobs"
+      }
+    },
+    "containerSoftDeleteRetentionDays": {
+      "type": "int",
+      "metadata": {
+        "description": "Number of days to retain soft-deleted containers"
       }
     },
     "sku": {
@@ -94,10 +112,62 @@
     }
   },
   "variables": {
-    "storageAccountResourceGroup": "datacatalyst-demo-dev-core-test-rg",
     "appInsightsName": "[concat(parameters('name'), '-appinsights')]"
   },
   "resources": [
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2023-05-01",
+      "name": "[parameters('storageAccountName')]",
+      "location": "[parameters('location')]",
+      "sku": {
+        "name": "Standard_LRS"
+      },
+      "kind": "StorageV2",
+      "properties": {
+        "accessTier": "Hot",
+        "minimumTlsVersion": "TLS1_2",
+        "supportsHttpsTrafficOnly": true,
+        "allowBlobPublicAccess": false,
+        "isHnsEnabled": true,
+        "isNfsV3Enabled": false,
+        "isSftpEnabled": false
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts/blobServices",
+      "apiVersion": "2023-05-01",
+      "name": "[concat(parameters('storageAccountName'), '/default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
+      ],
+      "properties": {
+        "deleteRetentionPolicy": {
+          "enabled": true,
+          "days": "[parameters('blobSoftDeleteRetentionDays')]"
+        },
+        "containerDeleteRetentionPolicy": {
+          "enabled": true,
+          "days": "[parameters('containerSoftDeleteRetentionDays')]"
+        },
+        "isVersioningEnabled": false,
+        "changeFeed": {
+          "enabled": false
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+      "apiVersion": "2023-05-01",
+      "name": "[concat(parameters('storageAccountName'), '/default/', parameters('storageBlobContainerName'))]",
+      "dependsOn": [
+        "[concat('Microsoft.Storage/storageAccounts/', parameters('storageAccountName'), '/blobServices/default')]",
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
+      ],
+      "properties": {
+        "publicAccess": "None"
+      }
+    },
     {
       "type": "Microsoft.Web/serverfarms",
       "apiVersion": "2022-03-01",
@@ -121,7 +191,9 @@
       "location": "[parameters('location')]",
       "dependsOn": [
         "[resourceId('Microsoft.Web/serverfarms', parameters('hostingPlanName'))]",
-        "[resourceId('Microsoft.Insights/components', variables('appInsightsName'))]"
+        "[resourceId('Microsoft.Insights/components', variables('appInsightsName'))]",
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]",
+        "[concat('Microsoft.Storage/storageAccounts/', parameters('storageAccountName'), '/blobServices/default/containers/', parameters('storageBlobContainerName'))]"
       ],
       "properties": {
         "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('hostingPlanName'))]",
@@ -130,11 +202,11 @@
           "appSettings": [
             {
               "name": "AzureWebJobsStorage",
-              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageAccountName'), ';AccountKey=', listKeys(resourceId(variables('storageAccountResourceGroup'), 'Microsoft.Storage/storageAccounts', parameters('storageAccountName')), '2022-05-01').keys[0].value, ';EndpointSuffix=core.windows.net')]"
+              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageAccountName'), ';AccountKey=', listKeys(resourceId(parameters('storageAccountResourceGroup'), 'Microsoft.Storage/storageAccounts', parameters('storageAccountName')), '2022-05-01').keys[0].value, ';EndpointSuffix=core.windows.net')]"
             },
             {
               "name": "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING",
-              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageAccountName'), ';AccountKey=', listKeys(resourceId(variables('storageAccountResourceGroup'), 'Microsoft.Storage/storageAccounts', parameters('storageAccountName')), '2022-05-01').keys[0].value, ';EndpointSuffix=core.windows.net')]"
+              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageAccountName'), ';AccountKey=', listKeys(resourceId(parameters('storageAccountResourceGroup'), 'Microsoft.Storage/storageAccounts', parameters('storageAccountName')), '2022-05-01').keys[0].value, ';EndpointSuffix=core.windows.net')]"
             },
             {
               "name": "WEBSITE_CONTENTSHARE",
@@ -166,11 +238,11 @@
       "name": "[variables('appInsightsName')]",
       "location": "[parameters('location')]",
       "dependsOn": [
-        "[resourceId(variables('logAnalyticsWorkspaceResourceGroup'), 'Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName'))]"
+        "[resourceId(parameters('logAnalyticsWorkspaceResourceGroup'), 'Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName'))]"
       ],
       "properties": {
         "Application_Type": "web",
-        "WorkspaceResourceId": "[resourceId(variables('logAnalyticsWorkspaceResourceGroup'), 'Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName'))]"
+        "WorkspaceResourceId": "[resourceId(parameters('logAnalyticsWorkspaceResourceGroup'), 'Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName'))]"
       }
     }
   ],
