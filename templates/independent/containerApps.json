@@ -49,28 +49,18 @@
             "metadata": {
                 "description": "Container image for Data API Builder"
             }
+        },
+        "logAnalyticsWorkspaceName": {
+            "type": "string",
+            "metadata": {
+                "description": "Name of the existing Log Analytics workspace"
+            }
         }
     },
     "variables": {
-        "logAnalyticsWorkspaceName": "[format('{0}-logs', parameters('containerAppName'))]",
         "containerAppEnvName": "[parameters('environmentName')]"
     },
     "resources": [
-        {
-            "type": "Microsoft.OperationalInsights/workspaces",
-            "apiVersion": "2023-03-01",
-            "name": "[variables('logAnalyticsWorkspaceName')]",
-            "location": "[parameters('location')]",
-            "properties": {
-                "sku": {
-                    "name": "PerGB2018"
-                },
-                "retentionInDays": 30,
-                "features": {
-                    "enableLogAccessUsingOnlyResourcePermissions": true
-                }
-            }
-        },
         {
             "type": "Microsoft.App/managedEnvironments",
             "apiVersion": "2023-05-01",
@@ -80,13 +70,13 @@
                 "appLogsConfiguration": {
                     "destination": "log-analytics",
                     "logAnalyticsConfiguration": {
-                        "customerId": "[reference(resourceId('Microsoft.OperationalInsights/workspaces', variables('logAnalyticsWorkspaceName'))).customerId]",
-                        "sharedKey": "[listKeys(resourceId('Microsoft.OperationalInsights/workspaces', variables('logAnalyticsWorkspaceName')), '2023-03-01').primarySharedKey]"
+                        "customerId": "[reference(resourceId('Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName'))).customerId]",
+                        "sharedKey": "[listKeys(resourceId('Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName')), '2023-03-01').primarySharedKey]"
                     }
                 }
             },
             "dependsOn": [
-                "[resourceId('Microsoft.OperationalInsights/workspaces', variables('logAnalyticsWorkspaceName'))]"
+                "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName'))]"
             ]
         },
         {
