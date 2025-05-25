@@ -17,8 +17,36 @@
     "storageAccounts": {
       "value": [
         {
+          "name": "datacatalystdemodevwhbpt",
+          "resourceGroup": "datacatalyst-demo-dev-source-test-rg",
+          "blobSoftDeleteRetentionDays": 7,
+          "containerSoftDeleteRetentionDays": 7,
+          "location": "uksouth"
+        },
+        {
           "name": "datacatalystdevsrcsat",
           "resourceGroup": "datacatalyst-demo-dev-source-test-rg",
+          "blobSoftDeleteRetentionDays": 7,
+          "containerSoftDeleteRetentionDays": 7,
+          "location": "uksouth"
+        },
+        {
+          "name": "datacatalystdemodevfmsat",
+          "resourceGroup": "datacatalyst-demo-dev-core-test-rg",
+          "blobSoftDeleteRetentionDays": 7,
+          "containerSoftDeleteRetentionDays": 7,
+          "location": "uksouth"
+        },
+        {
+          "name": "datacatalystdemodevloct",
+          "resourceGroup": "datacatalyst-demo-dev-core-test-rg",
+          "blobSoftDeleteRetentionDays": 7,
+          "containerSoftDeleteRetentionDays": 7,
+          "location": "uksouth"
+        },
+        {
+          "name": "datacatalystdemoevorgt",
+          "resourceGroup": "datacatalyst-demo-dev-core-test-rg",
           "blobSoftDeleteRetentionDays": 7,
           "containerSoftDeleteRetentionDays": 7,
           "location": "uksouth"
@@ -81,9 +109,6 @@
           "location": "uksouth",
           "storageBlobContainerName": "app-package-core-test-fa-f42f56f",
           "storageAccountName": "datacatalystdemodevfmsat",
-          "storageAccountResourceGroup": "datacatalyst-demo-dev-core-test-rg",
-          "blobSoftDeleteRetentionDays": 7,
-          "containerSoftDeleteRetentionDays": 7,
           "sku": "FlexConsumption",
           "skuCode": "FC1",
           "workerSize": "0",
@@ -101,9 +126,6 @@
           "location": "uksouth",
           "storageBlobContainerName": "app-package-core-location-fa-f42f56f",
           "storageAccountName": "datacatalystdemodevloct",
-          "storageAccountResourceGroup": "datacatalyst-demo-dev-core-test-rg",
-          "blobSoftDeleteRetentionDays": 7,
-          "containerSoftDeleteRetentionDays": 7,
           "sku": "FlexConsumption",
           "skuCode": "FC1",
           "workerSize": "0",
@@ -121,9 +143,6 @@
           "location": "uksouth",
           "storageBlobContainerName": "app-package-core-org-hierarchy-fa-f42f56f",
           "storageAccountName": "datacatalystdemoevorgt",
-          "storageAccountResourceGroup": "datacatalyst-demo-dev-core-test-rg",
-          "blobSoftDeleteRetentionDays": 7,
-          "containerSoftDeleteRetentionDays": 7,
           "sku": "FlexConsumption",
           "skuCode": "FC1",
           "workerSize": "0",
@@ -141,9 +160,6 @@
           "location": "uksouth",
           "storageBlobContainerName": "app-package-webhook-test-fa-f42f56f",
           "storageAccountName": "datacatalystdemodevwhbpt",
-          "storageAccountResourceGroup": "datacatalyst-demo-dev-source-test-rg",
-          "blobSoftDeleteRetentionDays": 7,
-          "containerSoftDeleteRetentionDays": 7,
           "sku": "FlexConsumption",
           "skuCode": "FC1",
           "workerSize": "0",
