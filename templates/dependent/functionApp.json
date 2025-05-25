@@ -1,224 +1,183 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-    "contentVersion": "1.0.0.0",
-    "parameters": {
-        "subscriptionId": {
-            "type": "string",
-            "metadata": {
-                "description": "Subscription ID for the deployment"
-            }
-        },
-        "name": {
-            "type": "string",
-            "metadata": {
-                "description": "Name of the Function App"
-            }
-        },
-        "location": {
-            "type": "string",
-            "metadata": {
-                "description": "Location for all resources"
-            }
-        },
-        "storageBlobContainerName": {
-            "type": "string",
-            "metadata": {
-                "description": "Name of the blob container for deployment storage"
-            }
-        },
-        "storageAccountName": {
-            "type": "string",
-            "metadata": {
-                "description": "Name of the storage account"
-            }
-        },
-        "sku": {
-            "type": "string",
-            "metadata": {
-                "description": "SKU for the App Service Plan (e.g., FlexConsumption)"
-            }
-        },
-        "skuCode": {
-            "type": "string",
-            "metadata": {
-                "description": "SKU code for the App Service Plan (e.g., FC1)"
-            }
-        },
-        "workerSize": {
-            "type": "string",
-            "metadata": {
-                "description": "Worker size for the App Service Plan"
-            }
-        },
-        "workerSizeId": {
-            "type": "string",
-            "metadata": {
-                "description": "Worker size ID for the App Service Plan"
-            }
-        },
-        "numberOfWorkers": {
-            "type": "string",
-            "metadata": {
-                "description": "Number of workers for the App Service Plan"
-            }
-        },
-        "hostingPlanName": {
-            "type": "string",
-            "metadata": {
-                "description": "Name of the App Service Plan"
-            }
-        },
-        "serverFarmResourceGroup": {
-            "type": "string",
-            "metadata": {
-                "description": "Resource group for the App Service Plan"
-            }
-        },
-        "alwaysOn": {
-            "type": "bool",
-            "metadata": {
-                "description": "Whether Always On is enabled for the Function App"
-            }
-        },
-        "logAnalyticsWorkspaceName": {
-            "type": "string",
-            "metadata": {
-                "description": "Name of the Log Analytics Workspace for Application Insights"
-            }
-        },
-        "logAnalyticsWorkspaceResourceGroup": {
-            "type": "string",
-            "metadata": {
-                "description": "Resource group of the Log Analytics Workspace"
-            }
-        }
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "subscriptionId": {
+      "type": "string",
+      "metadata": {
+        "description": "Subscription ID for the function app"
+      }
     },
-    "variables": {},
-    "resources": [
-        {
-            "apiVersion": "2023-12-01",
-            "name": "[parameters('name')]",
-            "type": "Microsoft.Web/sites",
-            "kind": "functionapp,linux",
-            "location": "[parameters('location')]",
-            "tags": {
-                "hidden-link: /app-insights-resource-id": "[concat('/subscriptions/', parameters('subscriptionId'), '/resourceGroups/', parameters('serverFarmResourceGroup'), '/providers/Microsoft.Insights/components/', parameters('name'))]"
+    "name": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the function app"
+      }
+    },
+    "location": {
+      "type": "string",
+      "metadata": {
+        "description": "Location for the function app"
+      }
+    },
+    "storageBlobContainerName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the storage blob container"
+      }
+    },
+    "storageAccountName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the storage account"
+      }
+    },
+    "sku": {
+      "type": "string",
+      "metadata": {
+        "description": "SKU for the hosting plan"
+      }
+    },
+    "skuCode": {
+      "type": "string",
+      "metadata": {
+        "description": "SKU code for the hosting plan"
+      }
+    },
+    "workerSize": {
+      "type": "string",
+      "metadata": {
+        "description": "Worker size for the hosting plan"
+      }
+    },
+    "workerSizeId": {
+      "type": "string",
+      "metadata": {
+        "description": "Worker size ID for the hosting plan"
+      }
+    },
+    "numberOfWorkers": {
+      "type": "string",
+      "metadata": {
+        "description": "Number of workers for the hosting plan"
+      }
+    },
+    "hostingPlanName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the hosting plan"
+      }
+    },
+    "serverFarmResourceGroup": {
+      "type": "string",
+      "metadata": {
+        "description": "Resource group for the server farm"
+      }
+    },
+    "alwaysOn": {
+      "type": "bool",
+      "metadata": {
+        "description": "Always On setting for the function app"
+      }
+    },
+    "logAnalyticsWorkspaceName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the Log Analytics workspace"
+      }
+    },
+    "logAnalyticsWorkspaceResourceGroup": {
+      "type": "string",
+      "metadata": {
+        "description": "Resource group for the Log Analytics workspace"
+      }
+    }
+  },
+  "variables": {
+    "storageAccountResourceGroup": "datacatalyst-demo-dev-core-test-rg",
+    "appInsightsName": "[concat(parameters('name'), '-appinsights')]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Web/serverfarms",
+      "apiVersion": "2022-03-01",
+      "name": "[parameters('hostingPlanName')]",
+      "location": "[parameters('location')]",
+      "sku": {
+        "name": "[parameters('skuCode')]",
+        "tier": "[parameters('sku')]",
+        "size": "[parameters('workerSize')]",
+        "family": "Y",
+        "capacity": "[parameters('numberOfWorkers')]"
+      },
+      "properties": {
+        "reserved": false
+      }
+    },
+    {
+      "type": "Microsoft.Web/sites",
+      "apiVersion": "2022-03-01",
+      "name": "[parameters('name')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/serverfarms', parameters('hostingPlanName'))]",
+        "[resourceId('Microsoft.Insights/components', variables('appInsightsName'))]"
+      ],
+      "properties": {
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('hostingPlanName'))]",
+        "siteConfig": {
+          "alwaysOn": "[parameters('alwaysOn')]",
+          "appSettings": [
+            {
+              "name": "AzureWebJobsStorage",
+              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageAccountName'), ';AccountKey=', listKeys(resourceId(variables('storageAccountResourceGroup'), 'Microsoft.Storage/storageAccounts', parameters('storageAccountName')), '2022-05-01').keys[0].value, ';EndpointSuffix=core.windows.net')]"
             },
-            "dependsOn": [
-                "[resourceId('Microsoft.Insights/components', parameters('name'))]",
-                "[resourceId('Microsoft.Web/serverfarms', parameters('hostingPlanName'))]",
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
-            ],
-            "properties": {
-                "name": "[parameters('name')]",
-                "siteConfig": {
-                    "appSettings": [
-                        {
-                            "name": "DEPLOYMENT_STORAGE_CONNECTION_STRING",
-                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName')), '2023-05-01').keys[0].value, ';EndpointSuffix=', 'core.windows.net')]"
-                        },
-                        {
-                            "name": "APPLICATIONINSIGHTS_CONNECTION_STRING",
-                            "value": "[reference(resourceId('Microsoft.Insights/components', parameters('name')), '2020-02-02').ConnectionString]"
-                        },
-                        {
-                            "name": "AzureWebJobsStorage",
-                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName')), '2023-05-01').keys[0].value, ';EndpointSuffix=', 'core.windows.net')]"
-                        }
-                    ],
-                    "cors": {
-                        "allowedOrigins": [
-                            "https://portal.azure.com"
-                        ]
-                    }
-                },
-                "clientAffinityEnabled": false,
-                "virtualNetworkSubnetId": null,
-                "functionAppConfig": {
-                    "deployment": {
-                        "storage": {
-                            "type": "blobContainer",
-                            "value": "[concat('https://', parameters('storageAccountName'), '.blob.core.windows.net/', parameters('storageBlobContainerName'))]",
-                            "authentication": {
-                                "type": "StorageAccountConnectionString",
-                                "storageAccountConnectionStringName": "DEPLOYMENT_STORAGE_CONNECTION_STRING"
-                            }
-                        }
-                    },
-                    "scaleAndConcurrency": {
-                        "maximumInstanceCount": 100,
-                        "instanceMemoryMB": 2048
-                    },
-                    "runtime": {
-                        "name": "python",
-                        "version": "3.11"
-                    }
-                },
-                "publicNetworkAccess": "Enabled",
-                "httpsOnly": true,
-                "serverFarmId": "[resourceId(parameters('serverFarmResourceGroup'), 'Microsoft.Web/serverfarms', parameters('hostingPlanName'))]"
+            {
+              "name": "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING",
+              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageAccountName'), ';AccountKey=', listKeys(resourceId(variables('storageAccountResourceGroup'), 'Microsoft.Storage/storageAccounts', parameters('storageAccountName')), '2022-05-01').keys[0].value, ';EndpointSuffix=core.windows.net')]"
             },
-            "resources": [
-                {
-                    "type": "Microsoft.Web/sites/basicPublishingCredentialsPolicies",
-                    "apiVersion": "2022-09-01",
-                    "name": "[concat(parameters('name'), '/scm')]",
-                    "properties": {
-                        "allow": false
-                    },
-                    "dependsOn": [
-                        "[resourceId('Microsoft.Web/sites', parameters('name'))]"
-                    ]
-                },
-                {
-                    "type": "Microsoft.Web/sites/basicPublishingCredentialsPolicies",
-                    "apiVersion": "2022-09-01",
-                    "name": "[concat(parameters('name'), '/ftp')]",
-                    "properties": {
-                        "allow": false
-                    },
-                    "dependsOn": [
-                        "[resourceId('Microsoft.Web/sites', parameters('name'))]"
-                    ]
-                }
-            ]
-        },
-        {
-            "apiVersion": "2022-09-01",
-            "name": "[parameters('hostingPlanName')]",
-            "type": "Microsoft.Web/serverfarms",
-            "location": "[parameters('location')]",
-            "kind": "linux",
-            "tags": {},
-            "dependsOn": [],
-            "properties": {
-                "name": "[parameters('hostingPlanName')]",
-                "workerSize": "[parameters('workerSize')]",
-                "workerSizeId": "[parameters('workerSizeId')]",
-                "numberOfWorkers": "[parameters('numberOfWorkers')]",
-                "reserved": true,
-                "zoneRedundant": false
+            {
+              "name": "WEBSITE_CONTENTSHARE",
+              "value": "[parameters('storageBlobContainerName')]"
             },
-            "sku": {
-                "Tier": "[parameters('sku')]",
-                "Name": "[parameters('skuCode')]"
+            {
+              "name": "APPLICATIONINSIGHTS_CONNECTION_STRING",
+              "value": "[reference(resourceId('Microsoft.Insights/components', variables('appInsightsName')), '2020-02-02').ConnectionString]"
+            },
+            {
+              "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+              "value": "[reference(resourceId('Microsoft.Insights/components', variables('appInsightsName')), '2020-02-02').InstrumentationKey]"
+            },
+            {
+              "name": "FUNCTIONS_EXTENSION_VERSION",
+              "value": "~4"
+            },
+            {
+              "name": "FUNCTIONS_WORKER_RUNTIME",
+              "value": "dotnet"
             }
-        },
-        {
-            "apiVersion": "2020-02-02",
-            "name": "[parameters('name')]",
-            "type": "Microsoft.Insights/components",
-            "location": "[parameters('location')]",
-            "tags": {},
-            "dependsOn": [],
-            "properties": {
-                "ApplicationId": "[parameters('name')]",
-                "Request_Source": "IbizaWebAppExtensionCreate",
-                "Flow_Type": "Redfield",
-                "Application_Type": "web",
-                "WorkspaceResourceId": "[concat('/subscriptions/', parameters('subscriptionId'), '/resourceGroups/', parameters('logAnalyticsWorkspaceResourceGroup'), '/providers/Microsoft.OperationalInsights/workspaces/', parameters('logAnalyticsWorkspaceName'))]",
-                "DisableLocalAuth": false
-            }
+          ]
         }
-    ]
+      }
+    },
+    {
+      "type": "Microsoft.Insights/components",
+      "apiVersion": "2020-02-02",
+      "name": "[variables('appInsightsName')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[resourceId(variables('logAnalyticsWorkspaceResourceGroup'), 'Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName'))]"
+      ],
+      "properties": {
+        "Application_Type": "web",
+        "WorkspaceResourceId": "[resourceId(variables('logAnalyticsWorkspaceResourceGroup'), 'Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName'))]"
+      }
+    }
+  ],
+  "outputs": {
+    "functionAppId": {
+      "type": "string",
+      "value": "[resourceId('Microsoft.Web/sites', parameters('name'))]"
+    }
+  }
 }
