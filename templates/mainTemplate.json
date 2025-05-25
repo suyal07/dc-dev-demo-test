@@ -70,8 +70,18 @@
     }
   },
   "variables": {
-    "githubIndependentUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/",
-    "githubDependentUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/dependent/",
+    "storageAccountTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/storageAccount.json",
+    "sqlServerTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/sqlServer.json",
+    "logAnalyticsTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/logAnalytics.json",
+    "containerAppsTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/containerApps.json",
+    "vnetTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/vnet.json",
+    "apimTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/apim.json",
+    "logicAppsTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/logicApps.json",
+    "alertsLogicAppTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/alertsLogicApp.json",
+    "functionAppTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/dependent/functionApp.json",
+    "apiUsageAnalyticsTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/dependent/APIUsageAnalytics.json",
+    "platformCostInsightsTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/dependent/PlatformCostInsights.json",
+    "actionGroupApimTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/dependent/actionGroupApim.json",
     "resourceGroupLocations": {
       "[parameters('resourceGroups')[0].name]": "[parameters('resourceGroups')[0].location]",
       "[parameters('resourceGroups')[1].name]": "[parameters('resourceGroups')[1].location]"
@@ -104,7 +114,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[concat(variables('githubIndependentUrl'), 'storageAccount.json')]"
+          "uri": "[variables('storageAccountTemplateUrl')]"
         },
         "parameters": {
           "storageAccountName": {
@@ -138,7 +148,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[concat(variables('githubIndependentUrl'), 'sqlServer.json')]"
+          "uri": "[variables('sqlServerTemplateUrl')]"
         },
         "parameters": {
           "sqlServerName": {
@@ -193,7 +203,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[concat(variables('githubIndependentUrl'), 'logAnalytics.json')]"
+          "uri": "[variables('logAnalyticsTemplateUrl')]"
         },
         "parameters": {
           "logAnalyticsWorkspaceName": {
@@ -222,7 +232,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[concat(variables('githubIndependentUrl'), 'containerApps.json')]"
+          "uri": "[variables('containerAppsTemplateUrl')]"
         },
         "parameters": {
           "containerAppName": {
@@ -273,7 +283,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[concat(variables('githubDependentUrl'), 'functionApp.json')]"
+          "uri": "[variables('functionAppTemplateUrl')]"
         },
         "parameters": {
           "subscriptionId": {
@@ -340,7 +350,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[concat(variables('githubIndependentUrl'), 'vnet.json')]"
+          "uri": "[variables('vnetTemplateUrl')]"
         },
         "parameters": {
           "vnetName": {
@@ -368,7 +378,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[concat(variables('githubIndependentUrl'), 'apim.json')]"
+          "uri": "[variables('apimTemplateUrl')]"
         },
         "parameters": {
           "apimServiceName": {
@@ -410,7 +420,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'API Tracker'), concat(variables('githubDependentUrl'), 'APIUsageAnalytics.json'), concat(variables('githubDependentUrl'), 'PlatformCostInsights.json'))]"
+          "uri": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'API Tracker'), variables('apiUsageAnalyticsTemplateUrl'), variables('platformCostInsightsTemplateUrl'))]"
         },
         "parameters": {
           "subscriptionReference": {
@@ -462,7 +472,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[if(equals(copyIndex(), 0), concat(variables('githubIndependentUrl'), 'logicApps.json'), concat(variables('githubIndependentUrl'), 'alertsLogicApp.json'))]"
+          "uri": "[if(equals(copyIndex(), 0), variables('logicAppsTemplateUrl'), variables('alertsLogicAppTemplateUrl'))]"
         },
         "parameters": {
           "workflows_datacatalyst_core_la_name": {
@@ -503,7 +513,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[concat(variables('githubDependentUrl'), 'actionGroupApim.json')]"
+          "uri": "[variables('actionGroupApimTemplateUrl')]"
         },
         "parameters": {
           "actionGroupName": {
