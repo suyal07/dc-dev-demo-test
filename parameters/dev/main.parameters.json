@@ -95,7 +95,7 @@
           "environmentName": "datacatalyst-demo-source-test-env",
           "minReplicas": 1,
           "maxReplicas": 3,
-          "databaseConnectionString": "DefaultPlaceholder",
+          "databaseConnectionString": "Server=tcp:datacatalyst-demo-dev-src-test-sqlserver.database.windows.net,1433;Initial Catalog=datacatalyst-demo-dev-src-test-sqldb;Persist Security Info=False;User ID=datacatalystuser;Password=devp@admin4+1;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;",
           "configPath": "/app/dab-config.json",
           "containerImage": "mcr.microsoft.com/azure-databases/data-api-builder:latest"
         }
