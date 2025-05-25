@@ -232,28 +232,28 @@
         },
         "parameters": {
           "containerAppName": {
-            "value": "[parameters('containerApps')[copyIndex()].containerAppName]"
+            "value": "[parameters('containerApps')[0].containerAppName]"
           },
           "location": {
-            "value": "[parameters('containerApps')[copyIndex()].location]"
+            "value": "[parameters('containerApps')[0].location]"
           },
           "environmentName": {
-            "value": "[parameters('containerApps')[copyIndex()].environmentName]"
+            "value": "[parameters('containerApps')[0].environmentName]"
           },
           "minReplicas": {
-            "value": "[parameters('containerApps')[copyIndex()].minReplicas]"
+            "value": "[parameters('containerApps')[0].minReplicas]"
           },
           "maxReplicas": {
-            "value": "[parameters('containerApps')[copyIndex()].maxReplicas]"
+            "value": "[parameters('containerApps')[0].maxReplicas]"
           },
           "databaseConnectionString": {
-            "value": "[parameters('containerApps')[copyIndex()].databaseConnectionString]"
+            "value": "[parameters('containerApps')[0].databaseConnectionString]"
           },
           "configPath": {
-            "value": "[parameters('containerApps')[copyIndex()].configPath]"
+            "value": "[parameters('containerApps')[0].configPath]"
           },
           "containerImage": {
-            "value": "[parameters('containerApps')[copyIndex()].containerImage]"
+            "value": "[parameters('containerApps')[0].containerImage]"
           },
           "logAnalyticsWorkspaceName": {
             "value": "[parameters('logAnalyticsWorkspaces')[0].logAnalyticsWorkspaceName]"
@@ -333,6 +333,9 @@
           },
           "logAnalyticsWorkspaceResourceGroup": {
             "value": "[parameters('functionApps')[copyIndex()].logAnalyticsWorkspaceResourceGroup]"
+          },
+          "workspaceResourceId": {
+            "value": "[reference(concat('logAnalyticsWorkspace-', 0)).outputs.workspaceResourceId.value]"
           }
         }
       }
@@ -529,5 +532,11 @@
         }
       }
     }
-  ]
+  ],
+  "outputs": {
+    "workspaceResourceId": {
+      "type": "string",
+      "value": "[reference(concat('logAnalyticsWorkspace-', 0)).outputs.workspaceResourceId.value]"
+    }
+  }
 }
