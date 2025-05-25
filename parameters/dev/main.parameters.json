@@ -45,7 +45,7 @@
           "location": "uksouth"
         },
         {
-          "name": "datacatalystdemodevorgt",
+          "name": "datacatalystdemoevorgt",
           "resourceGroup": "datacatalyst-demo-dev-core-test-rg",
           "blobSoftDeleteRetentionDays": 7,
           "containerSoftDeleteRetentionDays": 7,
@@ -142,7 +142,7 @@
           "name": "datacatalyst-dev-core-org-hierarchy-test-fa",
           "location": "uksouth",
           "storageBlobContainerName": "app-package-core-org-hierarchy-fa-f42f56f",
-          "storageAccountName": "datacatalystdemodevorgt",
+          "storageAccountName": "datacatalystdemoevorgt",
           "sku": "FlexConsumption",
           "skuCode": "FC1",
           "workerSize": "0",

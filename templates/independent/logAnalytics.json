@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "logAnalyticsWorkspaceName": {
-            "type": "String"
+            "type": "string"
         }
     },
     "variables": {},
@@ -29,7 +29,7 @@
             },
             "properties": {
                 "sku": {
-                    "name": "pergb2018"
+                    "name": "PerGB2018"
                 },
                 "retentionInDays": 30,
                 "features": {
