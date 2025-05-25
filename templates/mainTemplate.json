@@ -446,26 +446,7 @@
         "templateLink": {
           "uri": "[if(equals(copyIndex(), 0), variables('logicAppsTemplateUrl'), variables('alertsLogicAppTemplateUrl'))]"
         },
-        "parameters": {
-          "workflows_datacatalyst_core_la_name": {
-            "value": "[if(equals(copyIndex(), 0), parameters('logicApps')[copyIndex()].workflows_datacatalyst_core_la_name, '')]"
-          },
-          "logicAppName": {
-            "value": "[if(equals(copyIndex(), 1), parameters('logicApps')[copyIndex()].logicAppName, '')]"
-          },
-          "office365ConnectionExternalId": {
-            "value": "[parameters('logicApps')[copyIndex()].office365ConnectionExternalId]"
-          },
-          "subscriptionId": {
-            "value": "[parameters('logicApps')[copyIndex()].subscriptionId]"
-          },
-          "resourceLocation": {
-            "value": "[variables('resourceGroupLocations')[split(parameters('logicApps')[copyIndex()].office365ConnectionExternalId, '/')[4]]]"
-          },
-          "recipientEmailAddresses": {
-            "value": "[if(equals(copyIndex(), 1), parameters('logicApps')[copyIndex()].recipientEmailAddresses, '')]"
-          }
-        }
+        "parameters": "[union(createObject('office365ConnectionExternalId', createObject('value', parameters('logicApps')[copyIndex()].office365ConnectionExternalId), 'subscriptionId', createObject('value', parameters('logicApps')[copyIndex()].subscriptionId), 'resourceLocation', createObject('value', variables('resourceGroupLocations')[split(parameters('logicApps')[copyIndex()].office365ConnectionExternalId, '/')[4]]))), if(equals(copyIndex(), 0), createObject('workflows_datacatalyst_core_la_name', createObject('value', parameters('logicApps')[copyIndex()].workflows_datacatalyst_core_la_name)), createObject('logicAppName', createObject('value', parameters('logicApps')[copyIndex()].logicAppName), 'recipientEmailAddresses', createObject('value', parameters('logicApps')[copyIndex()].recipientEmailAddresses))))]"
       }
     },
     {
