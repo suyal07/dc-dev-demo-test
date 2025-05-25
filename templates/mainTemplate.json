@@ -426,38 +426,7 @@
         "templateLink": {
           "uri": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'API Tracker'), variables('apiUsageAnalyticsTemplateUrl'), variables('platformCostInsightsTemplateUrl'))]"
         },
-        "parameters": {
-          "subscriptionReference": {
-            "value": "[parameters('dashboards')[copyIndex()].subscriptionReference]"
-          },
-          "dashboardDisplayName": {
-            "value": "[parameters('dashboards')[copyIndex()].dashboardDisplayName]"
-          },
-          "dashboardName": {
-            "value": "[parameters('dashboards')[copyIndex()].dashboardName]"
-          },
-          "location": {
-            "value": "[parameters('dashboards')[copyIndex()].location]"
-          },
-          "coreResourceGroup": {
-            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'API Tracker'), parameters('dashboards')[copyIndex()].coreResourceGroup, '')]"
-          },
-          "apiManagementResourceName": {
-            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'API Tracker'), parameters('dashboards')[copyIndex()].apiManagementResourceName, '')]"
-          },
-          "logAnalyticsWorkspaceName": {
-            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'API Tracker'), parameters('dashboards')[copyIndex()].logAnalyticsWorkspaceName, '')]"
-          },
-          "subscriptionName": {
-            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'PlatformCostInsights'), parameters('dashboards')[copyIndex()].subscriptionName, '')]"
-          },
-          "resourceGroupList": {
-            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'PlatformCostInsights'), json(parameters('dashboards')[copyIndex()].resourceGroupList), json('[]'))]"
-          },
-          "domainName": {
-            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'PlatformCostInsights'), parameters('dashboards')[copyIndex()].domainName, '')]"
-          }
-        }
+        "parameters": "[union(createObject('subscriptionReference', createObject('value', parameters('dashboards')[copyIndex()].subscriptionReference), 'dashboardDisplayName', createObject('value', parameters('dashboards')[copyIndex()].dashboardDisplayName), 'dashboardName', createObject('value', parameters('dashboards')[copyIndex()].dashboardName), 'location', createObject('value', parameters('dashboards')[copyIndex()].location)), if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'API Tracker'), createObject('coreResourceGroup', createObject('value', parameters('dashboards')[copyIndex()].coreResourceGroup), 'apiManagementResourceName', createObject('value', parameters('dashboards')[copyIndex()].apiManagementResourceName), 'logAnalyticsWorkspaceName', createObject('value', parameters('dashboards')[copyIndex()].logAnalyticsWorkspaceName)), createObject()), if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'PlatformCostInsights'), createObject('subscriptionName', createObject('value', parameters('dashboards')[copyIndex()].subscriptionName), 'resourceGroupList', createObject('value', json(parameters('dashboards')[copyIndex()].resourceGroupList)), 'domainName', createObject('value', parameters('dashboards')[copyIndex()].domainName)), createObject()))]"
       }
     },
     {
@@ -477,23 +446,7 @@
         "templateLink": {
           "uri": "[if(equals(copyIndex(), 0), variables('logicAppsTemplateUrl'), variables('alertsLogicAppTemplateUrl'))]"
         },
-        "parameters": {
-          "[if(equals(copyIndex(), 0), 'workflows_datacatalyst_core_la_name', 'logicAppName')]": {
-            "value": "[if(equals(copyIndex(), 0), parameters('logicApps')[copyIndex()].workflows_datacatalyst_core_la_name, parameters('logicApps')[copyIndex()].logicAppName)]"
-          },
-          "office365ConnectionExternalId": {
-            "value": "[parameters('logicApps')[copyIndex()].office365ConnectionExternalId]"
-          },
-          "subscriptionId": {
-            "value": "[parameters('logicApps')[copyIndex()].subscriptionId]"
-          },
-          "resourceLocation": {
-            "value": "[variables('resourceGroupLocations')[split(parameters('logicApps')[copyIndex()].office365ConnectionExternalId, '/')[4]]]"
-          },
-          "recipientEmailAddresses": {
-            "value": "[if(equals(copyIndex(), 1), parameters('logicApps')[copyIndex()].recipientEmailAddresses, '')]"
-          }
-        }
+        "parameters": "[union(createObject(if(equals(copyIndex(), 0), 'workflows_datacatalyst_core_la_name', 'logicAppName'), createObject('value', if(equals(copyIndex(), 0), parameters('logicApps')[copyIndex()].workflows_datacatalyst_core_la_name, parameters('logicApps')[copyIndex()].logicAppName)), 'office365ConnectionExternalId', createObject('value', parameters('logicApps')[copyIndex()].office365ConnectionExternalId), 'subscriptionId', createObject('value', parameters('logicApps')[copyIndex()].subscriptionId), 'resourceLocation', createObject('value', variables('resourceGroupLocations')[split(parameters('logicApps')[copyIndex()].office365ConnectionExternalId, '/')[4]]))), if(equals(copyIndex(), 1), createObject('recipientEmailAddresses', createObject('value', parameters('logicApps')[copyIndex()].recipientEmailAddresses)), createObject()))]"
       }
     },
     {
