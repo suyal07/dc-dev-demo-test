@@ -299,6 +299,9 @@
           "storageAccountResourceGroup": {
             "value": "[parameters('storageAccounts')[indexOf(parameters('storageAccounts'), first(filter(parameters('storageAccounts'), lambda('item', equals(lambdaVariables('item').name, parameters('functionApps')[copyIndex()].storageAccountName)))))].resourceGroup]"
           },
+          "blobSoftDeleteRetentionDays": {
+            "value": "[parameters('storageAccounts')[indexOf(parameters('storageAccounts'), first(filter(parameters('storageAccounts'), lambda('item', equals(lambdaVariables('item').name, parameters('functionApps')[copyIndex()].storageAccountName)))))].blobSoftDeleteRetentionDays]"
+          },
           "sku": {
             "value": "[parameters('functionApps')[copyIndex()].sku]"
           },
@@ -521,5 +524,11 @@
         }
       }
     }
-  ]
+  ],
+  "outputs": {
+    "workspaceResourceId": {
+      "type": "string",
+      "value": "[reference(concat('logAnalyticsWorkspace-', 0)).outputs.workspaceResourceId.value]"
+    }
+  }
 }
