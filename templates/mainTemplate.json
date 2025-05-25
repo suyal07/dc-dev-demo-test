@@ -297,7 +297,7 @@
             "value": "[parameters('functionApps')[copyIndex()].storageAccountName]"
           },
           "storageAccountResourceGroup": {
-            "value": "[parameters('storageAccounts')[indexOf(parameters('storageAccounts'), first(filter(parameters('storageAccounts'), lambda('item', equals(item.name, parameters('functionApps')[copyIndex()].storageAccountName)))))].resourceGroup]"
+            "value": "[parameters('storageAccounts')[indexOf(parameters('storageAccounts'), first(filter(parameters('storageAccounts'), lambda('item', equals(lambdaVariables('item').name, parameters('functionApps')[copyIndex()].storageAccountName)))))].resourceGroup]"
           },
           "sku": {
             "value": "[parameters('functionApps')[copyIndex()].sku]"
