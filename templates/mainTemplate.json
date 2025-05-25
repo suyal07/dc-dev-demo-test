@@ -334,6 +334,9 @@
           },
           "logAnalyticsWorkspaceResourceGroup": {
             "value": "[parameters('functionApps')[copyIndex()].logAnalyticsWorkspaceResourceGroup]"
+          },
+          "workspaceResourceId": {
+            "value": "[reference(concat('logAnalyticsWorkspace-', 0)).outputs.workspaceResourceId.value]"
           }
         }
       }
