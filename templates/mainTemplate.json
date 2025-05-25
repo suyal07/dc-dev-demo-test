@@ -426,27 +426,101 @@
         "templateLink": {
           "uri": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'API Tracker'), variables('apiUsageAnalyticsTemplateUrl'), variables('platformCostInsightsTemplateUrl'))]"
         },
-        "parameters": "[union(createObject('subscriptionReference', createObject('value', parameters('dashboards')[copyIndex()].subscriptionReference), 'dashboardDisplayName', createObject('value', parameters('dashboards')[copyIndex()].dashboardDisplayName), 'dashboardName', createObject('value', parameters('dashboards')[copyIndex()].dashboardName), 'location', createObject('value', parameters('dashboards')[copyIndex()].location)), if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'API Tracker'), createObject('coreResourceGroup', createObject('value', parameters('dashboards')[copyIndex()].coreResourceGroup), 'apiManagementResourceName', createObject('value', parameters('dashboards')[copyIndex()].apiManagementResourceName), 'logAnalyticsWorkspaceName', createObject('value', parameters('dashboards')[copyIndex()].logAnalyticsWorkspaceName)), createObject()), if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'PlatformCostInsights'), createObject('subscriptionName', createObject('value', parameters('dashboards')[copyIndex()].subscriptionName), 'resourceGroupList', createObject('value', json(parameters('dashboards')[copyIndex()].resourceGroupList)), 'domainName', createObject('value', parameters('dashboards')[copyIndex()].domainName)), createObject()))]"
+        "parameters": {
+          "subscriptionReference": {
+            "value": "[parameters('dashboards')[copyIndex()].subscriptionReference]"
+          },
+          "dashboardDisplayName": {
+            "value": "[parameters('dashboards')[copyIndex()].dashboardDisplayName]"
+          },
+          "dashboardName": {
+            "value": "[parameters('dashboards')[copyIndex()].dashboardName]"
+          },
+          "location": {
+            "value": "[parameters('dashboards')[copyIndex()].location]"
+          },
+          "coreResourceGroup": {
+            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'API Tracker'), parameters('dashboards')[copyIndex()].coreResourceGroup, '')]"
+          },
+          "apiManagementResourceName": {
+            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'API Tracker'), parameters('dashboards')[copyIndex()].apiManagementResourceName, '')]"
+          },
+          "logAnalyticsWorkspaceName": {
+            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'API Tracker'), parameters('dashboards')[copyIndex()].logAnalyticsWorkspaceName, '')]"
+          },
+          "subscriptionName": {
+            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'PlatformCostInsights'), parameters('dashboards')[copyIndex()].subscriptionName, '')]"
+          },
+          "resourceGroupList": {
+            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'PlatformCostInsights'), json(parameters('dashboards')[copyIndex()].resourceGroupList), json('[]'))]"
+          },
+          "domainName": {
+            "value": "[if(equals(parameters('dashboards')[copyIndex()].dashboardName, 'PlatformCostInsights'), parameters('dashboards')[copyIndex()].domainName, '')]"
+          }
+        }
       }
     },
     {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
-      "name": "[concat('logicApp-', copyIndex())]",
-      "resourceGroup": "[split(parameters('logicApps')[copyIndex()].office365ConnectionExternalId, '/')[4]]",
-      "copy": {
-        "name": "logicAppCopy",
-        "count": "[if(greaterOrEquals(length(parameters('logicApps')), 2), 2, length(parameters('logicApps')))]"
-      },
+      "name": "logicApp-0",
+      "resourceGroup": "[split(parameters('logicApps')[0].office365ConnectionExternalId, '/')[4]]",
       "dependsOn": [
-        "[concat('Microsoft.Resources/resourceGroups/', split(parameters('logicApps')[copyIndex()].office365ConnectionExternalId, '/')[4])]"
+        "[concat('Microsoft.Resources/resourceGroups/', split(parameters('logicApps')[0].office365ConnectionExternalId, '/')[4])]"
       ],
+      "condition": "[greaterOrEquals(length(parameters('logicApps')), 1)]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[if(equals(copyIndex(), 0), variables('logicAppsTemplateUrl'), variables('alertsLogicAppTemplateUrl'))]"
+          "uri": "[variables('logicAppsTemplateUrl')]"
         },
-        "parameters": "[union(createObject('office365ConnectionExternalId', createObject('value', parameters('logicApps')[copyIndex()].office365ConnectionExternalId), 'subscriptionId', createObject('value', parameters('logicApps')[copyIndex()].subscriptionId), 'resourceLocation', createObject('value', variables('resourceGroupLocations')[split(parameters('logicApps')[copyIndex()].office365ConnectionExternalId, '/')[4]])), if(equals(copyIndex(), 0), 'workflows_datacatalyst_core_la_name', 'logicAppName'), createObject('value', if(equals(copyIndex(), 0), parameters('logicApps')[copyIndex()].workflows_datacatalyst_core_la_name, parameters('logicApps')[copyIndex()].logicAppName))), if(equals(copyIndex(), 1), createObject('recipientEmailAddresses', createObject('value', parameters('logicApps')[copyIndex()].recipientEmailAddresses)), createObject()))]"
+        "parameters": {
+          "workflows_datacatalyst_core_la_name": {
+            "value": "[parameters('logicApps')[0].workflows_datacatalyst_core_la_name]"
+          },
+          "office365ConnectionExternalId": {
+            "value": "[parameters('logicApps')[0].office365ConnectionExternalId]"
+          },
+          "subscriptionId": {
+            "value": "[parameters('logicApps')[0].subscriptionId]"
+          },
+          "resourceLocation": {
+            "value": "[variables('resourceGroupLocations')[split(parameters('logicApps')[0].office365ConnectionExternalId, '/')[4]]]"
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2022-09-01",
+      "name": "logicApp-1",
+      "resourceGroup": "[split(parameters('logicApps')[1].office365ConnectionExternalId, '/')[4]]",
+      "dependsOn": [
+        "[concat('Microsoft.Resources/resourceGroups/', split(parameters('logicApps')[1].office365ConnectionExternalId, '/')[4])]"
+      ],
+      "condition": "[greaterOrEquals(length(parameters('logicApps')), 2)]",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('alertsLogicAppTemplateUrl')]"
+        },
+        "parameters": {
+          "logicAppName": {
+            "value": "[parameters('logicApps')[1].logicAppName]"
+          },
+          "office365ConnectionExternalId": {
+            "value": "[parameters('logicApps')[1].office365ConnectionExternalId]"
+          },
+          "recipientEmailAddresses": {
+            "value": "[parameters('logicApps')[1].recipientEmailAddresses]"
+          },
+          "subscriptionId": {
+            "value": "[parameters('logicApps')[1].subscriptionId]"
+          },
+          "resourceLocation": {
+            "value": "[variables('resourceGroupLocations')[split(parameters('logicApps')[1].office365ConnectionExternalId, '/')[4]]]"
+          }
+        }
       }
     },
     {
@@ -460,7 +534,7 @@
       },
       "dependsOn": [
         "[concat('Microsoft.Resources/resourceGroups/', split(parameters('actionGroups')[copyIndex()].logicAppResourceId, '/')[4])]",
-        "logicAppCopy"
+        "logicApp-1"
       ],
       "properties": {
         "mode": "Incremental",
