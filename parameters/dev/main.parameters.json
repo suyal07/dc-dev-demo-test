@@ -193,8 +193,8 @@
           "coreResourceGroup": "datacatalyst-demo-dev-core-test-rg",
           "apiManagementResourceName": "datacatalyst-demo-dev-test-apim",
           "logAnalyticsWorkspaceName": "datacatalyst-demo-dev-core-test-lw",
-          "dashboardDisplayName": "API Tracker",
-          "dashboardName": "API Tracker",
+          "dashboardDisplayName": "API-Tracker",
+          "dashboardName": "API-Tracker",
           "location": "uksouth",
           "resourceGroup": "datacatalyst-demo-dev-core-test-rg",
           "subscriptionName": "",
@@ -212,7 +212,7 @@
             "datacatalyst-demo-dev-source-test-rg"
           ],
           "domainName": "portal.azure.com",
-          "dashboardDisplayName": "Platform Cost Insights",
+          "dashboardDisplayName": "Platform-Cost-Insights",
           "dashboardName": "PlatformCostInsights",
           "location": "uksouth",
           "resourceGroup": "datacatalyst-demo-dev-core-test-rg"
