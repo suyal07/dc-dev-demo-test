@@ -7468,40 +7468,6 @@
         {
             "type": "Microsoft.OperationalInsights/workspaces/tables",
             "apiVersion": "2025-02-01",
-            "name": "[concat(parameters('logAnalyticsWorkspaceName'), '/MicrosoftDynamicsTelemetryPerformanceLogs')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName'))]"
-            ],
-            "properties": {
-                "totalRetentionInDays": 30,
-                "plan": "Analytics",
-                "schema": {
-                    "name": "MicrosoftDynamicsTelemetryPerformanceLogs",
-                    "displayName": "MicrosoftDynamicsTelemetryPerformanceLogs"
-                },
-                "retentionInDays": 30
-            }
-        },
-        {
-            "type": "Microsoft.OperationalInsights/workspaces/tables",
-            "apiVersion": "2025-02-01",
-            "name": "[concat(parameters('logAnalyticsWorkspaceName'), '/MicrosoftDynamicsTelemetrySystemMetricsLogs')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName'))]"
-            ],
-            "properties": {
-                "totalRetentionInDays": 30,
-                "plan": "Analytics",
-                "schema": {
-                    "name": "MicrosoftDynamicsTelemetrySystemMetricsLogs",
-                    "displayName": "MicrosoftDynamicsTelemetrySystemMetricsLogs"
-                },
-                "retentionInDays": 30
-            }
-        },
-        {
-            "type": "Microsoft.OperationalInsights/workspaces/tables",
-            "apiVersion": "2025-02-01",
             "name": "[concat(parameters('logAnalyticsWorkspaceName'), '/MicrosoftGraphActivityLogs')]",
             "dependsOn": [
                 "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName'))]"
@@ -8318,23 +8284,6 @@
         {
             "type": "Microsoft.OperationalInsights/workspaces/tables",
             "apiVersion": "2025-02-01",
-            "name": "[concat(parameters('logAnalyticsWorkspaceName'), '/PowerBIAuditTenant')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName'))]"
-            ],
-            "properties": {
-                "totalRetentionInDays": 30,
-                "plan": "Analytics",
-                "schema": {
-                    "name": "PowerBIAuditTenant",
-                    "displayName": "PowerBIAuditTenant"
-                },
-                "retentionInDays": 30
-            }
-        },
-        {
-            "type": "Microsoft.OperationalInsights/workspaces/tables",
-            "apiVersion": "2025-02-01",
             "name": "[concat(parameters('logAnalyticsWorkspaceName'), '/PowerBIDatasetsTenant')]",
             "dependsOn": [
                 "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName'))]"
@@ -8352,23 +8301,6 @@
         {
             "type": "Microsoft.OperationalInsights/workspaces/tables",
             "apiVersion": "2025-02-01",
-            "name": "[concat(parameters('logAnalyticsWorkspaceName'), '/PowerBIDatasetsTenantPreview')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName'))]"
-            ],
-            "properties": {
-                "totalRetentionInDays": 30,
-                "plan": "Analytics",
-                "schema": {
-                    "name": "PowerBIDatasetsTenantPreview",
-                    "displayName": "PowerBIDatasetsTenantPreview"
-                },
-                "retentionInDays": 30
-            }
-        },
-        {
-            "type": "Microsoft.OperationalInsights/workspaces/tables",
-            "apiVersion": "2025-02-01",
             "name": "[concat(parameters('logAnalyticsWorkspaceName'), '/PowerBIDatasetsWorkspace')]",
             "dependsOn": [
                 "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName'))]"
@@ -8379,57 +8311,6 @@
                 "schema": {
                     "name": "PowerBIDatasetsWorkspace",
                     "displayName": "PowerBIDatasetsWorkspace"
-                },
-                "retentionInDays": 30
-            }
-        },
-        {
-            "type": "Microsoft.OperationalInsights/workspaces/tables",
-            "apiVersion": "2025-02-01",
-            "name": "[concat(parameters('logAnalyticsWorkspaceName'), '/PowerBIDatasetsWorkspacePreview')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName'))]"
-            ],
-            "properties": {
-                "totalRetentionInDays": 30,
-                "plan": "Analytics",
-                "schema": {
-                    "name": "PowerBIDatasetsWorkspacePreview",
-                    "displayName": "PowerBIDatasetsWorkspacePreview"
-                },
-                "retentionInDays": 30
-            }
-        },
-        {
-            "type": "Microsoft.OperationalInsights/workspaces/tables",
-            "apiVersion": "2025-02-01",
-            "name": "[concat(parameters('logAnalyticsWorkspaceName'), '/PowerBIReportUsageTenant')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName'))]"
-            ],
-            "properties": {
-                "totalRetentionInDays": 30,
-                "plan": "Analytics",
-                "schema": {
-                    "name": "PowerBIReportUsageTenant",
-                    "displayName": "PowerBIReportUsageTenant"
-                },
-                "retentionInDays": 30
-            }
-        },
-        {
-            "type": "Microsoft.OperationalInsights/workspaces/tables",
-            "apiVersion": "2025-02-01",
-            "name": "[concat(parameters('logAnalyticsWorkspaceName'), '/PowerBIReportUsageWorkspace')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName'))]"
-            ],
-            "properties": {
-                "totalRetentionInDays": 30,
-                "plan": "Analytics",
-                "schema": {
-                    "name": "PowerBIReportUsageWorkspace",
-                    "displayName": "PowerBIReportUsageWorkspace"
                 },
                 "retentionInDays": 30
             }
@@ -9236,23 +9117,6 @@
         {
             "type": "Microsoft.OperationalInsights/workspaces/tables",
             "apiVersion": "2025-02-01",
-            "name": "[concat(parameters('logAnalyticsWorkspaceName'), '/SynapseGatewayEvents')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName'))]"
-            ],
-            "properties": {
-                "totalRetentionInDays": 30,
-                "plan": "Analytics",
-                "schema": {
-                    "name": "SynapseGatewayEvents",
-                    "displayName": "SynapseGatewayEvents"
-                },
-                "retentionInDays": 30
-            }
-        },
-        {
-            "type": "Microsoft.OperationalInsights/workspaces/tables",
-            "apiVersion": "2025-02-01",
             "name": "[concat(parameters('logAnalyticsWorkspaceName'), '/SynapseIntegrationActivityRuns')]",
             "dependsOn": [
                 "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName'))]"
@@ -9263,23 +9127,6 @@
                 "schema": {
                     "name": "SynapseIntegrationActivityRuns",
                     "displayName": "SynapseIntegrationActivityRuns"
-                },
-                "retentionInDays": 30
-            }
-        },
-        {
-            "type": "Microsoft.OperationalInsights/workspaces/tables",
-            "apiVersion": "2025-02-01",
-            "name": "[concat(parameters('logAnalyticsWorkspaceName'), '/SynapseIntegrationActivityRunsEnded')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName'))]"
-            ],
-            "properties": {
-                "totalRetentionInDays": 30,
-                "plan": "Analytics",
-                "schema": {
-                    "name": "SynapseIntegrationActivityRunsEnded",
-                    "displayName": "SynapseIntegrationActivityRunsEnded"
                 },
                 "retentionInDays": 30
             }
@@ -9304,23 +9151,6 @@
         {
             "type": "Microsoft.OperationalInsights/workspaces/tables",
             "apiVersion": "2025-02-01",
-            "name": "[concat(parameters('logAnalyticsWorkspaceName'), '/SynapseIntegrationPipelineRunsEnded')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName'))]"
-            ],
-            "properties": {
-                "totalRetentionInDays": 30,
-                "plan": "Analytics",
-                "schema": {
-                    "name": "SynapseIntegrationPipelineRunsEnded",
-                    "displayName": "SynapseIntegrationPipelineRunsEnded"
-                },
-                "retentionInDays": 30
-            }
-        },
-        {
-            "type": "Microsoft.OperationalInsights/workspaces/tables",
-            "apiVersion": "2025-02-01",
             "name": "[concat(parameters('logAnalyticsWorkspaceName'), '/SynapseIntegrationTriggerRuns')]",
             "dependsOn": [
                 "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName'))]"
@@ -9338,23 +9168,6 @@
         {
             "type": "Microsoft.OperationalInsights/workspaces/tables",
             "apiVersion": "2025-02-01",
-            "name": "[concat(parameters('logAnalyticsWorkspaceName'), '/SynapseIntegrationTriggerRunsEnded')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName'))]"
-            ],
-            "properties": {
-                "totalRetentionInDays": 30,
-                "plan": "Analytics",
-                "schema": {
-                    "name": "SynapseIntegrationTriggerRunsEnded",
-                    "displayName": "SynapseIntegrationTriggerRunsEnded"
-                },
-                "retentionInDays": 30
-            }
-        },
-        {
-            "type": "Microsoft.OperationalInsights/workspaces/tables",
-            "apiVersion": "2025-02-01",
             "name": "[concat(parameters('logAnalyticsWorkspaceName'), '/SynapseLinkEvent')]",
             "dependsOn": [
                 "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName'))]"
@@ -9365,23 +9178,6 @@
                 "schema": {
                     "name": "SynapseLinkEvent",
                     "displayName": "SynapseLinkEvent"
-                },
-                "retentionInDays": 30
-            }
-        },
-        {
-            "type": "Microsoft.OperationalInsights/workspaces/tables",
-            "apiVersion": "2025-02-01",
-            "name": "[concat(parameters('logAnalyticsWorkspaceName'), '/SynapseRBACEvents')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName'))]"
-            ],
-            "properties": {
-                "totalRetentionInDays": 30,
-                "plan": "Analytics",
-                "schema": {
-                    "name": "SynapseRBACEvents",
-                    "displayName": "SynapseRBACEvents"
                 },
                 "retentionInDays": 30
             }
