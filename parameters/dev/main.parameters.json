@@ -67,7 +67,7 @@
     "logAnalyticsWorkspaces": {
       "value": [
         {
-          "logAnalyticsWorkspaceName": "datacatalyst-demo-dev-core-test-lw",
+          "logAnalyticsWorkspaceName": "datacatalyst-demo-dev-test-core-lw",
           "resourceGroup": "datacatalyst-demo-dev-core-test-rg",
           "location": "uksouth"
         }

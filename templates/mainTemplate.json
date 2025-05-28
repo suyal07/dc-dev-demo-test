@@ -196,6 +196,30 @@
     {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
+      "name": "[concat('logAnalyticsWorkspace-', copyIndex())]",
+      "resourceGroup": "[parameters('logAnalyticsWorkspaces')[copyIndex()].resourceGroup]",
+      "copy": {
+        "name": "logAnalyticsWorkspaceCopy",
+        "count": "[length(parameters('logAnalyticsWorkspaces'))]"
+      },
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('logAnalyticsTemplateUrl')]"
+        },
+        "parameters": {
+          "logAnalyticsWorkspaceName": {
+            "value": "[parameters('logAnalyticsWorkspaces')[copyIndex()].logAnalyticsWorkspaceName]"
+          },
+          "location": {
+            "value": "[parameters('logAnalyticsWorkspaces')[copyIndex()].location]"
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2022-09-01",
       "name": "[concat('containerApp-', copyIndex())]",
       "resourceGroup": "[parameters('containerApps')[copyIndex()].resourceGroup]",
       "copy": {
