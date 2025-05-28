@@ -2,12 +2,6 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "resourceGroups": {
-      "type": "array",
-      "metadata": {
-        "description": "List of resource groups to deploy"
-      }
-    },
     "storageAccounts": {
       "type": "array",
       "metadata": {
@@ -67,6 +61,27 @@
       "metadata": {
         "description": "List of Action Groups to deploy"
       }
+    },
+    "keyVaultName": {
+      "type": "string",
+      "defaultValue": "datacatalyst-demo-dev-core--test-kv",
+      "metadata": {
+        "description": "Name of the Key Vault containing SQL credentials"
+      }
+    },
+    "keyVaultResourceGroup": {
+      "type": "string",
+      "defaultValue": "datacatalyst-demo-dev-core-test-rg",
+      "metadata": {
+        "description": "Resource group of the Key Vault"
+      }
+    },
+    "keyVaultSubscriptionId": {
+      "type": "string",
+      "defaultValue": "931b98ea-0e07-4d52-a37a-3b8fa4985688",
+      "metadata": {
+        "description": "Subscription ID of the Key Vault"
+      }
     }
   },
   "variables": {
@@ -82,22 +97,11 @@
     "apiUsageAnalyticsTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/dependent/APIUsageAnalytics.json",
     "platformCostInsightsTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/dependent/PlatformCostInsights.json",
     "actionGroupApimTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/dependent/actionGroupApim.json",
-    "resourceGroupLocations": {
-      "[parameters('resourceGroups')[0].name]": "[parameters('resourceGroups')[0].location]",
-      "[parameters('resourceGroups')[1].name]": "[parameters('resourceGroups')[1].location]"
-    }
+    "sqlAdminLoginSecretName": "mw-sql-server-admin-user",
+    "sqlAdminPasswordSecretName": "mw-sql-server-admin-password",
+    "keyVaultId": "[resourceId(parameters('keyVaultSubscriptionId'), parameters('keyVaultResourceGroup'), 'Microsoft.KeyVault/vaults', parameters('keyVaultName'))]"
   },
   "resources": [
-    {
-      "type": "Microsoft.Resources/resourceGroups",
-      "apiVersion": "2021-04-01",
-      "name": "[parameters('resourceGroups')[copyIndex()].name]",
-      "location": "[parameters('resourceGroups')[copyIndex()].location]",
-      "copy": {
-        "name": "resourceGroupCopy",
-        "count": "[length(parameters('resourceGroups'))]"
-      }
-    },
     {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
@@ -107,9 +111,6 @@
         "name": "storageAccountCopy",
         "count": "[length(parameters('storageAccounts'))]"
       },
-      "dependsOn": [
-        "[concat('Microsoft.Resources/resourceGroups/', parameters('storageAccounts')[copyIndex()].resourceGroup)]"
-      ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -140,9 +141,6 @@
         "name": "sqlServerCopy",
         "count": "[length(parameters('sqlServers'))]"
       },
-      "dependsOn": [
-        "[concat('Microsoft.Resources/resourceGroups/', parameters('sqlServers')[copyIndex()].resourceGroup)]"
-      ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -153,10 +151,20 @@
             "value": "[parameters('sqlServers')[copyIndex()].sqlServerName]"
           },
           "administratorLogin": {
-            "value": "[parameters('sqlServers')[copyIndex()].administratorLogin]"
+            "reference": {
+              "keyVault": {
+                "id": "[variables('keyVaultId')]"
+              },
+              "secretName": "[variables('sqlAdminLoginSecretName')]"
+            }
           },
           "administratorLoginPassword": {
-            "value": "[parameters('sqlServers')[copyIndex()].administratorLoginPassword]"
+            "reference": {
+              "keyVault": {
+                "id": "[variables('keyVaultId')]"
+              },
+              "secretName": "[variables('sqlAdminPasswordSecretName')]"
+            }
           },
           "sqlDatabaseName": {
             "value": "[parameters('sqlServers')[copyIndex()].sqlDatabaseName]"
@@ -194,9 +202,6 @@
         "name": "logAnalyticsWorkspaceCopy",
         "count": "[length(parameters('logAnalyticsWorkspaces'))]"
       },
-      "dependsOn": [
-        "[concat('Microsoft.Resources/resourceGroups/', parameters('logAnalyticsWorkspaces')[copyIndex()].resourceGroup)]"
-      ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -207,7 +212,7 @@
             "value": "[parameters('logAnalyticsWorkspaces')[copyIndex()].logAnalyticsWorkspaceName]"
           },
           "location": {
-            "value": "[variables('resourceGroupLocations')[parameters('logAnalyticsWorkspaces')[copyIndex()].resourceGroup]]"
+            "value": "[parameters('logAnalyticsWorkspaces')[copyIndex()].location]"
           }
         }
       }
@@ -222,7 +227,6 @@
         "count": "[length(parameters('containerApps'))]"
       },
       "dependsOn": [
-        "[concat('Microsoft.Resources/resourceGroups/', parameters('containerApps')[copyIndex()].resourceGroup)]",
         "logAnalyticsWorkspaceCopy"
       ],
       "properties": {
@@ -247,7 +251,7 @@
             "value": "[parameters('containerApps')[copyIndex()].maxReplicas]"
           },
           "databaseConnectionString": {
-            "value": "[parameters('containerApps')[copyIndex()].databaseConnectionString]"
+            "value": "[concat('Server=tcp:datacatalyst-demo-dev-src-test-sqlserver.database.windows.net,1433;Initial Catalog=datacatalyst-demo-dev-src-test-sqldb;Persist Security Info=False;User ID=', reference(resourceId('Microsoft.KeyVault/vaults/secrets', parameters('keyVaultName'), variables('sqlAdminLoginSecretName'))).secretUriWithVersion, ';Password=', reference(resourceId('Microsoft.KeyVault/vaults/secrets', parameters('keyVaultName'), variables('sqlAdminPasswordSecretName'))).secretUriWithVersion, ';MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;')]"
           },
           "configPath": {
             "value": "[parameters('containerApps')[copyIndex()].configPath]"
@@ -271,7 +275,6 @@
         "count": "[length(parameters('functionApps'))]"
       },
       "dependsOn": [
-        "[concat('Microsoft.Resources/resourceGroups/', parameters('functionApps')[copyIndex()].serverFarmResourceGroup)]",
         "storageAccountCopy",
         "logAnalyticsWorkspaceCopy"
       ],
@@ -350,9 +353,6 @@
         "name": "virtualNetworkCopy",
         "count": "[length(parameters('virtualNetworks'))]"
       },
-      "dependsOn": [
-        "[concat('Microsoft.Resources/resourceGroups/', parameters('virtualNetworks')[copyIndex()].resourceGroup)]"
-      ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -377,9 +377,6 @@
         "name": "apiManagementServiceCopy",
         "count": "[length(parameters('apiManagementServices'))]"
       },
-      "dependsOn": [
-        "[concat('Microsoft.Resources/resourceGroups/', parameters('apiManagementServices')[copyIndex()].resourceGroup)]"
-      ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -413,7 +410,6 @@
       "name": "dashboard-0",
       "resourceGroup": "[parameters('dashboards')[0].resourceGroup]",
       "dependsOn": [
-        "[concat('Microsoft.Resources/resourceGroups/', parameters('dashboards')[0].resourceGroup)]",
         "logAnalyticsWorkspaceCopy",
         "apiManagementServiceCopy"
       ],
@@ -454,7 +450,6 @@
       "name": "dashboard-1",
       "resourceGroup": "[parameters('dashboards')[1].resourceGroup]",
       "dependsOn": [
-        "[concat('Microsoft.Resources/resourceGroups/', parameters('dashboards')[1].resourceGroup)]",
         "logAnalyticsWorkspaceCopy",
         "apiManagementServiceCopy"
       ],
@@ -494,9 +489,6 @@
       "apiVersion": "2022-09-01",
       "name": "logicApp-0",
       "resourceGroup": "[split(parameters('logicApps')[0].office365ConnectionExternalId, '/')[4]]",
-      "dependsOn": [
-        "[concat('Microsoft.Resources/resourceGroups/', split(parameters('logicApps')[0].office365ConnectionExternalId, '/')[4])]"
-      ],
       "condition": "[greaterOrEquals(length(parameters('logicApps')), 1)]",
       "properties": {
         "mode": "Incremental",
@@ -514,7 +506,7 @@
             "value": "[parameters('logicApps')[0].subscriptionId]"
           },
           "resourceLocation": {
-            "value": "[variables('resourceGroupLocations')[split(parameters('logicApps')[0].office365ConnectionExternalId, '/')[4]]]"
+            "value": "[parameters('logicApps')[0].resourceLocation]"
           }
         }
       }
@@ -524,9 +516,6 @@
       "apiVersion": "2022-09-01",
       "name": "logicApp-1",
       "resourceGroup": "[split(parameters('logicApps')[1].office365ConnectionExternalId, '/')[4]]",
-      "dependsOn": [
-        "[concat('Microsoft.Resources/resourceGroups/', split(parameters('logicApps')[1].office365ConnectionExternalId, '/')[4])]"
-      ],
       "condition": "[greaterOrEquals(length(parameters('logicApps')), 2)]",
       "properties": {
         "mode": "Incremental",
@@ -547,7 +536,7 @@
             "value": "[parameters('logicApps')[1].subscriptionId]"
           },
           "resourceLocation": {
-            "value": "[variables('resourceGroupLocations')[split(parameters('logicApps')[1].office365ConnectionExternalId, '/')[4]]]"
+            "value": "[parameters('logicApps')[1].resourceLocation]"
           }
         }
       }
@@ -562,7 +551,6 @@
         "count": "[length(parameters('actionGroups'))]"
       },
       "dependsOn": [
-        "[concat('Microsoft.Resources/resourceGroups/', split(parameters('actionGroups')[copyIndex()].logicAppResourceId, '/')[4])]",
         "logicApp-1"
       ],
       "properties": {

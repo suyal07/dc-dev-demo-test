@@ -2,18 +2,6 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "resourceGroups": {
-      "value": [
-        {
-          "name": "datacatalyst-demo-dev-core-test-rg",
-          "location": "uksouth"
-        },
-        {
-          "name": "datacatalyst-demo-dev-source-test-rg",
-          "location": "uksouth"
-        }
-      ]
-    },
     "storageAccounts": {
       "value": [
         {
@@ -65,8 +53,6 @@
         {
           "sqlServerName": "datacatalyst-demo-dev-src-test-sqlserver",
           "resourceGroup": "datacatalyst-demo-dev-source-test-rg",
-          "administratorLogin": "datacatalystuser",
-          "administratorLoginPassword": "devp@admin4+1",
           "sqlDatabaseName": "datacatalyst-demo-dev-src-test-sqldb",
           "databaseEdition": "GeneralPurpose",
           "requestedServiceObjectiveName": "GP_S_Gen5_1",
@@ -82,7 +68,8 @@
       "value": [
         {
           "logAnalyticsWorkspaceName": "datacatalyst-demo-dev-core-test-lw",
-          "resourceGroup": "datacatalyst-demo-dev-core-test-rg"
+          "resourceGroup": "datacatalyst-demo-dev-core-test-rg",
+          "location": "uksouth"
         }
       ]
     },
@@ -95,7 +82,6 @@
           "environmentName": "datacatalyst-demo-source-test-env",
           "minReplicas": 1,
           "maxReplicas": 3,
-          "databaseConnectionString": "Server=tcp:datacatalyst-demo-dev-src-test-sqlserver.database.windows.net,1433;Initial Catalog=datacatalyst-demo-dev-src-test-sqldb;Persist Security Info=False;User ID=datacatalystuser;Password=devp@admin4+1;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;",
           "configPath": "/app/dab-config.json",
           "containerImage": "mcr.microsoft.com/azure-databases/data-api-builder:latest"
         }
