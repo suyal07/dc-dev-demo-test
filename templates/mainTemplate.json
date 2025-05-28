@@ -339,7 +339,7 @@
             "value": "[parameters('functionApps')[copyIndex()].logAnalyticsWorkspaceResourceGroup]"
           },
           "workspaceResourceId": {
-            "value": "[reference(concat('logAnalyticsWorkspace-', 0)).outputs.workspaceResourceId.value]"
+            "value": "[resourceId(parameters('functionApps')[copyIndex()].logAnalyticsWorkspaceResourceGroup, 'Microsoft.OperationalInsights/workspaces', parameters('functionApps')[copyIndex()].logAnalyticsWorkspaceName)]"
           }
         }
       }
