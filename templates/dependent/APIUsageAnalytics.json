@@ -332,8 +332,7 @@
                     },
                     {
                       "name": "ComponentId",
-                      "value": "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName'))]",
-                      "isOptional": true
+                      "value": "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName'))]"
                     },
                     {
                       "name": "Scope",
@@ -460,8 +459,7 @@
                     },
                     {
                       "name": "ComponentId",
-                      "value": "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName'))]",
-                      "isOptional": true
+                      "value": "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName'))]"
                     },
                     {
                       "name": "Scope",
@@ -585,8 +583,7 @@
                     },
                     {
                       "name": "ComponentId",
-                      "value": "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName'))]",
-                      "isOptional": true
+                      "value": "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName'))]"
                     },
                     {
                       "name": "Scope",
@@ -684,8 +681,7 @@
                     },
                     {
                       "name": "ComponentId",
-                      "value": "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName'))]",
-                      "isOptional": true
+                      "value": "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName'))]"
                     },
                     {
                       "name": "Scope",
@@ -805,8 +801,7 @@
                     },
                     {
                       "name": "ComponentId",
-                      "value": "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName'))]",
-                      "isOptional": true
+                      "value": "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName'))]"
                     },
                     {
                       "name": "Scope",
@@ -945,7 +940,7 @@
       "tags": {
         "hidden-title": "[parameters('dashboardDisplayName')]"
       },
-      "apiVersion": "2023-09-01"
+      "apiVersion": "2020-09-01-preview"
     }
   ]
 }
