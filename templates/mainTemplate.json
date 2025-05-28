@@ -111,6 +111,7 @@
         "name": "storageAccountCopy",
         "count": "[length(parameters('storageAccounts'))]"
       },
+      "condition": "[not(equals(tryGet(reference(resourceId(parameters('storageAccounts')[copyIndex()].resourceGroup, 'Microsoft.Storage/storageAccounts', parameters('storageAccounts')[copyIndex()].name), '2021-04-01').provisioningState, 'Succeeded'), 'Succeeded'))]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -141,6 +142,7 @@
         "name": "sqlServerCopy",
         "count": "[length(parameters('sqlServers'))]"
       },
+      "condition": "[not(equals(tryGet(reference(resourceId(parameters('sqlServers')[copyIndex()].resourceGroup, 'Microsoft.Sql/servers', parameters('sqlServers')[copyIndex()].sqlServerName), '2021-11-01').provisioningState, 'Succeeded'), 'Succeeded'))]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -202,6 +204,7 @@
         "name": "logAnalyticsWorkspaceCopy",
         "count": "[length(parameters('logAnalyticsWorkspaces'))]"
       },
+      "condition": "[not(equals(tryGet(reference(resourceId(parameters('logAnalyticsWorkspaces')[copyIndex()].resourceGroup, 'Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaces')[copyIndex()].logAnalyticsWorkspaceName), '2020-08-01').provisioningState, 'Succeeded'), 'Succeeded'))]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -229,6 +232,7 @@
       "dependsOn": [
         "logAnalyticsWorkspaceCopy"
       ],
+      "condition": "[not(equals(tryGet(reference(resourceId(parameters('containerApps')[copyIndex()].resourceGroup, 'Microsoft.App/managedEnvironments', parameters('containerApps')[copyIndex()].environmentName), '2022-03-01').provisioningState, 'Succeeded'), 'Succeeded'))]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -278,6 +282,7 @@
         "storageAccountCopy",
         "logAnalyticsWorkspaceCopy"
       ],
+      "condition": "[not(equals(tryGet(reference(resourceId(parameters('functionApps')[copyIndex()].serverFarmResourceGroup, 'Microsoft.Web/sites', parameters('functionApps')[copyIndex()].name), '2021-02-01').provisioningState, 'Succeeded'), 'Succeeded'))]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -353,6 +358,7 @@
         "name": "virtualNetworkCopy",
         "count": "[length(parameters('virtualNetworks'))]"
       },
+      "condition": "[not(equals(tryGet(reference(resourceId(parameters('virtualNetworks')[copyIndex()].resourceGroup, 'Microsoft.Network/virtualNetworks', parameters('virtualNetworks')[copyIndex()].vnetName), '2021-05-01').provisioningState, 'Succeeded'), 'Succeeded'))]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -377,6 +383,7 @@
         "name": "apiManagementServiceCopy",
         "count": "[length(parameters('apiManagementServices'))]"
       },
+      "condition": "[not(equals(tryGet(reference(resourceId(parameters('apiManagementServices')[copyIndex()].resourceGroup, 'Microsoft.ApiManagement/service', parameters('apiManagementServices')[copyIndex()].apimServiceName), '2021-08-01').provisioningState, 'Succeeded'), 'Succeeded'))]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -413,7 +420,7 @@
         "logAnalyticsWorkspaceCopy",
         "apiManagementServiceCopy"
       ],
-      "condition": "[greaterOrEquals(length(parameters('dashboards')), 1)]",
+      "condition": "[and(greaterOrEquals(length(parameters('dashboards')), 1), not(equals(tryGet(reference(resourceId(parameters('dashboards')[0].resourceGroup, 'Microsoft.Portal/dashboards', parameters('dashboards')[0].dashboardName), '2020-09-01-preview').properties.metadata, null), null)))]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -453,7 +460,7 @@
         "logAnalyticsWorkspaceCopy",
         "apiManagementServiceCopy"
       ],
-      "condition": "[greaterOrEquals(length(parameters('dashboards')), 2)]",
+      "condition": "[and(greaterOrEquals(length(parameters('dashboards')), 2), not(equals(tryGet(reference(resourceId(parameters('dashboards')[1].resourceGroup, 'Microsoft.Portal/dashboards', parameters('dashboards')[1].dashboardName), '2020-09-01-preview').properties.metadata, null), null)))]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -489,7 +496,7 @@
       "apiVersion": "2022-09-01",
       "name": "logicApp-0",
       "resourceGroup": "[split(parameters('logicApps')[0].office365ConnectionExternalId, '/')[4]]",
-      "condition": "[greaterOrEquals(length(parameters('logicApps')), 1)]",
+      "condition": "[and(greaterOrEquals(length(parameters('logicApps')), 1), not(equals(tryGet(reference(resourceId(split(parameters('logicApps')[0].office365ConnectionExternalId, '/')[4], 'Microsoft.Logic/workflows', parameters('logicApps')[0].workflows_datacatalyst_core_la_name), '2019-05-01').properties.state, 'Enabled'), 'Enabled')))]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -516,7 +523,7 @@
       "apiVersion": "2022-09-01",
       "name": "logicApp-1",
       "resourceGroup": "[split(parameters('logicApps')[1].office365ConnectionExternalId, '/')[4]]",
-      "condition": "[greaterOrEquals(length(parameters('logicApps')), 2)]",
+      "condition": "[and(greaterOrEquals(length(parameters('logicApps')), 2), not(equals(tryGet(reference(resourceId(split(parameters('logicApps')[1].office365ConnectionExternalId, '/')[4], 'Microsoft.Logic/workflows', parameters('logicApps')[1].logicAppName), '2019-05-01').properties.state, 'Enabled'), 'Enabled')))]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -553,6 +560,7 @@
       "dependsOn": [
         "logicApp-1"
       ],
+      "condition": "[not(equals(tryGet(reference(resourceId(split(parameters('actionGroups')[copyIndex()].logicAppResourceId, '/')[4], 'Microsoft.Insights/actionGroups', parameters('actionGroups')[copyIndex()].actionGroupName), '2021-04-01').properties.enabled, true), true))]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
