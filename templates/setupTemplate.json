@@ -10,7 +10,7 @@
     },
     "keyVaultName": {
       "type": "string",
-      "defaultValue": "dc-demo-dev-core-test-kv",
+      "defaultValue": "datacatalyst-demo-dev-core--test-kv",
       "metadata": {
         "description": "Name of the Key Vault"
       }
@@ -84,7 +84,7 @@
   "outputs": {
     "keyVaultId": {
       "type": "string",
-      "value": "[resourceId(parameters('keyVaultResourceGroup'), 'Microsoft.KeyVault/vaults', parameters('keyVaultName'))]"
+      "value": "[resourceId(subscription().subscriptionId, parameters('keyVaultResourceGroup'), 'Microsoft.KeyVault/vaults', parameters('keyVaultName'))]"
     }
   }
 }
