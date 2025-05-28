@@ -64,7 +64,7 @@
     },
     "keyVaultName": {
       "type": "string",
-      "defaultValue": "datacatalyst-demo-dev-core--test-kv",
+      "defaultValue": "dc-demo-dev-core-test-kv",
       "metadata": {
         "description": "Name of the Key Vault containing SQL credentials"
       }
