@@ -1,3 +1,8 @@
+# Deployment Steps/Flow
+1. Deploy the setupTemplate.json file first, which is responsible for deploying two Resource Groups and a Key Vault.
+2. Create the required secrets which are to referenced in the mainTemplate.json (in our case DB user and Password).
+3. Post this, Initate the deployments from mainTemplate.json file which will spin up all the resources.
+
 #  Azure Post-Deployment Manual Configuration Guide
 
 After deploying Azure infrastructure and services, a few manual configuration steps are required to ensure everything functions correctly. This guide provides links to individual `README` files that cover these tasks in detail.
