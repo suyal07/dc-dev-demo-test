@@ -299,6 +299,9 @@
           "storageAccountName": {
             "value": "[parameters('functionApps')[copyIndex()].storageAccountName]"
           },
+          "storageAccountId": {
+            "value": "[reference(concat('storageAccount-', indexOf(parameters('storageAccounts'), first(filter(parameters('storageAccounts'), lambda('item', equals(lambdaVariables('item').name, parameters('functionApps')[copyIndex()].storageAccountName)))))), '2022-09-01').outputs.storageAccountId.value]"
+          },
           "sku": {
             "value": "[parameters('functionApps')[copyIndex()].sku]"
           },
