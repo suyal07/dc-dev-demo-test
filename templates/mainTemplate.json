@@ -299,15 +299,6 @@
           "storageAccountName": {
             "value": "[parameters('functionApps')[copyIndex()].storageAccountName]"
           },
-          "storageAccountResourceGroup": {
-            "value": "[parameters('storageAccounts')[indexOf(parameters('storageAccounts'), first(filter(parameters('storageAccounts'), lambda('item', equals(lambdaVariables('item').name, parameters('functionApps')[copyIndex()].storageAccountName)))))].resourceGroup]"
-          },
-          "blobSoftDeleteRetentionDays": {
-            "value": "[parameters('storageAccounts')[indexOf(parameters('storageAccounts'), first(filter(parameters('storageAccounts'), lambda('item', equals(lambdaVariables('item').name, parameters('functionApps')[copyIndex()].storageAccountName)))))].blobSoftDeleteRetentionDays]"
-          },
-          "containerSoftDeleteRetentionDays": {
-            "value": "[parameters('storageAccounts')[indexOf(parameters('storageAccounts'), first(filter(parameters('storageAccounts'), lambda('item', equals(lambdaVariables('item').name, parameters('functionApps')[copyIndex()].storageAccountName)))))].containerSoftDeleteRetentionDays]"
-          },
           "sku": {
             "value": "[parameters('functionApps')[copyIndex()].sku]"
           },
