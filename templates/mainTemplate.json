@@ -103,22 +103,6 @@
   },
   "resources": [
     {
-      "type": "Microsoft.KeyVault/vaults",
-      "apiVersion": "2023-07-01",
-      "name": "[parameters('keyVaultName')]",
-      "location": "uksouth",
-      "properties": {
-        "sku": {
-          "family": "A",
-          "name": "standard"
-        },
-        "tenantId": "[subscription().tenantId]",
-        "enabledForDeployment": true,
-        "enabledForDiskEncryption": true,
-        "enabledForTemplateDeployment": true
-      }
-    },
-    {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
       "name": "[concat('storageAccount-', copyIndex())]",
@@ -157,9 +141,6 @@
         "name": "sqlServerCopy",
         "count": "[length(parameters('sqlServers'))]"
       },
-      "dependsOn": [
-        "[resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName'))]"
-      ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -246,8 +227,7 @@
         "count": "[length(parameters('containerApps'))]"
       },
       "dependsOn": [
-        "logAnalyticsWorkspaceCopy",
-        "[resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName'))]"
+        "logAnalyticsWorkspaceCopy"
       ],
       "properties": {
         "mode": "Incremental",
@@ -271,7 +251,7 @@
             "value": "[parameters('containerApps')[copyIndex()].maxReplicas]"
           },
           "databaseConnectionString": {
-            "value": "[concat('Server=tcp:datacatalyst-demo-dev-src-test-sqlserver.database.windows.net,1433;Initial Catalog=datacatalyst-demo-dev-src-test-sqldb;Persist Security Info=False;User ID=', reference(resourceId(parameters('keyVaultSubscriptionId'), parameters('keyVaultResourceGroup'), 'Microsoft.KeyVault/vaults/secrets', parameters('keyVaultName'), variables('sqlAdminLoginSecretName')), '2023-07-01').secretUriWithVersion, ';Password=', reference(resourceId(parameters('keyVaultSubscriptionId'), parameters('keyVaultResourceGroup'), 'Microsoft.KeyVault/vaults/secrets', parameters('keyVaultName'), variables('sqlAdminPasswordSecretName')), '2023-07-01').secretUriWithVersion, ';MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;')]"
+            "value": "[concat('Server=tcp:datacatalyst-demo-dev-src-test-sqlserver.database.windows.net,1433;Initial Catalog=datacatalyst-demo-dev-src-test-sqldb;Persist Security Info=False;User ID=', reference(resourceId('Microsoft.KeyVault/vaults/secrets', parameters('keyVaultName'), variables('sqlAdminLoginSecretName')), '2023-07-01').secretUriWithVersion, ';Password=', reference(resourceId('Microsoft.KeyVault/vaults/secrets', parameters('keyVaultName'), variables('sqlAdminPasswordSecretName')), '2023-07-01').secretUriWithVersion, ';MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;')]"
           },
           "configPath": {
             "value": "[parameters('containerApps')[copyIndex()].configPath]"
@@ -347,7 +327,7 @@
             "value": "[parameters('functionApps')[copyIndex()].hostingPlanName]"
           },
           "serverFarmResourceGroup": {
-            "value":.tenants('functionApps')[copyIndex()].serverFarmResourceGroup]"
+            "value": "[parameters('functionApps')[copyIndex()].serverFarmResourceGroup]"
           },
           "alwaysOn": {
             "value": "[parameters('functionApps')[copyIndex()].alwaysOn]"
@@ -359,7 +339,7 @@
             "value": "[parameters('functionApps')[copyIndex()].logAnalyticsWorkspaceResourceGroup]"
           },
           "workspaceResourceId": {
-            "value": "[resourceId(parameters('functionApps')[copyIndex()].subscriptionId, parameters('functionApps')[copyIndex()].logAnalyticsWorkspaceResourceGroup, 'Microsoft.OperationalInsights/workspaces', parameters('functionApps')[copyIndex()].logAnalyticsWorkspaceName)]"
+            "value": "[resourceId(parameters('functionApps')[copyIndex()].logAnalyticsWorkspaceResourceGroup, 'Microsoft.OperationalInsights/workspaces', parameters('functionApps')[copyIndex()].logAnalyticsWorkspaceName)]"
           }
         }
       }
@@ -403,7 +383,7 @@
           "uri": "[variables('apimTemplateUrl')]"
         },
         "parameters": {
-          "apim carnetName": {
+          "apimServiceName": {
             "value": "[parameters('apiManagementServices')[copyIndex()].apimServiceName]"
           },
           "location": {
@@ -487,7 +467,7 @@
             "value": "[parameters('dashboards')[1].subscriptionName]"
           },
           "resourceGroupList": {
-            "value": "[string(parameters('dashboards')[1].resourceGroupList)]"
+            "value": "[json(parameters('dashboards')[1].resourceGroupList)]"
           },
           "domainName": {
             "value": "[parameters('dashboards')[1].domainName]"
@@ -565,7 +545,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
       "name": "[concat('actionGroup-', copyIndex())]",
-      "resourceGroup": "[split(parameters('actionGroups')[copyIndex()].logicAppResourceId, '/')[4]]",
+      "resourceGroup": "[parameters('actionGroups')[copyIndex()].resourceGroup]",
       "copy": {
         "name": "actionGroupCopy",
         "count": "[length(parameters('actionGroups'))]"
