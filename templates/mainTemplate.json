@@ -85,6 +85,7 @@
     }
   },
   "variables": {
+    "storageAccountTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/storageAccount.json",
     "sqlServerTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/sqlServer.json",
     "logAnalyticsTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/logAnalytics.json",
     "containerAppsTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/containerApps.json",
@@ -101,6 +102,36 @@
     "keyVaultId": "[resourceId(parameters('keyVaultSubscriptionId'), parameters('keyVaultResourceGroup'), 'Microsoft.KeyVault/vaults', parameters('keyVaultName'))]"
   },
   "resources": [
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2022-09-01",
+      "name": "[concat('storageAccount-', copyIndex())]",
+      "resourceGroup": "[parameters('storageAccounts')[copyIndex()].resourceGroup]",
+      "copy": {
+        "name": "storageAccountCopy",
+        "count": "[length(parameters('storageAccounts'))]"
+      },
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('storageAccountTemplateUrl')]"
+        },
+        "parameters": {
+          "storageAccountName": {
+            "value": "[parameters('storageAccounts')[copyIndex()].name]"
+          },
+          "blobSoftDeleteRetentionDays": {
+            "value": "[parameters('storageAccounts')[copyIndex()].blobSoftDeleteRetentionDays]"
+          },
+          "containerSoftDeleteRetentionDays": {
+            "value": "[parameters('storageAccounts')[copyIndex()].containerSoftDeleteRetentionDays]"
+          },
+          "location": {
+            "value": "[parameters('storageAccounts')[copyIndex()].location]"
+          }
+        }
+      }
+    },
     {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
@@ -244,6 +275,7 @@
         "count": "[length(parameters('functionApps'))]"
       },
       "dependsOn": [
+        "storageAccountCopy",
         "logAnalyticsWorkspaceCopy"
       ],
       "properties": {
@@ -266,6 +298,9 @@
           },
           "storageAccountName": {
             "value": "[parameters('functionApps')[copyIndex()].storageAccountName]"
+          },
+          "storageAccountId": {
+            "value": "[reference(concat('storageAccount-', indexOf(parameters('storageAccounts'), first(filter(parameters('storageAccounts'), lambda('item', equals(lambdaVariables('item').name, parameters('functionApps')[copyIndex()].storageAccountName)))))), '2022-09-01').outputs.storageAccountId.value]"
           },
           "sku": {
             "value": "[parameters('functionApps')[copyIndex()].sku]"
