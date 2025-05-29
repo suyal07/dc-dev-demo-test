@@ -339,7 +339,7 @@
             "value": "[parameters('functionApps')[copyIndex()].logAnalyticsWorkspaceResourceGroup]"
           },
           "workspaceResourceId": {
-            "value": "[resourceId(parameters('functionApps')[copyIndex()].logAnalyticsWorkspaceResourceGroup, 'Microsoft.OperationalInsights/workspaces', parameters('functionApps')[copyIndex()].logAnalyticsWorkspaceName)]"
+            "value": "[resourceId(parameters('functionApps')[copyIndex()].subscriptionId, parameters('functionApps')[copyIndex()].logAnalyticsWorkspaceResourceGroup, 'Microsoft.OperationalInsights/workspaces', parameters('functionApps')[copyIndex()].logAnalyticsWorkspaceName)]"
           }
         }
       }
@@ -467,7 +467,7 @@
             "value": "[parameters('dashboards')[1].subscriptionName]"
           },
           "resourceGroupList": {
-            "value": "[json(parameters('dashboards')[1].resourceGroupList)]"
+            "value": "[string(parameters('dashboards')[1].resourceGroupList)]"
           },
           "domainName": {
             "value": "[parameters('dashboards')[1].domainName]"
