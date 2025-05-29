@@ -104,60 +104,6 @@
     {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
-      "name": "[concat('storageAccount-', copyIndex())]",
-      "resourceGroup": "[parameters('storageAccounts')[copyIndex()].resourceGroup]",
-      "copy": {
-        "name": "storageAccountCopy",
-        "count": "[length(parameters('storageAccounts'))]"
-      },
-      "properties": {
-        "mode": "Incremental",
-        "template": {
-          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "1.0.0.0",
-          "resources": [
-            {
-              "type": "Microsoft.Storage/storageAccounts",
-              "apiVersion": "2022-09-01",
-              "name": "[parameters('storageAccounts')[copyIndex()].name]",
-              "location": "[parameters('storageAccounts')[copyIndex()].location]",
-              "sku": {
-                "name": "Standard_LRS"
-              },
-              "kind": "StorageV2",
-              "properties": {
-                "allowBlobPublicAccess": false,
-                "minimumTlsVersion": "TLS1_2",
-                "supportsHttpsTrafficOnly": true,
-                "accessTier": "Hot",
-                "isHnsEnabled": false
-              }
-            },
-            {
-              "type": "Microsoft.Storage/storageAccounts/blobServices",
-              "apiVersion": "2022-09-01",
-              "name": "[concat(parameters('storageAccounts')[copyIndex()].name, '/default')]",
-              "dependsOn": [
-                "[parameters('storageAccounts')[copyIndex()].name]"
-              ],
-              "properties": {
-                "deleteRetentionPolicy": {
-                  "enabled": true,
-                  "days": "[parameters('storageAccounts')[copyIndex()].blobSoftDeleteRetentionDays]"
-                },
-                "containerDeleteRetentionPolicy": {
-                  "enabled": true,
-                  "days": "[parameters('storageAccounts')[copyIndex()].containerSoftDeleteRetentionDays]"
-                }
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2022-09-01",
       "name": "[concat('sqlServer-', copyIndex())]",
       "resourceGroup": "[parameters('sqlServers')[copyIndex()].resourceGroup]",
       "copy": {
@@ -298,8 +244,6 @@
         "count": "[length(parameters('functionApps'))]"
       },
       "dependsOn": [
-        "[resourceId(parameters('functionApps')[copyIndex()].subscriptionId, parameters('functionApps')[copyIndex()].serverFarmResourceGroup, 'Microsoft.Storage/storageAccounts', parameters('functionApps')[copyIndex()].storageAccountName)]",
-        "[concat('storageAccount-', indexOf(parameters('storageAccounts'), first(filter(parameters('storageAccounts'), lambda('item', equals(lambdaVariables('item').name, parameters('functionApps')[copyIndex()].storageAccountName))))))]",
         "logAnalyticsWorkspaceCopy"
       ],
       "properties": {
