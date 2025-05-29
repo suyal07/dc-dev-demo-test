@@ -467,7 +467,7 @@
             "value": "[parameters('dashboards')[1].subscriptionName]"
           },
           "resourceGroupList": {
-            "value": "[string(parameters('dashboards')[1].resourceGroupList)]"
+            "value": "[parameters('dashboards')[1].resourceGroupList]"
           },
           "domainName": {
             "value": "[parameters('dashboards')[1].domainName]"
