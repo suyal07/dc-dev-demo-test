@@ -85,7 +85,6 @@
     }
   },
   "variables": {
-    "storageAccountTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/storageAccount.json",
     "sqlServerTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/sqlServer.json",
     "logAnalyticsTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/logAnalytics.json",
     "containerAppsTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/containerApps.json",
@@ -103,33 +102,46 @@
   },
   "resources": [
     {
-      "type": "Microsoft.Resources/deployments",
+      "type": "Microsoft.Storage/storageAccounts",
       "apiVersion": "2022-09-01",
-      "name": "[concat('storageAccount-', copyIndex())]",
-      "resourceGroup": "[parameters('storageAccounts')[copyIndex()].resourceGroup]",
+      "name": "[parameters('storageAccounts')[copyIndex()].name]",
+      "location": "[parameters('storageAccounts')[copyIndex()].location]",
+      "sku": {
+        "name": "Standard_LRS"
+      },
+      "kind": "StorageV2",
+      "properties": {
+        "allowBlobPublicAccess": false,
+        "minimumTlsVersion": "TLS1_2",
+        "supportsHttpsTrafficOnly": true,
+        "accessTier": "Hot",
+        "isHnsEnabled": false
+      },
       "copy": {
         "name": "storageAccountCopy",
         "count": "[length(parameters('storageAccounts'))]"
-      },
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts/blobServices",
+      "apiVersion": "2022-09-01",
+      "name": "[concat(parameters('storageAccounts')[copyIndex()].name, '/default')]",
+      "dependsOn": [
+        "[parameters('storageAccounts')[copyIndex()].name]"
+      ],
       "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('storageAccountTemplateUrl')]"
+        "deleteRetentionPolicy": {
+          "enabled": true,
+          "days": "[parameters('storageAccounts')[copyIndex()].blobSoftDeleteRetentionDays]"
         },
-        "parameters": {
-          "storageAccountName": {
-            "value": "[parameters('storageAccounts')[copyIndex()].name]"
-          },
-          "blobSoftDeleteRetentionDays": {
-            "value": "[parameters('storageAccounts')[copyIndex()].blobSoftDeleteRetentionDays]"
-          },
-          "containerSoftDeleteRetentionDays": {
-            "value": "[parameters('storageAccounts')[copyIndex()].containerSoftDeleteRetentionDays]"
-          },
-          "location": {
-            "value": "[parameters('storageAccounts')[copyIndex()].location]"
-          }
+        "containerDeleteRetentionPolicy": {
+          "enabled": true,
+          "days": "[parameters('storageAccounts')[copyIndex()].containerSoftDeleteRetentionDays]"
         }
+      },
+      "copy": {
+        "name": "blobServicesCopy",
+        "count": "[length(parameters('storageAccounts'))]"
       }
     },
     {
@@ -276,6 +288,7 @@
       },
       "dependsOn": [
         "storageAccountCopy",
+        "blobServicesCopy",
         "logAnalyticsWorkspaceCopy"
       ],
       "properties": {
