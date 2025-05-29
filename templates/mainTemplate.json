@@ -87,13 +87,11 @@
   "variables": {
     "storageAccountTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/storageAccount.json",
     "sqlServerTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/sqlServer.json",
-    "logAnalyticsTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/logAnalytics.json",
     "containerAppsTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/containerApps.json",
     "vnetTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/vnet.json",
     "apimTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/apim.json",
     "logicAppsTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/logicApps.json",
     "alertsLogicAppTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/alertsLogicApp.json",
-    "functionAppTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/dependent/functionApp.json",
     "apiUsageAnalyticsTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/dependent/APIUsageAnalytics.json",
     "platformCostInsightsTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/dependent/PlatformCostInsights.json",
     "actionGroupApimTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/dependent/actionGroupApim.json",
@@ -111,6 +109,7 @@
         "name": "storageAccountCopy",
         "count": "[length(parameters('storageAccounts'))]"
       },
+      "condition": "[not(equals(tryGet(reference(resourceId(parameters('storageAccounts')[copyIndex()].resourceGroup, 'Microsoft.Storage/storageAccounts', parameters('storageAccounts')[copyIndex()].name), '2021-04-01').provisioningState, 'Succeeded'), 'Succeeded'))]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -141,6 +140,7 @@
         "name": "sqlServerCopy",
         "count": "[length(parameters('sqlServers'))]"
       },
+      "condition": "[not(equals(tryGet(reference(resourceId(parameters('sqlServers')[copyIndex()].resourceGroup, 'Microsoft.Sql/servers', parameters('sqlServers')[copyIndex()].sqlServerName), '2021-11-01').provisioningState, 'Succeeded'), 'Succeeded'))]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -202,17 +202,31 @@
         "name": "logAnalyticsWorkspaceCopy",
         "count": "[length(parameters('logAnalyticsWorkspaces'))]"
       },
+      "condition": "[not(equals(tryGet(reference(resourceId(parameters('logAnalyticsWorkspaces')[copyIndex()].resourceGroup, 'Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaces')[copyIndex()].logAnalyticsWorkspaceName), '2020-08-01').provisioningState, 'Succeeded'), 'Succeeded'))]",
       "properties": {
         "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('logAnalyticsTemplateUrl')]"
-        },
-        "parameters": {
-          "logAnalyticsWorkspaceName": {
-            "value": "[parameters('logAnalyticsWorkspaces')[copyIndex()].logAnalyticsWorkspaceName]"
-          },
-          "location": {
-            "value": "[parameters('logAnalyticsWorkspaces')[copyIndex()].location]"
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "resources": [
+            {
+              "type": "Microsoft.OperationalInsights/workspaces",
+              "apiVersion": "2020-08-01",
+              "name": "[parameters('logAnalyticsWorkspaces')[copyIndex()].logAnalyticsWorkspaceName]",
+              "location": "[parameters('logAnalyticsWorkspaces')[copyIndex()].location]",
+              "properties": {
+                "sku": {
+                  "name": "PerGB2018"
+                },
+                "retentionInDays": 30
+              }
+            }
+          ],
+          "outputs": {
+            "workspaceResourceId": {
+              "type": "string",
+              "value": "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaces')[copyIndex()].logAnalyticsWorkspaceName)]"
+            }
           }
         }
       }
@@ -229,6 +243,7 @@
       "dependsOn": [
         "logAnalyticsWorkspaceCopy"
       ],
+      "condition": "[not(equals(tryGet(reference(resourceId(parameters('containerApps')[copyIndex()].resourceGroup, 'Microsoft.App/managedEnvironments', parameters('containerApps')[copyIndex()].environmentName), '2022-03-01').provisioningState, 'Succeeded'), 'Succeeded'))]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -278,10 +293,67 @@
         "storageAccountCopy",
         "logAnalyticsWorkspaceCopy"
       ],
+      "condition": "[not(equals(tryGet(reference(resourceId(parameters('functionApps')[copyIndex()].serverFarmResourceGroup, 'Microsoft.Web/sites', parameters('functionApps')[copyIndex()].name), '2021-02-01').provisioningState, 'Succeeded'), 'Succeeded'))]",
       "properties": {
         "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('functionAppTemplateUrl')]"
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "resources": [
+            {
+              "type": "Microsoft.Web/serverfarms",
+              "apiVersion": "2021-02-01",
+              "name": "[parameters('functionApps')[copyIndex()].hostingPlanName]",
+              "location": "[parameters('functionApps')[copyIndex()].location]",
+              "sku": {
+                "name": "[parameters('functionApps')[copyIndex()].skuCode]"
+              },
+              "properties": {
+                "reserved": true,
+                "perSiteScaling": false,
+                "maximumElasticWorkerCount": 1,
+                "targetWorkerCount": "[parameters('functionApps')[copyIndex()].numberOfWorkers]",
+                "targetWorkerSizeId": "[parameters('functionApps')[copyIndex()].workerSizeId]"
+              }
+            },
+            {
+              "type": "Microsoft.Web/sites",
+              "apiVersion": "2021-02-01",
+              "name": "[parameters('functionApps')[copyIndex()].name]",
+              "location": "[parameters('functionApps')[copyIndex()].location]",
+              "dependsOn": [
+                "[resourceId('Microsoft.Web/serverfarms', parameters('functionApps')[copyIndex()].hostingPlanName)]"
+              ],
+              "properties": {
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('functionApps')[copyIndex()].hostingPlanName)]",
+                "siteConfig": {
+                  "alwaysOn": "[parameters('functionApps')[copyIndex()].alwaysOn]",
+                  "appSettings": [
+                    {
+                      "name": "AzureWebJobsStorage",
+                      "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('functionApps')[copyIndex()].storageAccountName, ';EndpointSuffix=core.windows.net;AccountKey=', listKeys(resourceId(parameters('functionApps')[copyIndex()].subscriptionId, parameters('storageAccounts')[indexOf(parameters('storageAccounts'), first(filter(parameters('storageAccounts'), lambda('item', equals(lambdaVariables('item').name, parameters('functionApps')[copyIndex()].storageAccountName)))))].resourceGroup, 'Microsoft.Storage/storageAccounts', parameters('functionApps')[copyIndex()].storageAccountName), '2019-06-01').key1)]"
+                    },
+                    {
+                      "name": "FUNCTIONS_EXTENSION_VERSION",
+                      "value": "~4"
+                    },
+                    {
+                      "name": "FUNCTIONS_WORKER_RUNTIME",
+                      "value": "dotnet"
+                    },
+                    {
+                      "name": "WEBSITE_RUN_FROM_PACKAGE",
+                      "value": "[concat('https://', parameters('functionApps')[copyIndex()].storageAccountName, '.blob.core.windows.net/', parameters('functionApps')[copyIndex()].storageBlobContainerName, '/function-app.zip')]"
+                    },
+                    {
+                      "name": "APPLICATIONINSIGHTS_CONNECTION_STRING",
+                      "value": "[reference(resourceId(parameters('logAnalyticsWorkspaces')[0].resourceGroup, 'Microsoft.OperationalInsights/workspaces', parameters('functionApps')[copyIndex()].logAnalyticsWorkspaceName), '2020-08-01').customerId]"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
         },
         "parameters": {
           "subscriptionId": {
@@ -301,6 +373,9 @@
           },
           "storageAccountResourceGroup": {
             "value": "[parameters('storageAccounts')[indexOf(parameters('storageAccounts'), first(filter(parameters('storageAccounts'), lambda('item', equals(lambdaVariables('item').name, parameters('functionApps')[copyIndex()].storageAccountName)))))].resourceGroup]"
+          },
+          "storageAccountSubscriptionId": {
+            "value": "[parameters('functionApps')[copyIndex()].subscriptionId]"
           },
           "blobSoftDeleteRetentionDays": {
             "value": "[parameters('storageAccounts')[indexOf(parameters('storageAccounts'), first(filter(parameters('storageAccounts'), lambda('item', equals(lambdaVariables('item').name, parameters('functionApps')[copyIndex()].storageAccountName)))))].blobSoftDeleteRetentionDays]"
@@ -339,7 +414,7 @@
             "value": "[parameters('functionApps')[copyIndex()].logAnalyticsWorkspaceResourceGroup]"
           },
           "workspaceResourceId": {
-            "value": "[resourceId(parameters('functionApps')[copyIndex()].logAnalyticsWorkspaceResourceGroup, 'Microsoft.OperationalInsights/workspaces', parameters('functionApps')[copyIndex()].logAnalyticsWorkspaceName)]"
+            "value": "[reference(concat('logAnalyticsWorkspace-', 0), '2022-09-01').outputs.workspaceResourceId.value]"
           }
         }
       }
@@ -353,6 +428,7 @@
         "name": "virtualNetworkCopy",
         "count": "[length(parameters('virtualNetworks'))]"
       },
+      "condition": "[not(equals(tryGet(reference(resourceId(parameters('virtualNetworks')[copyIndex()].resourceGroup, 'Microsoft.Network/virtualNetworks', parameters('virtualNetworks')[copyIndex()].vnetName), '2021-05-01').provisioningState, 'Succeeded'), 'Succeeded'))]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -377,6 +453,7 @@
         "name": "apiManagementServiceCopy",
         "count": "[length(parameters('apiManagementServices'))]"
       },
+      "condition": "[not(equals(tryGet(reference(resourceId(parameters('apiManagementServices')[copyIndex()].resourceGroup, 'Microsoft.ApiManagement/service', parameters('apiManagementServices')[copyIndex()].apimServiceName), '2021-08-01').provisioningState, 'Succeeded'), 'Succeeded'))]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -413,7 +490,7 @@
         "logAnalyticsWorkspaceCopy",
         "apiManagementServiceCopy"
       ],
-      "condition": "[greaterOrEquals(length(parameters('dashboards')), 1)]",
+      "condition": "[and(greaterOrEquals(length(parameters('dashboards')), 1), not(equals(tryGet(reference(resourceId(parameters('dashboards')[0].resourceGroup, 'Microsoft.Portal/dashboards', parameters('dashboards')[0].dashboardName), '2020-09-01-preview').properties.metadata, null), null)))]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -453,7 +530,7 @@
         "logAnalyticsWorkspaceCopy",
         "apiManagementServiceCopy"
       ],
-      "condition": "[greaterOrEquals(length(parameters('dashboards')), 2)]",
+      "condition": "[and(greaterOrEquals(length(parameters('dashboards')), 2), not(equals(tryGet(reference(resourceId(parameters('dashboards')[1].resourceGroup, 'Microsoft.Portal/dashboards', parameters('dashboards')[1].dashboardName), '2020-09-01-preview').properties.metadata, null), null)))]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -467,7 +544,7 @@
             "value": "[parameters('dashboards')[1].subscriptionName]"
           },
           "resourceGroupList": {
-            "value": "[json(parameters('dashboards')[1].resourceGroupList)]"
+            "value": "[parameters('dashboards')[1].resourceGroupList]"
           },
           "domainName": {
             "value": "[parameters('dashboards')[1].domainName]"
@@ -489,7 +566,7 @@
       "apiVersion": "2022-09-01",
       "name": "logicApp-0",
       "resourceGroup": "[split(parameters('logicApps')[0].office365ConnectionExternalId, '/')[4]]",
-      "condition": "[greaterOrEquals(length(parameters('logicApps')), 1)]",
+      "condition": "[and(greaterOrEquals(length(parameters('logicApps')), 1), not(equals(tryGet(reference(resourceId(split(parameters('logicApps')[0].office365ConnectionExternalId, '/')[4], 'Microsoft.Logic/workflows', parameters('logicApps')[0].workflows_datacatalyst_core_la_name), '2019-05-01').properties.state, 'Enabled'), 'Enabled')))]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -516,7 +593,7 @@
       "apiVersion": "2022-09-01",
       "name": "logicApp-1",
       "resourceGroup": "[split(parameters('logicApps')[1].office365ConnectionExternalId, '/')[4]]",
-      "condition": "[greaterOrEquals(length(parameters('logicApps')), 2)]",
+      "condition": "[and(greaterOrEquals(length(parameters('logicApps')), 2), not(equals(tryGet(reference(resourceId(split(parameters('logicApps')[1].office365ConnectionExternalId, '/')[4], 'Microsoft.Logic/workflows', parameters('logicApps')[1].logicAppName), '2019-05-01').properties.state, 'Enabled'), 'Enabled')))]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -553,6 +630,7 @@
       "dependsOn": [
         "logicApp-1"
       ],
+      "condition": "[not(equals(tryGet(reference(resourceId(split(parameters('actionGroups')[copyIndex()].logicAppResourceId, '/')[4], 'Microsoft.Insights/actionGroups', parameters('actionGroups')[copyIndex()].actionGroupName), '2021-04-01').properties.enabled, true), true))]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -578,7 +656,7 @@
   "outputs": {
     "workspaceResourceId": {
       "type": "string",
-      "value": "[reference(concat('logAnalyticsWorkspace-', 0)).outputs.workspaceResourceId.value]"
+      "value": "[reference(concat('logAnalyticsWorkspace-', 0), '2022-09-01').outputs.workspaceResourceId.value]"
     }
   }
 }
