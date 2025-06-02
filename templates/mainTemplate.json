@@ -196,7 +196,6 @@
         "count": "[length(parameters('containerApps'))]"
       },
       "dependsOn": [
-        "sqlServerCopy",
         "logAnalyticsWorkspaceCopy"
       ],
       "properties": {
