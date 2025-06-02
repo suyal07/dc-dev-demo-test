@@ -112,8 +112,7 @@
       },
       "dependsOn": [
         "[resourceId('Microsoft.Insights/components', parameters('name'))]",
-        "[resourceId('Microsoft.Web/serverfarms', parameters('hostingPlanName'))]",
-        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
+        "[resourceId('Microsoft.Web/serverfarms', parameters('hostingPlanName'))]"
       ],
       "properties": {
         "name": "[parameters('name')]",
