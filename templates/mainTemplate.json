@@ -104,6 +104,30 @@
     {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
+      "name": "[concat('storageAccountReference-', copyIndex())]",
+      "resourceGroup": "[parameters('storageAccounts')[copyIndex()].resourceGroup]",
+      "copy": {
+        "name": "storageAccountReferenceCopy",
+        "count": "[length(parameters('storageAccounts'))]"
+      },
+      "properties": {
+        "mode": "Incremental",
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "resources": [],
+          "outputs": {
+            "storageAccountId": {
+              "type": "string",
+              "value": "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts')[copyIndex()].name)]"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2022-09-01",
       "name": "[concat('sqlServer-', copyIndex())]",
       "resourceGroup": "[parameters('sqlServers')[copyIndex()].resourceGroup]",
       "copy": {
@@ -244,6 +268,7 @@
         "count": "[length(parameters('functionApps'))]"
       },
       "dependsOn": [
+        "[concat('storageAccountReference-', indexOf(parameters('storageAccounts'), first(filter(parameters('storageAccounts'), lambda('item', equals(lambdaVariables('item').name, parameters('functionApps')[copyIndex()].storageAccountName))))))]",
         "logAnalyticsWorkspaceCopy"
       ],
       "properties": {
