@@ -120,20 +120,10 @@
             "value": "[parameters('sqlServers')[copyIndex()].sqlServerName]"
           },
           "administratorLogin": {
-            "reference": {
-              "keyVault": {
-                "id": "[variables('keyVaultId')]"
-              },
-              "secretName": "[variables('sqlAdminLoginSecretName')]"
-            }
+            "value": "placeholderAdminUser"
           },
           "administratorLoginPassword": {
-            "reference": {
-              "keyVault": {
-                "id": "[variables('keyVaultId')]"
-              },
-              "secretName": "[variables('sqlAdminPasswordSecretName')]"
-            }
+            "value": "PlaceholderPassword123!"
           },
           "sqlDatabaseName": {
             "value": "[parameters('sqlServers')[copyIndex()].sqlDatabaseName]"
@@ -534,10 +524,5 @@
       }
     }
   ],
-  "outputs": {
-    "workspaceResourceId": {
-      "type": "string",
-      "value": "[reference(concat('logAnalyticsWorkspace-', 0)).outputs.workspaceResourceId.value]"
-    }
-  }
+  "outputs": {}
 }
