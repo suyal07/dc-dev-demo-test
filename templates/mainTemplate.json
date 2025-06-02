@@ -85,7 +85,6 @@
     }
   },
   "variables": {
-    "storageAccountTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/storageAccount.json",
     "sqlServerTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/sqlServer.json",
     "logAnalyticsTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/logAnalytics.json",
     "containerAppsTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/containerApps.json",
@@ -102,36 +101,6 @@
     "keyVaultId": "[resourceId(parameters('keyVaultSubscriptionId'), parameters('keyVaultResourceGroup'), 'Microsoft.KeyVault/vaults', parameters('keyVaultName'))]"
   },
   "resources": [
-    {
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2022-09-01",
-      "name": "[concat('storageAccount-', copyIndex())]",
-      "resourceGroup": "[parameters('storageAccounts')[copyIndex()].resourceGroup]",
-      "copy": {
-        "name": "storageAccountCopy",
-        "count": "[length(parameters('storageAccounts'))]"
-      },
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('storageAccountTemplateUrl')]"
-        },
-        "parameters": {
-          "storageAccountName": {
-            "value": "[parameters('storageAccounts')[copyIndex()].name]"
-          },
-          "blobSoftDeleteRetentionDays": {
-            "value": "[parameters('storageAccounts')[copyIndex()].blobSoftDeleteRetentionDays]"
-          },
-          "containerSoftDeleteRetentionDays": {
-            "value": "[parameters('storageAccounts')[copyIndex()].containerSoftDeleteRetentionDays]"
-          },
-          "location": {
-            "value": "[parameters('storageAccounts')[copyIndex()].location]"
-          }
-        }
-      }
-    },
     {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
@@ -275,7 +244,6 @@
         "count": "[length(parameters('functionApps'))]"
       },
       "dependsOn": [
-        "storageAccountCopy",
         "logAnalyticsWorkspaceCopy"
       ],
       "properties": {
@@ -298,15 +266,6 @@
           },
           "storageAccountName": {
             "value": "[parameters('functionApps')[copyIndex()].storageAccountName]"
-          },
-          "storageAccountResourceGroup": {
-            "value": "[parameters('storageAccounts')[indexOf(parameters('storageAccounts'), first(filter(parameters('storageAccounts'), lambda('item', equals(lambdaVariables('item').name, parameters('functionApps')[copyIndex()].storageAccountName)))))].resourceGroup]"
-          },
-          "blobSoftDeleteRetentionDays": {
-            "value": "[parameters('storageAccounts')[indexOf(parameters('storageAccounts'), first(filter(parameters('storageAccounts'), lambda('item', equals(lambdaVariables('item').name, parameters('functionApps')[copyIndex()].storageAccountName)))))].blobSoftDeleteRetentionDays]"
-          },
-          "containerSoftDeleteRetentionDays": {
-            "value": "[parameters('storageAccounts')[indexOf(parameters('storageAccounts'), first(filter(parameters('storageAccounts'), lambda('item', equals(lambdaVariables('item').name, parameters('functionApps')[copyIndex()].storageAccountName)))))].containerSoftDeleteRetentionDays]"
           },
           "sku": {
             "value": "[parameters('functionApps')[copyIndex()].sku]"
@@ -339,7 +298,7 @@
             "value": "[parameters('functionApps')[copyIndex()].logAnalyticsWorkspaceResourceGroup]"
           },
           "workspaceResourceId": {
-            "value": "[resourceId(parameters('functionApps')[copyIndex()].logAnalyticsWorkspaceResourceGroup, 'Microsoft.OperationalInsights/workspaces', parameters('functionApps')[copyIndex()].logAnalyticsWorkspaceName)]"
+            "value": "[resourceId(parameters('functionApps')[copyIndex()].subscriptionId, parameters('functionApps')[copyIndex()].logAnalyticsWorkspaceResourceGroup, 'Microsoft.OperationalInsights/workspaces', parameters('functionApps')[copyIndex()].logAnalyticsWorkspaceName)]"
           }
         }
       }
@@ -467,7 +426,7 @@
             "value": "[parameters('dashboards')[1].subscriptionName]"
           },
           "resourceGroupList": {
-            "value": "[json(parameters('dashboards')[1].resourceGroupList)]"
+            "value": "[parameters('dashboards')[1].resourceGroupList]"
           },
           "domainName": {
             "value": "[parameters('dashboards')[1].domainName]"
