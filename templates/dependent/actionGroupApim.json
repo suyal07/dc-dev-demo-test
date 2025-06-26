@@ -31,7 +31,7 @@
   "resources": [
     {
       "type": "Microsoft.Insights/actionGroups",
-      "apiVersion": "2023-01-01",
+      "apiVersion": "2023-05-01",
       "name": "[parameters('actionGroupName')]",
       "location": "Global",
       "tags": {
@@ -51,14 +51,6 @@
       "properties": {
         "groupShortName": "[parameters('actionGroupShortName')]",
         "enabled": true,
-        "emailReceivers": [],
-        "smsReceivers": [],
-        "webhookReceivers": [],
-        "eventHubReceivers": [],
-        "itsmReceivers": [],
-        "azureAppPushReceivers": [],
-        "automationRunbookReceivers": [],
-        "voiceReceivers": [],
         "logicAppReceivers": [
           {
             "name": "emailalert",
@@ -66,9 +58,7 @@
             "callbackUrl": "[parameters('logicAppCallbackUrl')]",
             "useCommonAlertSchema": true
           }
-        ],
-        "azureFunctionReceivers": [],
-        "armRoleReceivers": []
+        ]
       }
     }
   ]

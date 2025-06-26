@@ -2,12 +2,6 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "subscriptionId": {
-      "type": "string",
-      "metadata": {
-        "description": "Subscription ID for the deployment"
-      }
-    },
     "name": {
       "type": "string",
       "metadata": {
@@ -99,16 +93,18 @@
       }
     }
   },
-  "variables": {},
+  "variables": {
+    "storageApiVersion": "2023-04-01"
+  },
   "resources": [
     {
-      "apiVersion": "2023-12-01",
+      "apiVersion": "2023-01-01",
       "name": "[parameters('name')]",
       "type": "Microsoft.Web/sites",
       "kind": "functionapp,linux",
       "location": "[parameters('location')]",
       "tags": {
-        "hidden-link: /app-insights-resource-id": "[concat('/subscriptions/', parameters('subscriptionId'), '/resourceGroups/', parameters('serverFarmResourceGroup'), '/providers/Microsoft.Insights/components/', parameters('name'))]"
+        "hidden-link: /app-insights-resource-id": "[resourceId(parameters('serverFarmResourceGroup'), 'Microsoft.Insights/components', parameters('name'))]"
       },
       "dependsOn": [
         "[resourceId('Microsoft.Insights/components', parameters('name'))]",
@@ -120,7 +116,7 @@
           "appSettings": [
             {
               "name": "DEPLOYMENT_STORAGE_CONNECTION_STRING",
-              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName')), '2023-05-01').keys[0].value, ';EndpointSuffix=', 'core.windows.net')]"
+              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName')), variables('storageApiVersion')).keys[0].value, ';EndpointSuffix=', split(environment().suffixes.storage, ',')[0])]"
             },
             {
               "name": "APPLICATIONINSIGHTS_CONNECTION_STRING",
@@ -128,7 +124,7 @@
             },
             {
               "name": "AzureWebJobsStorage",
-              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName')), '2023-05-01').keys[0].value, ';EndpointSuffix=', 'core.windows.net')]"
+              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName')), variables('storageApiVersion')).keys[0].value, ';EndpointSuffix=', split(environment().suffixes.storage, ',')[0])]"
             }
           ],
           "cors": {
@@ -138,12 +134,12 @@
           }
         },
         "clientAffinityEnabled": false,
-        "virtualNetworkSubnetId": null,
+        "virtualNetworkSubnetId": "[if(equals('', ''), json('null'), '')]",
         "functionAppConfig": {
           "deployment": {
             "storage": {
               "type": "blobContainer",
-              "value": "[concat('https://', parameters('storageAccountName'), '.blob.core.windows.net/', parameters('storageBlobContainerName'))]",
+              "value": "[concat('https://', parameters('storageAccountName'), '.blob.', split(environment().suffixes.storage, ',')[0], '/', parameters('storageBlobContainerName'))]",
               "authentication": {
                 "type": "StorageAccountConnectionString",
                 "storageAccountConnectionStringName": "DEPLOYMENT_STORAGE_CONNECTION_STRING"
@@ -166,7 +162,7 @@
       "resources": [
         {
           "type": "Microsoft.Web/sites/basicPublishingCredentialsPolicies",
-          "apiVersion": "2022-09-01",
+          "apiVersion": "2023-01-01",
           "name": "[concat(parameters('name'), '/scm')]",
           "properties": {
             "allow": false
@@ -177,7 +173,7 @@
         },
         {
           "type": "Microsoft.Web/sites/basicPublishingCredentialsPolicies",
-          "apiVersion": "2022-09-01",
+          "apiVersion": "2023-01-01",
           "name": "[concat(parameters('name'), '/ftp')]",
           "properties": {
             "allow": false
@@ -189,7 +185,7 @@
       ]
     },
     {
-      "apiVersion": "2022-09-01",
+      "apiVersion": "2023-01-01",
       "name": "[parameters('hostingPlanName')]",
       "type": "Microsoft.Web/serverfarms",
       "location": "[parameters('location')]",
@@ -202,7 +198,8 @@
         "workerSizeId": "[parameters('workerSizeId')]",
         "numberOfWorkers": "[parameters('numberOfWorkers')]",
         "reserved": true,
-        "zoneRedundant": false
+        "zoneRedundant": false,
+        "alwaysOn": "[parameters('alwaysOn')]"
       },
       "sku": {
         "Tier": "[parameters('sku')]",
@@ -222,6 +219,8 @@
         "Flow_Type": "Redfield",
         "Application_Type": "web",
         "WorkspaceResourceId": "[parameters('workspaceResourceId')]",
+        "LogAnalyticsWorkspaceName": "[parameters('logAnalyticsWorkspaceName')]",
+        "LogAnalyticsWorkspaceResourceGroup": "[parameters('logAnalyticsWorkspaceResourceGroup')]",
         "DisableLocalAuth": false
       }
     }

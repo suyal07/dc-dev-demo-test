@@ -77,7 +77,7 @@
   "resources": [
     {
       "type": "Microsoft.Sql/servers",
-      "apiVersion": "2022-05-01-preview",
+      "apiVersion": "2023-05-01-preview",
       "name": "[parameters('sqlServerName')]",
       "location": "[parameters('location')]",
       "properties": {
@@ -89,7 +89,7 @@
     },
     {
       "type": "Microsoft.Sql/servers/firewallRules",
-      "apiVersion": "2022-05-01-preview",
+      "apiVersion": "2023-05-01-preview",
       "name": "[concat(parameters('sqlServerName'), '/AllowAzureServices')]",
       "location": "[parameters('location')]",
       "dependsOn": [
@@ -102,7 +102,7 @@
     },
     {
       "type": "Microsoft.Sql/servers/databases",
-      "apiVersion": "2022-05-01-preview",
+      "apiVersion": "2023-05-01-preview",
       "name": "[format('{0}/{1}', parameters('sqlServerName'), parameters('sqlDatabaseName'))]",
       "location": "[parameters('location')]",
       "dependsOn": [
@@ -120,7 +120,7 @@
     },
     {
       "type": "Microsoft.Sql/servers/databases/backupShortTermRetentionPolicies",
-      "apiVersion": "2022-05-01-preview",
+      "apiVersion": "2023-05-01-preview",
       "name": "[format('{0}/{1}/default', parameters('sqlServerName'), parameters('sqlDatabaseName'))]",
       "dependsOn": [
         "[resourceId('Microsoft.Sql/servers/databases', parameters('sqlServerName'), parameters('sqlDatabaseName'))]"
@@ -141,7 +141,7 @@
     },
     "sqlServerFqdn": {
       "type": "string",
-      "value": "[reference(resourceId('Microsoft.Sql/servers', parameters('sqlServerName')), '2022-05-01-preview').fullyQualifiedDomainName]"
+      "value": "[reference(resourceId('Microsoft.Sql/servers', parameters('sqlServerName')), '2023-05-01-preview').fullyQualifiedDomainName]"
     }
   }
 }

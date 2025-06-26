@@ -176,7 +176,7 @@
         },
         "containerAppUrl": {
             "type": "string",
-            "value": "[format('https://{0}', reference(resourceId('Microsoft.App/containerApps', parameters('containerAppName'))).configuration.ingress.fqdn)]"
+            "value": "[uri('https://', reference(resourceId('Microsoft.App/containerApps', parameters('containerAppName'))).configuration.ingress.fqdn)]"
         }
     }
 }

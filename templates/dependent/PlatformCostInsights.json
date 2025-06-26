@@ -72,7 +72,7 @@
                       "title": "Cost Analysis",
                       "subtitle": "My subtitle",
                       "markdownSource": 1,
-                      "markdownUri": ""
+                      "markdownUri": "#"
                     }
                   },
                   "partHeader": {

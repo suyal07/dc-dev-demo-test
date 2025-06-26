@@ -9,18 +9,6 @@
     }
   },
   "parameters": {
-    "subscriptionReference": {
-      "type": "string",
-      "metadata": {
-        "description": "Reference to the subscription Id where the dashboard is to be deployed"
-      }
-    },
-    "coreResourceGroup": {
-      "type": "string",
-      "metadata": {
-        "description": "Name of the core resource group"
-      }
-    },
     "apiManagementResourceName": {
       "type": "string",
       "metadata": {
@@ -75,7 +63,7 @@
                       "title": "API Usage Analytics",
                       "subtitle": "Actionable insights revealing key trends and patterns ",
                       "markdownSource": 1,
-                      "markdownUri": ""
+                      "markdownUri": "#"
                     }
                   }
                 }
@@ -774,7 +762,7 @@
                             "type": "real"
                           }
                         ],
-                        "splitBy": [],
+                        "splitBy": [{"name": "APIName", "type": "string"}],
                         "aggregation": "Sum"
                       },
                       "LegendOptions": {

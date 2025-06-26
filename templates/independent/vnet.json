@@ -19,7 +19,7 @@
     "resources": [
         {
             "type": "Microsoft.Network/virtualNetworks",
-            "apiVersion": "2023-05-01",
+            "apiVersion": "2023-06-01",
             "name": "[parameters('vnetName')]",
             "location": "[parameters('location')]",
             "properties": {
@@ -33,8 +33,15 @@
                     "enforcement": "AllowUnencrypted"
                 },
                 "privateEndpointVNetPolicies": "Disabled",
-                "subnets": [],
-                "virtualNetworkPeerings": [],
+                "subnets": [
+                    {
+                        "name": "dc-demo-subnet",
+                        "properties": {
+                            "addressPrefix": "10.0.0.0/28",
+                            "privateEndpointNetworkPolicies": "Disabled"
+                        }
+                    }
+                ],
                 "enableDdosProtection": false
             }
         }

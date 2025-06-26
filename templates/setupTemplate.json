@@ -24,7 +24,6 @@
     },
     "location": {
       "type": "string",
-      "defaultValue": "uksouth",
       "metadata": {
         "description": "Location for the Key Vault"
       }
@@ -36,7 +35,7 @@
   "resources": [
     {
       "type": "Microsoft.Resources/resourceGroups",
-      "apiVersion": "2021-04-01",
+      "apiVersion": "2019-05-01",
       "name": "[parameters('resourceGroups')[copyIndex()].name]",
       "location": "[parameters('resourceGroups')[copyIndex()].location]",
       "copy": {
@@ -46,7 +45,7 @@
     },
     {
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2022-09-01",
+      "apiVersion": "2023-07-01",
       "name": "keyVaultDeployment",
       "resourceGroup": "[parameters('keyVaultResourceGroup')]",
       "dependsOn": [
@@ -62,7 +61,7 @@
           "resources": [
             {
               "type": "Microsoft.KeyVault/vaults",
-              "apiVersion": "2021-10-01",
+              "apiVersion": "2023-07-01",
               "name": "[parameters('keyVaultName')]",
               "location": "[parameters('location')]",
               "properties": {
@@ -84,7 +83,7 @@
   "outputs": {
     "keyVaultId": {
       "type": "string",
-      "value": "[resourceId(subscription().subscriptionId, parameters('keyVaultResourceGroup'), 'Microsoft.KeyVault/vaults', parameters('keyVaultName'))]"
+      "value": "[resourceId(parameters('keyVaultResourceGroup'), 'Microsoft.KeyVault/vaults', parameters('keyVaultName'))]"
     }
   }
 }

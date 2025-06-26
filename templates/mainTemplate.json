@@ -2,12 +2,6 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "storageAccounts": {
-      "type": "array",
-      "metadata": {
-        "description": "List of storage accounts to deploy"
-      }
-    },
     "sqlServers": {
       "type": "array",
       "metadata": {
@@ -103,7 +97,7 @@
   "resources": [
     {
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2022-09-01",
+      "apiVersion": "2023-07-01",
       "name": "[concat('sqlServer-', copyIndex())]",
       "resourceGroup": "[parameters('sqlServers')[copyIndex()].resourceGroup]",
       "copy": {
@@ -164,7 +158,7 @@
     },
     {
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2022-09-01",
+      "apiVersion": "2023-07-01",
       "name": "[concat('logAnalyticsWorkspace-', copyIndex())]",
       "resourceGroup": "[parameters('logAnalyticsWorkspaces')[copyIndex()].resourceGroup]",
       "copy": {
@@ -188,7 +182,7 @@
     },
     {
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2022-09-01",
+      "apiVersion": "2023-07-01",
       "name": "[concat('containerApp-', copyIndex())]",
       "resourceGroup": "[parameters('containerApps')[copyIndex()].resourceGroup]",
       "copy": {
@@ -220,7 +214,7 @@
             "value": "[parameters('containerApps')[copyIndex()].maxReplicas]"
           },
           "databaseConnectionString": {
-            "value": "Server=tcp:placeholder.database.windows.net,1433;Initial Catalog=placeholder;Persist Security Info=False;User ID=placeholder;Password=placeholder;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+            "value": "[concat('Server=tcp:', parameters('sqlServers')[0].sqlServerName, '.', split(environment().sqlServerHostname, ',')[0], ',1433;Initial Catalog=', parameters('sqlServers')[0].sqlDatabaseName, ';Persist Security Info=False;User ID=placeholder;Password=placeholder;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;')]"
           },
           "configPath": {
             "value": "[parameters('containerApps')[copyIndex()].configPath]"
@@ -236,7 +230,7 @@
     },
     {
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2022-09-01",
+      "apiVersion": "2023-07-01",
       "name": "[concat('functionApp-', copyIndex())]",
       "resourceGroup": "[parameters('functionApps')[copyIndex()].serverFarmResourceGroup]",
       "copy": {
@@ -305,7 +299,7 @@
     },
     {
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2022-09-01",
+      "apiVersion": "2023-07-01",
       "name": "[concat('virtualNetwork-', copyIndex())]",
       "resourceGroup": "[parameters('virtualNetworks')[copyIndex()].resourceGroup]",
       "copy": {
@@ -329,7 +323,7 @@
     },
     {
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2022-09-01",
+      "apiVersion": "2023-07-01",
       "name": "[concat('apiManagementService-', copyIndex())]",
       "resourceGroup": "[parameters('apiManagementServices')[copyIndex()].resourceGroup]",
       "copy": {
@@ -365,7 +359,7 @@
     },
     {
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2022-09-01",
+      "apiVersion": "2023-07-01",
       "name": "dashboard-0",
       "resourceGroup": "[parameters('dashboards')[0].resourceGroup]",
       "dependsOn": [
@@ -405,7 +399,7 @@
     },
     {
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2022-09-01",
+      "apiVersion": "2023-07-01",
       "name": "dashboard-1",
       "resourceGroup": "[parameters('dashboards')[1].resourceGroup]",
       "dependsOn": [
@@ -445,7 +439,7 @@
     },
     {
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2022-09-01",
+      "apiVersion": "2023-07-01",
       "name": "logicApp-0",
       "resourceGroup": "[split(parameters('logicApps')[0].office365ConnectionExternalId, '/')[4]]",
       "condition": "[greaterOrEquals(length(parameters('logicApps')), 1)]",
@@ -472,7 +466,7 @@
     },
     {
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2022-09-01",
+      "apiVersion": "2023-07-01",
       "name": "logicApp-1",
       "resourceGroup": "[split(parameters('logicApps')[1].office365ConnectionExternalId, '/')[4]]",
       "condition": "[greaterOrEquals(length(parameters('logicApps')), 2)]",
@@ -502,7 +496,7 @@
     },
     {
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2022-09-01",
+      "apiVersion": "2023-07-01",
       "name": "[concat('actionGroup-', copyIndex())]",
       "resourceGroup": "[split(parameters('actionGroups')[copyIndex()].logicAppResourceId, '/')[4]]",
       "copy": {
@@ -537,7 +531,7 @@
   "outputs": {
     "workspaceResourceId": {
       "type": "string",
-      "value": "[reference(concat('logAnalyticsWorkspace-', 0)).outputs.workspaceResourceId.value]"
+      "value": "[reference(resourceId('Microsoft.Resources/deployments', concat('logAnalyticsWorkspace-', 0))).outputs.workspaceResourceId.value]"
     }
   }
 }

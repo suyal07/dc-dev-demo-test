@@ -74,7 +74,7 @@
       "properties": {
         "publisherEmail": "[parameters('publisherEmail')]",
         "publisherName": "[parameters('publisherName')]",
-        "publicIPAddresses": [],
+        "publicIPAddresses": ["dummy-value"],
         "virtualNetworkType": "None"
       }
     }

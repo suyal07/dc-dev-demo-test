@@ -8,9 +8,6 @@
     "office365ConnectionExternalId": {
       "type": "string"
     },
-    "subscriptionId": {
-      "type": "string"
-    },
     "resourceLocation": {
       "type": "string"
     }
@@ -25,7 +22,7 @@
       "properties": {
         "displayName": "Office365Connection",
         "api": {
-          "id": "[concat('/subscriptions/', parameters('subscriptionId'), '/providers/Microsoft.Web/locations/', parameters('resourceLocation'), '/managedApis/office365')]"
+          "id": "[resourceId('Microsoft.Web/locations/managedApis', parameters('resourceLocation'), 'office365')]"
         },
         "parameterValues": {}
       }
@@ -143,7 +140,7 @@
           "$connections": {
             "value": {
               "office365": {
-                "id": "[concat('/subscriptions/', parameters('subscriptionId'), '/providers/Microsoft.Web/locations/', parameters('resourceLocation'), '/managedApis/office365')]",
+                "id": "[resourceId('Microsoft.Web/locations/managedApis', parameters('resourceLocation'), 'office365')]",
                 "connectionId": "[parameters('office365ConnectionExternalId')]",
                 "connectionName": "office365"
               }
