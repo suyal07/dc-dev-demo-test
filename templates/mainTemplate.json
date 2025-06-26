@@ -246,9 +246,6 @@
           "uri": "[variables('functionAppTemplateUrl')]"
         },
         "parameters": {
-          "subscriptionId": {
-            "value": "[parameters('functionApps')[copyIndex()].subscriptionId]"
-          },
           "name": {
             "value": "[parameters('functionApps')[copyIndex()].name]"
           },
@@ -522,7 +519,7 @@
   "outputs": {
     "workspaceResourceId": {
       "type": "string",
-      "value": "[reference(concat('logAnalyticsWorkspace-', 0)).outputs.workspaceResourceId.value]"
+      "value": "[reference('logAnalyticsWorkspace-0').outputs.workspaceResourceId.value]"
     }
   }
 }
