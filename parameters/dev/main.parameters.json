@@ -2,52 +2,6 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "storageAccounts": {
-      "value": [
-        {
-          "name": "datacatalystdemodevwhbpt",
-          "resourceGroup": "datacatalyst-demo-dev-source-test-rg",
-          "blobSoftDeleteRetentionDays": 7,
-          "containerSoftDeleteRetentionDays": 7,
-          "location": "uksouth"
-        },
-        {
-          "name": "datacatalystdevsrcsat",
-          "resourceGroup": "datacatalyst-demo-dev-source-test-rg",
-          "blobSoftDeleteRetentionDays": 7,
-          "containerSoftDeleteRetentionDays": 7,
-          "location": "uksouth"
-        },
-        {
-          "name": "datacatalystdemodevfmsat",
-          "resourceGroup": "datacatalyst-demo-dev-core-test-rg",
-          "blobSoftDeleteRetentionDays": 7,
-          "containerSoftDeleteRetentionDays": 7,
-          "location": "uksouth"
-        },
-        {
-          "name": "datacatalystdemodevloct",
-          "resourceGroup": "datacatalyst-demo-dev-core-test-rg",
-          "blobSoftDeleteRetentionDays": 7,
-          "containerSoftDeleteRetentionDays": 7,
-          "location": "uksouth"
-        },
-        {
-          "name": "datacatalystdemoevorgt",
-          "resourceGroup": "datacatalyst-demo-dev-core-test-rg",
-          "blobSoftDeleteRetentionDays": 7,
-          "containerSoftDeleteRetentionDays": 7,
-          "location": "uksouth"
-        },
-        {
-          "name": "datacatalystdevcoresat",
-          "resourceGroup": "datacatalyst-demo-dev-core-test-rg",
-          "blobSoftDeleteRetentionDays": 7,
-          "containerSoftDeleteRetentionDays": 7,
-          "location": "uksouth"
-        }
-      ]
-    },
     "sqlServers": {
       "value": [
         {

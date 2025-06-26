@@ -531,7 +531,7 @@
   "outputs": {
     "workspaceResourceId": {
       "type": "string",
-      "value": "[reference(resourceId('Microsoft.Resources/deployments', concat('logAnalyticsWorkspace-', 0))).outputs.workspaceResourceId.value]"
+      "value": "[reference(concat('logAnalyticsWorkspace-', 0)).outputs.workspaceResourceId.value]"
     }
   }
 }
