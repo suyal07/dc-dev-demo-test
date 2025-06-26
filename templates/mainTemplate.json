@@ -373,12 +373,6 @@
           "uri": "[variables('apiUsageAnalyticsTemplateUrl')]"
         },
         "parameters": {
-          "subscriptionReference": {
-            "value": "[parameters('dashboards')[0].subscriptionReference]"
-          },
-          "coreResourceGroup": {
-            "value": "[parameters('dashboards')[0].coreResourceGroup]"
-          },
           "apiManagementResourceName": {
             "value": "[parameters('dashboards')[0].apiManagementResourceName]"
           },
@@ -454,9 +448,6 @@
           },
           "office365ConnectionExternalId": {
             "value": "[parameters('logicApps')[0].office365ConnectionExternalId]"
-          },
-          "subscriptionId": {
-            "value": "[parameters('logicApps')[0].subscriptionId]"
           },
           "resourceLocation": {
             "value": "[parameters('logicApps')[0].resourceLocation]"
