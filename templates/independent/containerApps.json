@@ -176,7 +176,7 @@
         },
         "containerAppUrl": {
             "type": "string",
-            "value": "[uri('https://', reference(resourceId('Microsoft.App/containerApps', parameters('containerAppName'))).configuration.ingress.fqdn)]"
+            "value": "[if(contains(reference(resourceId('Microsoft.App/containerApps', parameters('containerAppName'))).configuration.ingress, 'fqdn'), concat('https://', reference(resourceId('Microsoft.App/containerApps', parameters('containerAppName'))).configuration.ingress.fqdn), 'Not Available')]"
         }
     }
 }

@@ -76,20 +76,58 @@
       "metadata": {
         "description": "Subscription ID of the Key Vault"
       }
+    },
+    "coreResourceGroupTags": {
+      "type": "object",
+      "defaultValue": {
+        "Application": "datacatalyst-demo",
+        "Client": "nowvertical",
+        "CostCenter": "123cc",
+        "DataSensitivity": "internal",
+        "Environment": "dev",
+        "Lifecycle": "active",
+        "ManagedBy": "nowvertical",
+        "Project": "datacatalyst",
+        "Solution": "data-integration",
+        "Tier": "core",
+        "ResourceGroupType": "Core"
+      },
+      "metadata": {
+        "description": "Common tags to apply to resources in core resource groups"
+      }
+    },
+    "sourceResourceGroupTags": {
+      "type": "object",
+      "defaultValue": {
+        "Application": "datacatalyst-demo",
+        "Client": "nowvertical",
+        "CostCenter": "456cc",
+        "DataSensitivity": "sensitive",
+        "Environment": "dev",
+        "Lifecycle": "active",
+        "ManagedBy": "nowvertical",
+        "Project": "datacatalyst",
+        "Solution": "data-integration",
+        "Tier": "source",
+        "ResourceGroupType": "Source"
+      },
+      "metadata": {
+        "description": "Common tags to apply to resources in source resource groups"
+      }
     }
   },
   "variables": {
-    "sqlServerTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/sqlServer.json",
-    "logAnalyticsTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/logAnalytics.json",
-    "containerAppsTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/containerApps.json",
-    "vnetTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/vnet.json",
-    "apimTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/apim.json",
-    "logicAppsTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/logicApps.json",
-    "alertsLogicAppTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/independent/alertsLogicApp.json",
-    "functionAppTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/dependent/functionApp.json",
-    "apiUsageAnalyticsTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/dependent/APIUsageAnalytics.json",
-    "platformCostInsightsTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/dependent/PlatformCostInsights.json",
-    "actionGroupApimTemplateUrl": "https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/main/templates/dependent/actionGroupApim.json",
+    "sqlServerTemplateUrl": "http://localhost:8000/templates/independent/sqlServer.json",
+    "logAnalyticsTemplateUrl": "http://localhost:8000/templates/independent/logAnalytics.json",
+    "containerAppsTemplateUrl": "http://localhost:8000/templates/independent/containerApps.json",
+    "vnetTemplateUrl": "http://localhost:8000/templates/independent/vnet.json",
+    "apimTemplateUrl": "http://localhost:8000/templates/independent/apim.json",
+    "logicAppsTemplateUrl": "http://localhost:8000/templates/independent/logicApps.json",
+    "alertsLogicAppTemplateUrl": "http://localhost:8000/templates/independent/alertsLogicApp.json",
+    "functionAppTemplateUrl": "http://localhost:8000/templates/dependent/functionApp.json",
+    "apiUsageAnalyticsTemplateUrl": "http://localhost:8000/templates/dependent/APIUsageAnalytics.json",
+    "platformCostInsightsTemplateUrl": "http://localhost:8000/templates/dependent/PlatformCostInsights.json",
+    "actionGroupApimTemplateUrl": "http://localhost:8000/templates/dependent/actionGroupApim.json",
     "sqlAdminLoginSecretName": "mw-sql-server-admin-user",
     "sqlAdminPasswordSecretName": "mw-sql-server-admin-password",
     "keyVaultId": "[resourceId(parameters('keyVaultSubscriptionId'), parameters('keyVaultResourceGroup'), 'Microsoft.KeyVault/vaults', parameters('keyVaultName'))]"
@@ -176,6 +214,9 @@
           },
           "location": {
             "value": "[parameters('logAnalyticsWorkspaces')[copyIndex()].location]"
+          },
+          "tags": {
+            "value": "[if(contains(parameters('logAnalyticsWorkspaces')[copyIndex()].resourceGroup, 'source'), parameters('sourceResourceGroupTags'), parameters('coreResourceGroupTags'))]"
           }
         }
       }
@@ -214,7 +255,7 @@
             "value": "[parameters('containerApps')[copyIndex()].maxReplicas]"
           },
           "databaseConnectionString": {
-            "value": "[concat('Server=tcp:', parameters('sqlServers')[0].sqlServerName, '.database.windows.net,1433;Initial Catalog=', parameters('sqlServers')[0].sqlDatabaseName, ';Persist Security Info=False;User ID=placeholder;Password=placeholder;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;')]"
+            "value": "[concat('Server=tcp:', parameters('sqlServers')[0].sqlServerName, '.', split(environment().sqlServerHostname, ',')[0], ',1433;Initial Catalog=', parameters('sqlServers')[0].sqlDatabaseName, ';Persist Security Info=False;User ID=placeholder;Password=placeholder;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;')]"
           },
           "configPath": {
             "value": "[parameters('containerApps')[copyIndex()].configPath]"
@@ -290,6 +331,9 @@
           },
           "workspaceResourceId": {
             "value": "[resourceId(parameters('functionApps')[copyIndex()].subscriptionId, parameters('functionApps')[copyIndex()].logAnalyticsWorkspaceResourceGroup, 'Microsoft.OperationalInsights/workspaces', parameters('functionApps')[copyIndex()].logAnalyticsWorkspaceName)]"
+          },
+          "tags": {
+            "value": "[if(contains(parameters('functionApps')[copyIndex()].serverFarmResourceGroup, 'source'), parameters('sourceResourceGroupTags'), parameters('coreResourceGroupTags'))]"
           }
         }
       }
@@ -350,6 +394,9 @@
           },
           "skuCapacity": {
             "value": "[parameters('apiManagementServices')[copyIndex()].skuCapacity]"
+          },
+          "tags": {
+            "value": "[if(contains(parameters('apiManagementServices')[copyIndex()].resourceGroup, 'source'), parameters('sourceResourceGroupTags'), parameters('coreResourceGroupTags'))]"
           }
         }
       }

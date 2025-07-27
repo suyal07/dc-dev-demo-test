@@ -15,26 +15,10 @@
   "variables": {},
   "resources": [
     {
-      "type": "Microsoft.Web/connections",
-      "apiVersion": "2016-06-01",
-      "location": "[parameters('resourceLocation')]",
-      "name": "office365",
-      "properties": {
-        "displayName": "Office365Connection",
-        "api": {
-          "id": "[resourceId('Microsoft.Web/locations/managedApis', parameters('resourceLocation'), 'office365')]"
-        },
-        "parameterValues": {}
-      }
-    },
-    {
       "type": "Microsoft.Logic/workflows",
       "apiVersion": "2019-05-01",
       "name": "[parameters('workflows_datacatalyst_core_la_name')]",
       "location": "[parameters('resourceLocation')]",
-      "dependsOn": [
-        "Microsoft.Web/connections/office365"
-      ],
       "tags": {
         "Application": "datacatalyst-demo",
         "Client": "nowvertical",
@@ -140,7 +124,7 @@
           "$connections": {
             "value": {
               "office365": {
-                "id": "[resourceId('Microsoft.Web/locations/managedApis', parameters('resourceLocation'), 'office365')]",
+                "id": "[subscriptionResourceId('Microsoft.Web/locations/managedApis', parameters('resourceLocation'), 'office365')]",
                 "connectionId": "[parameters('office365ConnectionExternalId')]",
                 "connectionName": "office365"
               }
