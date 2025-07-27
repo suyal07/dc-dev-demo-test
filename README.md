@@ -76,14 +76,14 @@ You can refer to the below README file to configure the alert.
 
 ---
 
-### 9. API Product Creation DOcumentation 
+### 9. API Product Creation Documentation 
 This document provides guidance on deploying Azure API Management (APIM) and creating APIs within it, including how to configure and publish a product for the APIs
 
 [Product Setup Guide](ReadmeFile/APIProductCreationReadme.md)
 
 ---
 
-### 10 .APIM Migration via Backup & Restore
+### 10. APIM Migration via Backup & Restore
 
 This document outlines the process to migrate Azure API Management (APIM) instances using the backup and restore method. It should be used post-deployment of a new APIM instance when you need to replicate or recover APIs, policies, and configurations from a source environment to a target one.
 
@@ -92,6 +92,14 @@ This document outlines the process to migrate Azure API Management (APIM) instan
 
 ---
 
+### 11. Apply Resource Tags
 
-Make sure to follow each linked guide step-by-step to avoid runtime and visibility issues post-deployment. 
+After all resources are deployed, apply consistent tags to enable cost tracking, compliance, and resource management.
+
+**To apply tags:**
+```powershell
+pwsh -File scripts/Apply-Tags.ps1
+```
+
+See [scripts/README.md](scripts/README.md) for more details about the tagging approach and customization options.
 
