@@ -59,3 +59,26 @@ To modify tags for different environments or resource groups, edit the `$coreTag
 - A small delay is added between operations to avoid Azure API rate limiting
 - The script provides a summary of successful and failed tagging operations
 - Tags are applied to ALL resources in the specified resource groups
+
+## Verify-Tags.ps1
+
+This PowerShell script verifies the tags applied to all Azure resources in the specified resource groups, ensuring compliance with expected tag values.
+
+### Why Use This Script?
+
+- **Ensures Compliance**: Confirms that all resources have the expected tags
+- **Easy Verification**: Provides a report on tag compliance
+
+### Usage
+
+After running the `Apply-Tags.ps1` script, verify tags by running:
+
+```powershell
+pwsh -File scripts/Verify-Tags.ps1
+```
+
+### Notes
+
+- The script checks each resource for the expected tag values
+- Any discrepancies are highlighted in the output
+- Helps maintain consistent resource management across environments
