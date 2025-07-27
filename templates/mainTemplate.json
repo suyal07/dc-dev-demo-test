@@ -214,9 +214,6 @@
           },
           "location": {
             "value": "[parameters('logAnalyticsWorkspaces')[copyIndex()].location]"
-          },
-          "tags": {
-            "value": "[if(contains(parameters('logAnalyticsWorkspaces')[copyIndex()].resourceGroup, 'source'), parameters('sourceResourceGroupTags'), parameters('coreResourceGroupTags'))]"
           }
         }
       }
@@ -331,9 +328,6 @@
           },
           "workspaceResourceId": {
             "value": "[resourceId(parameters('functionApps')[copyIndex()].subscriptionId, parameters('functionApps')[copyIndex()].logAnalyticsWorkspaceResourceGroup, 'Microsoft.OperationalInsights/workspaces', parameters('functionApps')[copyIndex()].logAnalyticsWorkspaceName)]"
-          },
-          "tags": {
-            "value": "[if(contains(parameters('functionApps')[copyIndex()].serverFarmResourceGroup, 'source'), parameters('sourceResourceGroupTags'), parameters('coreResourceGroupTags'))]"
           }
         }
       }
@@ -394,9 +388,6 @@
           },
           "skuCapacity": {
             "value": "[parameters('apiManagementServices')[copyIndex()].skuCapacity]"
-          },
-          "tags": {
-            "value": "[if(contains(parameters('apiManagementServices')[copyIndex()].resourceGroup, 'source'), parameters('sourceResourceGroupTags'), parameters('coreResourceGroupTags'))]"
           }
         }
       }
