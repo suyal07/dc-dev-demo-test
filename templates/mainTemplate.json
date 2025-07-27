@@ -252,7 +252,7 @@
             "value": "[parameters('containerApps')[copyIndex()].maxReplicas]"
           },
           "databaseConnectionString": {
-            "value": "[concat('Server=tcp:', parameters('sqlServers')[0].sqlServerName, '.', split(environment().sqlServerHostname, ',')[0], ',1433;Initial Catalog=', parameters('sqlServers')[0].sqlDatabaseName, ';Persist Security Info=False;User ID=placeholder;Password=placeholder;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;')]"
+            "value": "[concat('Server=tcp:', parameters('sqlServers')[0].sqlServerName, '.database.windows.net,1433;Initial Catalog=', parameters('sqlServers')[0].sqlDatabaseName, ';Persist Security Info=False;User ID=placeholder;Password=placeholder;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;')]"
           },
           "configPath": {
             "value": "[parameters('containerApps')[copyIndex()].configPath]"
