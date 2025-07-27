@@ -91,6 +91,13 @@
       "metadata": {
         "description": "Resource ID of the Log Analytics Workspace"
       }
+    },
+    "tags": {
+      "type": "object",
+      "defaultValue": {},
+      "metadata": {
+        "description": "Tags to apply to the resources"
+      }
     }
   },
   "variables": {
@@ -103,9 +110,7 @@
       "type": "Microsoft.Web/sites",
       "kind": "functionapp,linux",
       "location": "[parameters('location')]",
-      "tags": {
-        "hidden-link: /app-insights-resource-id": "[resourceId(parameters('serverFarmResourceGroup'), 'Microsoft.Insights/components', parameters('name'))]"
-      },
+      "tags": "[union(parameters('tags'), json(concat('{\"hidden-link: /app-insights-resource-id\": \"', resourceId(parameters('serverFarmResourceGroup'), 'Microsoft.Insights/components', parameters('name')), '\"}')))]",
       "dependsOn": [
         "[resourceId('Microsoft.Insights/components', parameters('name'))]",
         "[resourceId('Microsoft.Web/serverfarms', parameters('hostingPlanName'))]"
@@ -190,7 +195,7 @@
       "type": "Microsoft.Web/serverfarms",
       "location": "[parameters('location')]",
       "kind": "linux",
-      "tags": {},
+      "tags": "[parameters('tags')]",
       "dependsOn": [],
       "properties": {
         "name": "[parameters('hostingPlanName')]",
@@ -211,7 +216,7 @@
       "name": "[parameters('name')]",
       "type": "Microsoft.Insights/components",
       "location": "[parameters('location')]",
-      "tags": {},
+      "tags": "[parameters('tags')]",
       "dependsOn": [],
       "properties": {
         "ApplicationId": "[parameters('name')]",

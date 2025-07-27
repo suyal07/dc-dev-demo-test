@@ -46,6 +46,13 @@
       "metadata": {
         "description": "The capacity (number of units) for the API Management service."
       }
+    },
+    "tags": {
+      "type": "object",
+      "defaultValue": {},
+      "metadata": {
+        "description": "Tags to apply to the API Management service"
+      }
     }
   },
   "resources": [
@@ -54,19 +61,7 @@
       "apiVersion": "2023-05-01-preview",
       "name": "[parameters('apimServiceName')]",
       "location": "[parameters('location')]",
-      "tags": {
-        "Project": "datacatalyst",
-        "Tier": "core",
-        "Solution": "data-integration",
-        "Environment": "dev",
-        "CostCenter": "123cc",
-        "Application": "datacatalyst-demo",
-        "ManagedBy": "nowvertical",
-        "DataSensitivity": "internal",
-        "Region": "[parameters('location')]",
-        "Lifecycle": "active",
-        "Client": "nowvertical"
-      },
+      "tags": "[union(parameters('tags'), json(concat('{\"Region\": \"', parameters('location'), '\"}')))]",
       "sku": {
         "name": "[parameters('skuName')]",
         "capacity": "[parameters('skuCapacity')]"

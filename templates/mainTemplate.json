@@ -76,6 +76,44 @@
       "metadata": {
         "description": "Subscription ID of the Key Vault"
       }
+    },
+    "coreResourceGroupTags": {
+      "type": "object",
+      "defaultValue": {
+        "Application": "datacatalyst-demo",
+        "Client": "nowvertical",
+        "CostCenter": "123cc",
+        "DataSensitivity": "internal",
+        "Environment": "dev",
+        "Lifecycle": "active",
+        "ManagedBy": "nowvertical",
+        "Project": "datacatalyst",
+        "Solution": "data-integration",
+        "Tier": "core",
+        "ResourceGroupType": "Core"
+      },
+      "metadata": {
+        "description": "Common tags to apply to resources in core resource groups"
+      }
+    },
+    "sourceResourceGroupTags": {
+      "type": "object",
+      "defaultValue": {
+        "Application": "datacatalyst-demo",
+        "Client": "nowvertical",
+        "CostCenter": "456cc",
+        "DataSensitivity": "sensitive",
+        "Environment": "dev",
+        "Lifecycle": "active",
+        "ManagedBy": "nowvertical",
+        "Project": "datacatalyst",
+        "Solution": "data-integration",
+        "Tier": "source",
+        "ResourceGroupType": "Source"
+      },
+      "metadata": {
+        "description": "Common tags to apply to resources in source resource groups"
+      }
     }
   },
   "variables": {
@@ -176,6 +214,9 @@
           },
           "location": {
             "value": "[parameters('logAnalyticsWorkspaces')[copyIndex()].location]"
+          },
+          "tags": {
+            "value": "[if(contains(parameters('logAnalyticsWorkspaces')[copyIndex()].resourceGroup, 'source'), parameters('sourceResourceGroupTags'), parameters('coreResourceGroupTags'))]"
           }
         }
       }
@@ -290,6 +331,9 @@
           },
           "workspaceResourceId": {
             "value": "[resourceId(parameters('functionApps')[copyIndex()].subscriptionId, parameters('functionApps')[copyIndex()].logAnalyticsWorkspaceResourceGroup, 'Microsoft.OperationalInsights/workspaces', parameters('functionApps')[copyIndex()].logAnalyticsWorkspaceName)]"
+          },
+          "tags": {
+            "value": "[if(contains(parameters('functionApps')[copyIndex()].serverFarmResourceGroup, 'source'), parameters('sourceResourceGroupTags'), parameters('coreResourceGroupTags'))]"
           }
         }
       }
@@ -350,6 +394,9 @@
           },
           "skuCapacity": {
             "value": "[parameters('apiManagementServices')[copyIndex()].skuCapacity]"
+          },
+          "tags": {
+            "value": "[if(contains(parameters('apiManagementServices')[copyIndex()].resourceGroup, 'source'), parameters('sourceResourceGroupTags'), parameters('coreResourceGroupTags'))]"
           }
         }
       }
