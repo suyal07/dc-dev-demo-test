@@ -59,6 +59,12 @@
         "description": "List of Action Groups to deploy"
       }
     },
+    "storageAccounts": {
+      "type": "array",
+      "metadata": {
+        "description": "List of storage accounts to deploy for function apps"
+      }
+    },
     "keyVaultName": {
       "type": "string",
       "defaultValue": "dc-demo-prod-core-kv",
@@ -94,6 +100,7 @@
     "apiUsageAnalyticsTemplateUrl": "[concat('https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/', variables('templateBranch'), '/templates/dependent/APIUsageAnalytics.json')]",
     "platformCostInsightsTemplateUrl": "[concat('https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/', variables('templateBranch'), '/templates/dependent/PlatformCostInsights.json')]",
     "actionGroupApimTemplateUrl": "[concat('https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/', variables('templateBranch'), '/templates/dependent/actionGroupApim.json')]",
+    "storageAccountTemplateUrl": "[concat('https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/', variables('templateBranch'), '/templates/independent/storageAccount.json')]",
     "sqlAdminLoginSecretName": "mw-sql-server-admin-user",
     "sqlAdminPasswordSecretName": "mw-sql-server-admin-password",
     "keyVaultId": "[resourceId(parameters('keyVaultSubscriptionId'), parameters('keyVaultResourceGroup'), 'Microsoft.KeyVault/vaults', parameters('keyVaultName'))]"
@@ -187,6 +194,36 @@
     {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2023-07-01",
+      "name": "[concat('storageAccount-', copyIndex())]",
+      "resourceGroup": "[parameters('storageAccounts')[copyIndex()].resourceGroup]",
+      "copy": {
+        "name": "storageAccountCopy",
+        "count": "[length(parameters('storageAccounts'))]"
+      },
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('storageAccountTemplateUrl')]"
+        },
+        "parameters": {
+          "storageAccountName": {
+            "value": "[parameters('storageAccounts')[copyIndex()].storageAccountName]"
+          },
+          "location": {
+            "value": "[parameters('storageAccounts')[copyIndex()].location]"
+          },
+          "blobSoftDeleteRetentionDays": {
+            "value": "[parameters('storageAccounts')[copyIndex()].blobSoftDeleteRetentionDays]"
+          },
+          "containerSoftDeleteRetentionDays": {
+            "value": "[parameters('storageAccounts')[copyIndex()].containerSoftDeleteRetentionDays]"
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2023-07-01",
       "name": "[concat('containerApp-', copyIndex())]",
       "resourceGroup": "[parameters('containerApps')[copyIndex()].resourceGroup]",
       "copy": {
@@ -228,6 +265,9 @@
           },
           "logAnalyticsWorkspaceName": {
             "value": "[parameters('logAnalyticsWorkspaces')[0].logAnalyticsWorkspaceName]"
+          },
+          "logAnalyticsWorkspaceResourceGroup": {
+            "value": "[parameters('logAnalyticsWorkspaces')[0].resourceGroup]"
           }
         }
       }
@@ -242,7 +282,8 @@
         "count": "[length(parameters('functionApps'))]"
       },
       "dependsOn": [
-        "logAnalyticsWorkspaceCopy"
+        "logAnalyticsWorkspaceCopy",
+        "storageAccountCopy"
       ],
       "properties": {
         "mode": "Incremental",

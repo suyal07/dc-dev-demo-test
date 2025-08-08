@@ -55,11 +55,16 @@
             "metadata": {
                 "description": "Name of the existing Log Analytics workspace"
             }
+        },
+        "logAnalyticsWorkspaceResourceGroup": {
+            "type": "string",
+            "metadata": {
+                "description": "Resource group of the existing Log Analytics workspace"
+            }
         }
     },
     "variables": {
-        "containerAppEnvName": "[parameters('environmentName')]",
-        "logAnalyticsResourceGroup": "datacatalyst-demo-dev-core-test-rg"
+        "containerAppEnvName": "[parameters('environmentName')]"
     },
     "resources": [
         {
@@ -71,8 +76,8 @@
                 "appLogsConfiguration": {
                     "destination": "log-analytics",
                     "logAnalyticsConfiguration": {
-                        "customerId": "[reference(resourceId(variables('logAnalyticsResourceGroup'), 'Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName')), '2022-10-01').customerId]",
-                        "sharedKey": "[listKeys(resourceId(variables('logAnalyticsResourceGroup'), 'Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName')), '2022-10-01').primarySharedKey]"
+                        "customerId": "[reference(resourceId(parameters('logAnalyticsWorkspaceResourceGroup'), 'Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName')), '2022-10-01').customerId]",
+                        "sharedKey": "[listKeys(resourceId(parameters('logAnalyticsWorkspaceResourceGroup'), 'Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspaceName')), '2022-10-01').primarySharedKey]"
                     }
                 }
             }
