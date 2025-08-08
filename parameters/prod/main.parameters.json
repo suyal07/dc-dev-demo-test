@@ -200,6 +200,15 @@
         }
       ]
     },
+    "office365Connections": {
+      "value": [
+        {
+          "connectionName": "office365",
+          "resourceGroup": "datacatalyst-demo-prod-core-rg",
+          "location": "uksouth"
+        }
+      ]
+    },
     "storageAccounts": {
       "value": [
         {

@@ -85,6 +85,12 @@
       "metadata": {
         "description": "Subscription ID of the Key Vault"
       }
+    },
+    "office365Connections": {
+      "type": "array",
+      "metadata": {
+        "description": "List of Office 365 connections to deploy for Logic Apps"
+      }
     }
   },
   "variables": {
@@ -101,6 +107,7 @@
     "platformCostInsightsTemplateUrl": "[concat('https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/', variables('templateBranch'), '/templates/dependent/PlatformCostInsights.json')]",
     "actionGroupApimTemplateUrl": "[concat('https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/', variables('templateBranch'), '/templates/dependent/actionGroupApim.json')]",
     "storageAccountTemplateUrl": "[concat('https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/', variables('templateBranch'), '/templates/independent/storageAccount.json')]",
+    "office365ConnectionTemplateUrl": "[concat('https://raw.githubusercontent.com/suyal07/dc-dev-demo-test/', variables('templateBranch'), '/templates/independent/office365Connection.json')]",
     "sqlAdminLoginSecretName": "mw-sql-server-admin-user",
     "sqlAdminPasswordSecretName": "mw-sql-server-admin-password",
     "keyVaultId": "[resourceId(parameters('keyVaultSubscriptionId'), parameters('keyVaultResourceGroup'), 'Microsoft.KeyVault/vaults', parameters('keyVaultName'))]"
@@ -476,9 +483,36 @@
     {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2023-07-01",
+      "name": "[concat('office365Connection-', copyIndex())]",
+      "resourceGroup": "[parameters('office365Connections')[copyIndex()].resourceGroup]",
+      "copy": {
+        "name": "office365ConnectionCopy",
+        "count": "[length(parameters('office365Connections'))]"
+      },
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('office365ConnectionTemplateUrl')]"
+        },
+        "parameters": {
+          "connectionName": {
+            "value": "[parameters('office365Connections')[copyIndex()].connectionName]"
+          },
+          "location": {
+            "value": "[parameters('office365Connections')[copyIndex()].location]"
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2023-07-01",
       "name": "logicApp-0",
       "resourceGroup": "[split(parameters('logicApps')[0].office365ConnectionExternalId, '/')[4]]",
       "condition": "[greaterOrEquals(length(parameters('logicApps')), 1)]",
+      "dependsOn": [
+        "office365ConnectionCopy"
+      ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -503,6 +537,9 @@
       "name": "logicApp-1",
       "resourceGroup": "[split(parameters('logicApps')[1].office365ConnectionExternalId, '/')[4]]",
       "condition": "[greaterOrEquals(length(parameters('logicApps')), 2)]",
+      "dependsOn": [
+        "office365ConnectionCopy"
+      ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
