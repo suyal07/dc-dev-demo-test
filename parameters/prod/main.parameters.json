@@ -48,7 +48,7 @@
           "name": "datacatalyst-demo-prod-core-fa",
           "location": "uksouth",
           "storageBlobContainerName": "app-package-core-fa-f42f56f",
-          "storageAccountName": "datacatalystdemoprodcorefa",
+          "storageAccountName": "dcdemoprodcorefa",
           "sku": "FlexConsumption",
           "skuCode": "FC1",
           "workerSize": "0",
@@ -65,7 +65,7 @@
           "name": "datacatalyst-prod-core-location-fa",
           "location": "uksouth",
           "storageBlobContainerName": "app-package-core-location-fa-f42f56f",
-          "storageAccountName": "datacatalystdemoprodloc",
+          "storageAccountName": "dcdemoprodloc",
           "sku": "FlexConsumption",
           "skuCode": "FC1",
           "workerSize": "0",
@@ -82,7 +82,7 @@
           "name": "datacatalyst-prod-core-org-hierarchy-fa",
           "location": "uksouth",
           "storageBlobContainerName": "app-package-core-org-hierarchy-fa-f42f56f",
-          "storageAccountName": "datacatalystdemoprodorg",
+          "storageAccountName": "dcdemoprodorg",
           "sku": "FlexConsumption",
           "skuCode": "FC1",
           "workerSize": "0",
@@ -99,7 +99,7 @@
           "name": "datacatalyst-demo-prod-Webhook-fa",
           "location": "uksouth",
           "storageBlobContainerName": "app-package-webhook-fa-f42f56f",
-          "storageAccountName": "datacatalystdemoprodwhb",
+          "storageAccountName": "dcdemoprodwhb",
           "sku": "FlexConsumption",
           "skuCode": "FC1",
           "workerSize": "0",
@@ -203,28 +203,28 @@
     "storageAccounts": {
       "value": [
         {
-          "storageAccountName": "datacatalystdemoprodcorefa",
+          "storageAccountName": "dcdemoprodcorefa",
           "resourceGroup": "datacatalyst-demo-prod-core-rg",
           "location": "uksouth",
           "blobSoftDeleteRetentionDays": 7,
           "containerSoftDeleteRetentionDays": 7
         },
         {
-          "storageAccountName": "datacatalystdemoprodloc",
+          "storageAccountName": "dcdemoprodloc",
           "resourceGroup": "datacatalyst-demo-prod-core-rg",
           "location": "uksouth",
           "blobSoftDeleteRetentionDays": 7,
           "containerSoftDeleteRetentionDays": 7
         },
         {
-          "storageAccountName": "datacatalystdemoprodorg",
+          "storageAccountName": "dcdemoprodorg",
           "resourceGroup": "datacatalyst-demo-prod-core-rg",
           "location": "uksouth",
           "blobSoftDeleteRetentionDays": 7,
           "containerSoftDeleteRetentionDays": 7
         },
         {
-          "storageAccountName": "datacatalystdemoprodwhb",
+          "storageAccountName": "dcdemoprodwhb",
           "resourceGroup": "datacatalyst-demo-prod-source-rg",
           "location": "uksouth",
           "blobSoftDeleteRetentionDays": 7,
