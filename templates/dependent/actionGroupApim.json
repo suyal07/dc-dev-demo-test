@@ -34,20 +34,6 @@
       "apiVersion": "2023-01-01",
       "name": "[parameters('actionGroupName')]",
       "location": "global",
-      "tags": {
-        "Application": "datacatalyst-demo",
-        "Client": "nowvertical",
-        "CostCenter": "123cc",
-        "DataSensitivity": "internal",
-        "Environment": "dev",
-        "Lifecycle": "active",
-        "ManagedBy": "nowvertical",
-        "Master_tag": "Technology:DataCatalyst:SMALLAYA:KKNOPP:AG:N",
-        "Project": "datacatalyst",
-        "Region": "uksouth",
-        "Solution": "data-integration",
-        "Tier": "core"
-      },
       "properties": {
         "groupShortName": "[parameters('actionGroupShortName')]",
         "enabled": true,

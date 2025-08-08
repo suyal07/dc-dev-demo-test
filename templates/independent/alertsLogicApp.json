@@ -25,19 +25,6 @@
             "apiVersion": "2019-05-01",
             "name": "[parameters('logicAppName')]",
             "location": "[parameters('resourceLocation')]",
-            "tags": {
-                "Application": "datacatalyst-demo",
-                "Client": "nowvertical",
-                "CostCenter": "123cc",
-                "DataSensitivity": "internal",
-                "Environment": "dev",
-                "Lifecycle": "active",
-                "ManagedBy": "nowvertical",
-                "Project": "datacatalyst",
-                "Region": "uksouth",
-                "Solution": "data-integration",
-                "Tier": "core"
-            },
             "properties": {
                 "state": "Enabled",
                 "definition": {

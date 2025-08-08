@@ -22,20 +22,6 @@
             "apiVersion": "2022-10-01",
             "name": "[parameters('logAnalyticsWorkspaceName')]",
             "location": "[parameters('location')]",
-            "tags": {
-                "Application": "datacatalyst-demo",
-                "Client": "nowvertical",
-                "CostCenter": "123cc",
-                "DataSensitivity": "internal",
-                "Environment": "dev",
-                "Lifecycle": "active",
-                "ManagedBy": "nowvertical",
-                "Project": "datacatalyst",
-                "Region": "uksouth",
-                "Solution": "data-integration",
-                "Tier": "core",
-                "Master_tag": "Technology:DataCatalyst:SMALLAYA:KKNOPP:LogAnalytics:N"
-            },
             "properties": {
                 "sku": {
                     "name": "PerGB2018"
