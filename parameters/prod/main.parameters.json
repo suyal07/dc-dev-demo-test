@@ -1,0 +1,204 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "sqlServers": {
+      "value": [
+        {
+          "sqlServerName": "datacatalyst-demo-prod-src-sqlserver",
+          "resourceGroup": "datacatalyst-demo-prod-source-rg",
+          "sqlDatabaseName": "datacatalyst-demo-prod-src-sqldb",
+          "databaseEdition": "GeneralPurpose",
+          "requestedServiceObjectiveName": "GP_S_Gen5_1",
+          "maxSizeBytes": 5368709120,
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "backupRetentionDays": 7,
+          "backupStorageRedundancy": "LRS",
+          "location": "uksouth"
+        }
+      ]
+    },
+    "logAnalyticsWorkspaces": {
+      "value": [
+        {
+          "logAnalyticsWorkspaceName": "datacatalyst-demo-prod-core-lw",
+          "resourceGroup": "datacatalyst-demo-prod-core-rg",
+          "location": "uksouth"
+        }
+      ]
+    },
+    "containerApps": {
+      "value": [
+        {
+          "containerAppName": "datacatalyst-demo-source-ca",
+          "resourceGroup": "datacatalyst-demo-prod-source-rg",
+          "location": "uksouth",
+          "environmentName": "datacatalyst-demo-source-env",
+          "minReplicas": 1,
+          "maxReplicas": 3,
+          "configPath": "/app/dab-config.json",
+          "containerImage": "mcr.microsoft.com/azure-databases/data-api-builder:latest"
+        }
+      ]
+    },
+    "functionApps": {
+      "value": [
+        {
+          "subscriptionId": "931b98ea-0e07-4d52-a37a-3b8fa4985688",
+          "name": "datacatalyst-demo-prod-core-fa",
+          "location": "uksouth",
+          "storageBlobContainerName": "app-package-core-fa-f42f56f",
+          "storageAccountName": "datacatalystdemoprodcorefa",
+          "sku": "FlexConsumption",
+          "skuCode": "FC1",
+          "workerSize": "0",
+          "workerSizeId": "0",
+          "numberOfWorkers": "1",
+          "hostingPlanName": "ASP-datacatalyst-demo-prod-core-fa-9912",
+          "serverFarmResourceGroup": "datacatalyst-demo-prod-core-rg",
+          "alwaysOn": false,
+          "logAnalyticsWorkspaceName": "datacatalyst-demo-prod-core-lw",
+          "logAnalyticsWorkspaceResourceGroup": "datacatalyst-demo-prod-core-rg"
+        },
+        {
+          "subscriptionId": "931b98ea-0e07-4d52-a37a-3b8fa4985688",
+          "name": "datacatalyst-prod-core-location-fa",
+          "location": "uksouth",
+          "storageBlobContainerName": "app-package-core-location-fa-f42f56f",
+          "storageAccountName": "datacatalystdemoprodloc",
+          "sku": "FlexConsumption",
+          "skuCode": "FC1",
+          "workerSize": "0",
+          "workerSizeId": "0",
+          "numberOfWorkers": "1",
+          "hostingPlanName": "ASP-datacatalyst-prod-core-location-fa-9912",
+          "serverFarmResourceGroup": "datacatalyst-demo-prod-core-rg",
+          "alwaysOn": false,
+          "logAnalyticsWorkspaceName": "datacatalyst-demo-prod-core-lw",
+          "logAnalyticsWorkspaceResourceGroup": "datacatalyst-demo-prod-core-rg"
+        },
+        {
+          "subscriptionId": "931b98ea-0e07-4d52-a37a-3b8fa4985688",
+          "name": "datacatalyst-prod-core-org-hierarchy-fa",
+          "location": "uksouth",
+          "storageBlobContainerName": "app-package-core-org-hierarchy-fa-f42f56f",
+          "storageAccountName": "datacatalystdemoprodorg",
+          "sku": "FlexConsumption",
+          "skuCode": "FC1",
+          "workerSize": "0",
+          "workerSizeId": "0",
+          "numberOfWorkers": "1",
+          "hostingPlanName": "ASP-datacatalyst-prod-core-org-hierarchy-fa-9912",
+          "serverFarmResourceGroup": "datacatalyst-demo-prod-core-rg",
+          "alwaysOn": false,
+          "logAnalyticsWorkspaceName": "datacatalyst-demo-prod-core-lw",
+          "logAnalyticsWorkspaceResourceGroup": "datacatalyst-demo-prod-core-rg"
+        },
+        {
+          "subscriptionId": "931b98ea-0e07-4d52-a37a-3b8fa4985688",
+          "name": "datacatalyst-demo-prod-Webhook-fa",
+          "location": "uksouth",
+          "storageBlobContainerName": "app-package-webhook-fa-f42f56f",
+          "storageAccountName": "datacatalystdemoprodwhb",
+          "sku": "FlexConsumption",
+          "skuCode": "FC1",
+          "workerSize": "0",
+          "workerSizeId": "0",
+          "numberOfWorkers": "1",
+          "hostingPlanName": "ASP-datacatalyst-demo-prod-Webhook-fa-9912",
+          "serverFarmResourceGroup": "datacatalyst-demo-prod-source-rg",
+          "alwaysOn": false,
+          "logAnalyticsWorkspaceName": "datacatalyst-demo-prod-core-lw",
+          "logAnalyticsWorkspaceResourceGroup": "datacatalyst-demo-prod-core-rg"
+        }
+      ]
+    },
+    "virtualNetworks": {
+      "value": [
+        {
+          "vnetName": "datacatalyst-demo-core-vnet",
+          "location": "uksouth",
+          "resourceGroup": "datacatalyst-demo-prod-core-rg"
+        },
+        {
+          "vnetName": "datacatalyst-demo-source-vnet",
+          "location": "uksouth",
+          "resourceGroup": "datacatalyst-demo-prod-source-rg"
+        }
+      ]
+    },
+    "apiManagementServices": {
+      "value": [
+        {
+          "apimServiceName": "datacatalyst-demo-prod-apim",
+          "location": "uksouth",
+          "publisherEmail": "parth.suyal@nowvertical.com",
+          "publisherName": "NowVertical",
+          "skuName": "Developer",
+          "skuCapacity": 1,
+          "resourceGroup": "datacatalyst-demo-prod-core-rg"
+        }
+      ]
+    },
+    "dashboards": {
+      "value": [
+        {
+          "subscriptionReference": "931b98ea-0e07-4d52-a37a-3b8fa4985688",
+          "coreResourceGroup": "datacatalyst-demo-prod-core-rg",
+          "apiManagementResourceName": "datacatalyst-demo-prod-apim",
+          "logAnalyticsWorkspaceName": "datacatalyst-demo-prod-core-lw",
+          "dashboardDisplayName": "API-Tracker",
+          "dashboardName": "API-Tracker",
+          "location": "uksouth",
+          "resourceGroup": "datacatalyst-demo-prod-core-rg",
+          "subscriptionName": "",
+          "resourceGroupList": [],
+          "domainName": ""
+        },
+        {
+          "subscriptionReference": "931b98ea-0e07-4d52-a37a-3b8fa4985688",
+          "coreResourceGroup": null,
+          "apiManagementResourceName": null,
+          "logAnalyticsWorkspaceName": null,
+          "subscriptionName": "DataCatalystProdSubscription",
+          "resourceGroupList": [
+            "datacatalyst-demo-prod-core-rg",
+            "datacatalyst-demo-prod-source-rg"
+          ],
+          "domainName": "portal.azure.com",
+          "dashboardDisplayName": "Platform-Cost-Insights",
+          "dashboardName": "PlatformCostInsights",
+          "location": "uksouth",
+          "resourceGroup": "datacatalyst-demo-prod-core-rg"
+        }
+      ]
+    },
+    "logicApps": {
+      "value": [
+        {
+          "workflows_datacatalyst_core_la_name": "datacatalyst-demo-prod-core-la",
+          "office365ConnectionExternalId": "/subscriptions/931b98ea-0e07-4d52-a37a-3b8fa4985688/resourceGroups/datacatalyst-demo-prod-core-rg/providers/Microsoft.Web/connections/office365",
+          "subscriptionId": "931b98ea-0e07-4d52-a37a-3b8fa4985688",
+          "resourceLocation": "uksouth"
+        },
+        {
+          "logicAppName": "datacatalyst-demo-prod-core-alerts-la",
+          "office365ConnectionExternalId": "/subscriptions/931b98ea-0e07-4d52-a37a-3b8fa4985688/resourceGroups/datacatalyst-demo-prod-core-rg/providers/Microsoft.Web/connections/office365",
+          "recipientEmailAddresses": "abc.xyz@company.com;pqr.hij@company.com;mno.lbb@company.com",
+          "subscriptionId": "931b98ea-0e07-4d52-a37a-3b8fa4985688",
+          "resourceLocation": "uksouth"
+        }
+      ]
+    },
+    "actionGroups": {
+      "value": [
+        {
+          "actionGroupName": "datacatalyst-demo-prod-core-alert-action-group",
+          "actionGroupShortName": "dcAlertAg",
+          "logicAppResourceId": "/subscriptions/931b98ea-0e07-4d52-a37a-3b8fa4985688/resourceGroups/datacatalyst-demo-prod-core-rg/providers/Microsoft.Logic/workflows/datacatalyst-demo-prod-core-alerts-la",
+          "logicAppCallbackUrl": "https://prod-14.uksouth.logic.azure.com:443/workflows/35f85d3f838c4f5296e7add23837dfd8/triggers/When_a_HTTP_request_is_received/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2FWhen_a_HTTP_request_is_received%2Frun&sv=1.0&sig=bUjEKlwbFCoI51LxUgwQil0a_XupAHJWLBL17af9k9c"
+        }
+      ]
+    }
+  }
+}
