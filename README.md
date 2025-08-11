@@ -1,8 +1,54 @@
 # Deployment Steps/Flow
-1. Deploy the setupTemplate.json file first, which is responsible for deploying two Resource Groups and a Key Vault.
-2. Create the required secrets which are to referenced in the mainTemplate.json (in our case DB user and Password).
-3. Post this, Initate the deployments from mainTemplate.json file which will spin up all the resources.
 
+1) Subscription-level setup (Resource Groups + Key Vault)
+Deploy the production setup template to create the core and source resource groups and the Key Vault in UK South.
+
+```powershell
+az deployment sub create `
+  --location uksouth `
+  --template-file templates/prod/setupTemplate.json `
+  --parameters @parameters/prod/setup.parameters.json
+```
+
+2) Create required Key Vault secrets (referenced by main template)
+Create the SQL admin username and password secrets in the production Key Vault before running the main deployment.
+
+Note: Replace the placeholders with your actual values; do not commit secrets.
+
+```powershell
+# Option A: Set from inline placeholders (recommended only for local execution)
+az keyvault secret set `
+  --vault-name dc-demo-prod-core-kv `
+  --name mw-sql-server-admin-user `
+  --value "{{SQL_ADMIN_USERNAME}}"
+
+az keyvault secret set `
+  --vault-name dc-demo-prod-core-kv `
+  --name mw-sql-server-admin-password `
+  --value "{{SQL_ADMIN_PASSWORD}}"
+
+# Option B: Use environment variables for safer handling in scripts
+# $SQL_ADMIN_USER and $SQL_ADMIN_PASSWORD should be set in your session beforehand
+az keyvault secret set `
+  --vault-name dc-demo-prod-core-kv `
+  --name mw-sql-server-admin-user `
+  --value $env:SQL_ADMIN_USER
+
+az keyvault secret set `
+  --vault-name dc-demo-prod-core-kv `
+  --name mw-sql-server-admin-password `
+  --value $env:SQL_ADMIN_PASSWORD
+```
+
+3) Subscription-level main deployment (workloads and services)
+Run the main production template to deploy SQL, Log Analytics, Storage Accounts, Container Apps, Function Apps, VNet, APIM, Dashboards, Logic Apps, and Action Groups in the correct dependency order.
+
+```powershell
+az deployment sub create `
+  --location uksouth `
+  --template-file templates/prod/mainTemplate.json `
+  --parameters @parameters/prod/main.parameters.json
+```
 #  Azure Post-Deployment Manual Configuration Guide
 
 After deploying Azure infrastructure and services, a few manual configuration steps are required to ensure everything functions correctly. This guide provides links to individual `README` files that cover these tasks in detail.

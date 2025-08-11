@@ -1,6 +1,13 @@
 # Verify-Tags-Prod.ps1
 # Script to verify that all production resources have the complete set of common tags
 
+# Resource types or name patterns that do not support tags and should be ignored in compliance checks
+$skipTypes = @(
+)
+$skipNamePatterns = @(
+    "*/master"  # SQL master database
+)
+
 # Define the expected common tags for each resource group type
 $coreTags = @{
     "Application" = "datacatalyst-demo"
@@ -89,8 +96,17 @@ foreach ($rg in $resourceGroups) {
         Write-Host "`n  Checking: $($resource.name)" -ForegroundColor White
         Write-Host "    Type: $($resource.type)" -ForegroundColor Gray
         
-        # Get current tags for the resource
-        $currentTags = az tag list --resource-id $resource.id --query "properties.tags" | ConvertFrom-Json
+        # Skip unsupported types/names
+        $skipThis = $false
+        if ($skipTypes -contains $resource.type) { $skipThis = $true }
+        foreach ($pattern in $skipNamePatterns) { if ($resource.name -like $pattern) { $skipThis = $true; break } }
+        if ($skipThis) {
+            Write-Host "    ⏭️ Skipping: Unsupported for tagging" -ForegroundColor Yellow
+            continue
+        }
+
+        # Get current tags for the resource (use resource view for consistency)
+        $currentTags = az resource show --ids $resource.id --query "tags" | ConvertFrom-Json
         
         $missingTags = @()
         $incorrectTags = @()

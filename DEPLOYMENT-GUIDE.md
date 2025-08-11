@@ -1,45 +1,5 @@
 # DataCatalyst Infrastructure Deployment Guide
 
-## 📁 Project Structure
-
-This project supports **complete environment separation** with dedicated templates, parameters, and scripts for each environment.
-
-```
-📦 dc-deployments/
-├── 📂 templates/
-│   ├── 📂 dev/                     # 🔧 Development Templates
-│   │   ├── mainTemplate.json           # Dev main deployment template
-│   │   └── setupTemplate.json          # Dev setup template (RG + KeyVault)
-│   ├── 📂 prod/                    # 🚀 Production Templates  
-│   │   ├── mainTemplate.json           # Prod main deployment template
-│   │   └── setupTemplate.json          # Prod setup template (RG + KeyVault)
-│   ├── 📂 independent/             # 🔄 Shared Templates
-│   │   ├── sqlServer.json              # SQL Server deployment
-│   │   ├── logAnalytics.json           # Log Analytics workspace
-│   │   ├── containerApps.json          # Container Apps
-│   │   ├── apim.json                   # API Management
-│   │   ├── logicApps.json              # Logic Apps
-│   │   └── vnet.json                   # Virtual Networks
-│   └── 📂 dependent/               # 🔗 Dependent Templates
-│       ├── functionApp.json            # Function Apps (depends on Log Analytics)
-│       ├── APIUsageAnalytics.json      # API Usage Dashboard
-│       ├── PlatformCostInsights.json   # Cost Management Dashboard
-│       └── actionGroupApim.json        # Action Groups for alerts
-├── 📂 parameters/
-│   ├── 📂 dev/                     # 🔧 Development Parameters
-│   │   ├── main.parameters.json        # Dev deployment parameters
-│   │   └── setup.parameters.json       # Dev setup parameters
-│   └── 📂 prod/                    # 🚀 Production Parameters
-│       ├── main.parameters.json        # Prod deployment parameters (dev→prod, test removed)
-│       └── setup.parameters.json       # Prod setup parameters
-├── 📂 scripts/
-│   ├── Apply-Tags.ps1              # 🔧 Dev environment tagging
-│   ├── Verify-Tags.ps1             # 🔧 Dev environment tag verification
-│   ├── Apply-Tags-Prod.ps1         # 🚀 Production environment tagging
-│   └── Verify-Tags-Prod.ps1        # 🚀 Production environment verification
-└── 📂 ReadmeFile/                  # 📋 Post-deployment configuration guides
-```
-
 ## 🚀 Deployment Commands
 
 ### Development Environment
@@ -106,7 +66,7 @@ pwsh -File scripts/Verify-Tags-Prod.ps1
 ## 🔒 Safety Features
 
 ### Production-Only Scripts
-- `Apply-Tags-Prod.ps1` and `Verify-Tags-Prod.ps1` have built-in safety checks
+- `Apply-Tags-Prod.ps1` (final) and `Verify-Tags-Prod.ps1` have built-in safety checks
 - Scripts verify resource group names contain `-prod-` before execution
 - Will **stop and exit** if non-production resource groups are detected
 
@@ -177,7 +137,7 @@ az deployment sub create \
   --template-file templates/prod/mainTemplate.json \
   --parameters @parameters/prod/main.parameters.json
 
-# Apply production tags
+# Apply production tags (final script)
 pwsh -File scripts/Apply-Tags-Prod.ps1
 ```
 
