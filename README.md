@@ -118,14 +118,14 @@ After deploying the Virtual Network (VNet) and Storage Account, you must manuall
 A Log Analytics Workspace is connected to Azure resources with diagnostic settings enabled and logs populated. An Action Group is set up to respond when alerts are triggered.
 You can refer to the below README file to configure the alert.
 
-[Alert Configuration Guide](ReadmeFile/alertreadme.md)
+📄 Refer to: [Alert Configuration Guide](ReadmeFile/alertreadme.md)
 
 ---
 
 ### 9. API Product Creation Documentation 
 This document provides guidance on deploying Azure API Management (APIM) and creating APIs within it, including how to configure and publish a product for the APIs
 
-[Product Setup Guide](ReadmeFile/APIProductCreationReadme.md)
+📄 Refer to: [Product Setup Guide](ReadmeFile/APIProductCreationReadme.md)
 
 ---
 
@@ -134,7 +134,7 @@ This document provides guidance on deploying Azure API Management (APIM) and cre
 This document outlines the process to migrate Azure API Management (APIM) instances using the backup and restore method. It should be used post-deployment of a new APIM instance when you need to replicate or recover APIs, policies, and configurations from a source environment to a target one.
 
 
-[APIM Backup & Restore Guide](ReadmeFile/APIMBackup&RestoreReadme.md)
+📄 Refer to: [APIM Backup & Restore Guide](ReadmeFile/APIMBackup&RestoreReadme.md)
 
 ---
 ### 11. RBAC Model and Access Strategy
@@ -145,7 +145,7 @@ This document explains the Azure Role-Based Access Control (RBAC) model implemen
 - Least privilege principle and compliance strategy
 - Examples of role definitions and scope hierarchies
 
-[RBAC Model & Access Guide](ReadmeFile/Rbac%20readmefile.md)
+📄 Refer to: [RBAC Model & Access Guide](ReadmeFile/Rbac%20readmefile.md)
 
 ---
 ### 12. Backup and Disaster Recovery Strategy
@@ -160,7 +160,7 @@ Key areas covered in the guide include:
 - Regional backup architecture using UK South (primary) and UK West (secondary)
 - Delete locks and RBAC-based protections to prevent unauthorized or accidental changes
 
-[Backup & DR Guide](ReadmeFile/backup-disaster-recovery.md)
+📄 Refer to: [Backup & DR Guide](ReadmeFile/backup-disaster-recovery.md)
 
 
 ---
