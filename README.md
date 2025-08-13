@@ -137,8 +137,35 @@ This document outlines the process to migrate Azure API Management (APIM) instan
 [APIM Backup & Restore Guide](ReadmeFile/APIMBackup&RestoreReadme.md)
 
 ---
+### 11. RBAC Model and Access Strategy
 
-### 11. Apply Resource Tags
+This document explains the Azure Role-Based Access Control (RBAC) model implemented in the middleware project, including:
+- Granular role assignments for secure access to Function Apps, Key Vaults, and APIM
+- Environment-specific access control (Dev, UAT, Prod)
+- Least privilege principle and compliance strategy
+- Examples of role definitions and scope hierarchies
+
+[RBAC Model & Access Guide](ReadmeFile/Rbac%20readmefile.md)
+
+---
+### 12. Backup and Disaster Recovery Strategy
+
+This document provides a detailed overview of the backup and disaster recovery (DR) practices used in the Middleware project to ensure service resilience, continuity, and protection of critical components.
+
+Key areas covered in the guide include:
+
+- Backup and restore processes for Azure API Management (APIM), SQL Databases, Function Apps, Logic Apps, and Azure Data Factory (ADF)
+- Use of ARM templates, Git repositories, and geo-redundant storage for cross-region failover
+- Continuous monitoring setup using Azure Monitor and Application Insights
+- Regional backup architecture using UK South (primary) and UK West (secondary)
+- Delete locks and RBAC-based protections to prevent unauthorized or accidental changes
+
+[Backup & DR Guide](ReadmeFile/backup-disaster-recovery.md)
+
+
+---
+
+### 13. Apply Resource Tags
 
 After all resources are deployed, apply consistent tags to enable cost tracking, compliance, and resource management.
 
