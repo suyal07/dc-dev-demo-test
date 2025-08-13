@@ -1,0 +1,123 @@
+City,Country,LocationType,Address
+Lisbon,PORTUGAL,Office,10735 Maple Lane 1700-158 Lisbon Lisbon 
+Livingston MacIntosh Road,NA,Office,36768 Maple Lane Livingston West Lothian EH54 7BW 
+Livingston Watermark,NA,Office,66190 Maple Lane Livingston West Lothian EH54 7HH 
+London,ENGLAND,Office,02858 Maple Lane London Middlesex TW7 5QD 
+London Victoria House,NA,Office,17157 Maple Lane London London SW1E 5JL 
+"London, Braham Street",NA,Office,02858 Maple Lane London Middlesex TW7 5QD 
+"London, Brentford",NA,Office,01418 Maple Lane Brentford Middlesex TW8 9EW 
+"London, Brentwood",NA,Office,63396 Maple Lane London Essex CM14 4DZ 
+"London, Brick Lane",NA,Office,75624 Maple Lane London London E1 6PU 
+"London, Eagle Street",NA,Office,30619 Maple Lane London London WC1R 4AT 
+"London, Millbank",NA,Office,56590 Maple Lane London London SW1P 3JA 
+Londonderry,N_IRELAND,Office,87794 Maple Lane Londonderry County Londonderry BT48 0GY 
+Los Angeles,NA,Office,02858 Maple Lane London Middlesex TW7 5QD 
+Madeira,PORTUGAL,Office,10735 Maple Lane 1700-158 Lisbon 
+Madrid,SPAIN,Office,02858 Maple Lane London Middlesex TW7 5QD 
+Manchester,ENGLAND,Office,56168 Maple Lane Manchester Manchester M2 5HR 
+Midlands,NA,Office,02858 Maple Lane London Middlesex TW7 5QD 
+Milan Monte Penice,NA,Office,54730 Maple Lane 20138 Milano MI 
+Moscow,NA,Office,02858 Maple Lane London Middlesex TW7 5QD 
+Multiple Locations,NA,Office,02858 Maple Lane London Middlesex TW7 5QD 
+Mumbai,INDIA,Office,02858 Maple Lane London Middlesex TW7 5QD 
+München,NA,Office,24743 Maple Lane 80797 Muenchen 
+Munich (UKI),NA,Office,67899 Maple Lane London EC1 2AF 
+Neuchâtel,SWITZERLAND,Office,71568 Maple Lane 2000 Neuchâtel NE 
+New York,USA,Office,02858 Maple Lane London Middlesex TW7 5QD 
+Newcastle,ENGLAND,Office,23421 Maple Lane Newcastle Upon Tyne Tyne and Wear NE1 4TD 
+Noida,INDIA,Office,02858 Maple Lane London Middlesex TW7 5QD 
+North,NA,Field Based,02858 Maple Lane London Middlesex TW7 5QD 
+Off Shore,NA,Office,02858 Maple Lane London Middlesex TW7 5QD 
+Opole,NA,Office,02858 Maple Lane London Middlesex TW7 5QD 
+Oporto,NA,Office,10735 Maple Lane 1700-158 Lisbon 
+Osterley,ENGLAND,Office,02858 Maple Lane London Middlesex TW7 5QD 
+Portugal,NA,Office,10735 Maple Lane 1700-158 Lisbon Lisbon 
+Prague,LOCATION_HIERARCHY-3-102,Office,83719 Maple Lane PRAGUE Prague 
+Pune,INDIA,Office,02858 Maple Lane London Middlesex TW7 5QD 
+Remote - Sales,NA,Office,23597 Maple Lane Livingston EH54 7BW 
+Remote - Service,NA,Office,23597 Maple Lane Livingston EH54 7BW 
+Retail Connaught,NA,Retail Store,51879 Maple Lane Dublin D04 Co. Dublin 
+Retail Dublin,NA,Office,51879 Maple Lane Dublin D04 Co. Dublin 
+Retail East & North East,NA,Retail Store,02858 Maple Lane London Middlesex TW7 5QD 
+Retail Ireland,NA,Retail Store,51879 Maple Lane Dublin D04 Co. Dublin 
+Retail Leinster,NA,Retail Store,51879 Maple Lane Dublin D04 Co. Dublin 
+Retail London & South East,NA,Retail Store,02858 Maple Lane London Middlesex TW7 5QD 
+Retail Munster,NA,Retail Store,51879 Maple Lane Dublin D04 Co. Dublin 
+Retail North West,NA,Retail Store,02858 Maple Lane London Middlesex TW7 5QD 
+Retail Scotland & NI,NA,Retail Store,02858 Maple Lane London Middlesex TW7 5QD 
+Retail South & South West,NA,Retail Store,02858 Maple Lane London Middlesex TW7 5QD 
+Retail West Mids & Wales,NA,Retail Store,02858 Maple Lane London Middlesex TW7 5QD 
+Rome Montecitorio,NA,Office,98280 Maple Lane 00186 Roma RM 
+Rome Po,NA,Office,05058 Maple Lane 00198 Roma RM 
+Rome Sambuca Pistoiese,NA,Office,41834 Maple Lane 00138 Roma RM 
+Schwerin,GERMANY,Office,36697 Maple Lane 19061 Schwerin 
+Schwerin (West),NA,Office,36697 Maple Lane 19061 Schwerin 
+Sheffield,ENGLAND,Office,68252 Maple Lane Sheffield South Yorkshire S1 2BJ 
+Shenzhen,NA,Office,02858 Maple Lane London Middlesex TW7 5QD 
+Slough,ENGLAND,Office,56159 Maple Lane Slough Berkshire SL1 4PN 
+South,NA,Field Based,02858 Maple Lane London Middlesex TW7 5QD 
+St Albans,NA,Office,63840 Maple Lane St Albans Hertfordshire AL1 3TF 
+Stockport,ENGLAND,Office,84527 Maple Lane Stockport Manchester SK1 1DL 
+Switzerland (UKI),NA,Office,02858 Maple Lane London Middlesex TW7 5QD 
+Teltow,GERMANY,Office,32176 Maple Lane 14513 Teltow 
+Turkey,NA,Office,02858 Maple Lane London Middlesex TW7 5QD 
+Uddingston,SCOTLAND,Office,94093 Maple Lane Uddingston Lanarkshire G71 5PD 
+Unterföhring Betastrasse,NA,Office,71522 Maple Lane 85774 Unterföhring 
+Unterföhring Medienallee 24,NA,Office,83302 Maple Lane 85775 Unterföhring 
+Unterföhring Medienallee 26,NA,Office,03751 Maple Lane 85774 Unterföhring 
+Washington,USA,Office,02858 Maple Lane London Middlesex TW7 5QD 
+Wien,NA,Office,91967 Maple Lane 3822 Wien 
+Wilmslow,ENGLAND,Office,64877 Maple Lane Wilmslow Cheshire SK9 5BQ 
+Zug (UKI),NA,Office,02858 Maple Lane London Middlesex TW7 5QD 
+Zurich (UKI),NA,Office,02858 Maple Lane Osterley Middlesex TW7 5QD 
+Australia,NA,Office,02858 Maple Lane London Middlesex TW7 5QD 
+Aveiro,PORTUGAL,Office,10735 Maple Lane 1700-158 Lisbon 
+Bangalore,INDIA,Office,02858 Maple Lane London Middlesex TW7 5QD 
+Barcelona,SPAIN,Office,02858 Maple Lane London Middlesex TW7 5QD 
+Beijing,CHINA,Office,02858 Maple Lane London Middlesex TW7 5QD 
+Belfast,N_IRELAND,Office,46768 Maple Lane Belfast County Antrim BT12 6ST 
+Bengaluru,INDIA,Office,02858 Maple Lane London Middlesex TW7 5QD 
+Berlin Taubenstraße 23,NA,Office,55543 Maple Lane 10117 Berlin 
+Bielefeld,GERMANY,Office,52494 Maple Lane 33602 Bielefeld 
+Birmingham,ENGLAND,Office,01668 Maple Lane Birmingham West Midlands B90 4NE 
+Bologna Arcoveggio,NA,Office,71943 Maple Lane 40129 Bologna BO 
+Borehamwood,NA,Office,01418 Maple Lane Borehamwood WD6 1JH 
+Braunschweig,GERMANY,Office,96628 Maple Lane 38122 Braunschweig 
+Bristol,ENGLAND,Office,02858 Maple Lane London Middlesex TW7 5QD 
+Brussels,NA,Office,66977 Maple Lane 1041 Brussels Brussels-Capital Region 
+Cagliari Bonaria,NA,Office,80842 Maple Lane 09125 Cagliari CA 
+Cagliari Sestu,NA,Office,16933 Maple Lane 09028 Cagliari CA 
+Cardiff,WALES,Office,74583 Maple Lane Cardiff Cardiff CF10 4BQ 
+Chennai,INDIA,Office,02858 Maple Lane London Middlesex TW7 5QD 
+Chilworth,ENGLAND,Office,67504 Maple Lane Southampton Hampshire SO16 7PZ 
+Delhi,INDIA,Office,02858 Maple Lane London Middlesex TW7 5QD 
+Derby,ENGLAND,Office,02858 Maple Lane London Middlesex TW7 5QD 
+Detmold,GERMANY,Office,11195 Maple Lane 32768 Detmold 
+Dublin,IRELAND,Office,51879 Maple Lane Dublin D04 Co. Dublin 
+Dunfermline,SCOTLAND,Office,70266 Maple Lane Dunfermline Fife KY11 8GH 
+Düsseldorf,GERMANY,Office,29041 Maple Lane 20000 Düsseldorf 
+Falkirk,SCOTLAND,Office,70266 Maple Lane Dunfermline Fife KY11 8GH 
+Field,NA,Field Based,02858 Maple Lane London Middlesex TW7 5QD 
+Field Central,NA,Field Based,02858 Maple Lane London Middlesex TW7 5QD 
+Field Ireland,NA,Field Based,51879 Maple Lane Dublin D04 Co. Dublin 
+Field North,NA,Field Based,02858 Maple Lane London Middlesex TW7 5QD 
+Field South,NA,Field Based,02858 Maple Lane London Middlesex TW7 5QD 
+Funchal,NA,Office,10735 Maple Lane 1700-158 Lisbon 
+Fürth,GERMANY,Office,02507 Maple Lane 90762 Fürth 
+Germany (UKI),NA,Office,02858 Maple Lane London Middlesex TW7 5QD 
+Glasgow Alexandra Parade,NA,Office,98400 Maple Lane Glasgow Lanarkshire G31 3AU 
+"Glasgow, Blythswood Street",NA,Office,42738 Maple Lane Glasgow Lanarkshire G2 4EN 
+Gurgaon,INDIA,Office,02858 Maple Lane London Middlesex TW7 5QD 
+Hamburg,GERMANY,Office,13532 Maple Lane 22033 Hamburg 
+Home (IRL),NA,Field Based,51879 Maple Lane Dublin D04 Co. Dublin 
+Home (UK),NA,Field Based,02858 Maple Lane London Middlesex TW7 5QD 
+Hong Kong,NA,Office,02858 Maple Lane London Middlesex TW7 5QD 
+Hyderabad,INDIA,Office,02858 Maple Lane London Middlesex TW7 5QD 
+Iraq,NA,Office,02858 Maple Lane London Middlesex TW7 5QD 
+Ireland,NA,Office,51879 Maple Lane Dublin D04 Co. Dublin 
+Italy (UKI),NA,Office,02858 Maple Lane London Middlesex TW7 5QD 
+Jerusalem,NA,Office,02858 Maple Lane London Middlesex TW7 5QD 
+Johannesburg,NA,Office,02858 Maple Lane London Middlesex TW7 5QD 
+Knaresborough,ENGLAND,Office,87064 Maple Lane Knaresborough North Yorkshire HG5 8NQ 
+Leeds Central Square,NA,Office,02858 Maple Lane London Middlesex TW7 5QD 
+Leeds Whitehall,NA,Office,89136 Maple Lane Leeds West Yorkshire LS12 1BE 
